@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="/static/hw6.css">
+
+</head>
+
+
+<body>
+
+    <div id="search">
+        <div id="search-header">
+            <p>Events Search</p>
+
+        </div>
+        <form id="form" onsubmit="submitSearchForm(event)" >
+            <div id="search-form">
+                <hr>
+                <div id="search-form-keyword">
+                    <label class="search-form-label">Keyword</label><span style="color:red;">*</span>
+                    <br />
+                    <input type="text" id="keyword" required>
+                </div>
+                <div id="search-form-distance">
+                    <label class="search-form-label">Distance (miles)</label>
+                    <br />
+                    <input type="number" id="distance" placeholder="10">
+                </div>
+                <div id="search-form-category">
+                    <label class="search-form-label">Category</label><span style="color:red;">*</span>
+                    <br />
+                    <select id="category" required style="color: white;">
+                        <option value="all">Default</optiion>
+                        <option value="music">Music</optiion>
+                        <option value="sports">Sports</optiion>
+                        <option value="arts">Arts</optiion>
+                        <option value="theatre">Theatre </optiion>
+                        <option value="film">Film</optiion>
+                        <option value="miscellaneous">Miscellaneous</optiion>
+                    </select>
+                </div>
+                <p style="height: 1px;"></p>
+                <div id="search-form-location" style="margin-top: 7px;">
+                    <label class="search-form-label" style="float: left;">Location</label><span
+                        style="color:red;float: left;">*</span>
+                    <input type="checkbox" id="autoFindLocationCheckBox"
+                        style="float: left;margin-top: 3px;margin-left: 10px;" onchange="locationCheckBox(this)"> <span
+                        style="color: white;font-size:small;float: left;margin-left: 5px;">Auto-Detect Location</span>
+                    <br />
+                    <input type="text" id="location" required>
+                </div>
+                <button type="submit" id="searchButton">SEARCH</button>
+                <button id="clearButton" type="button" onclick="clearForm()">CLEAR</button>
+            </div>
+        </form>
+
+
+    </div>
+    <div id="search-response">
+        <table id="search-response-table">
+            
+        </table>
+        
+    </div>
+    <!-- <div id="search">
+
+    </div>
+    <div id="search">
+
+    </div>
+    <div id="search">
+
+    </div> -->
+    <div>
+
+    </div>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type="text/javascript" src="/static/hw6.js"></script>
+</body>
+
+</html>
