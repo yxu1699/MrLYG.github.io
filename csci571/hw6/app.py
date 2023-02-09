@@ -8,7 +8,8 @@ TicketsMasterAPIKey = "Hi7gKkDkYdLmz9jNZOnvWveX8zfDYYSI"
 SegmentId = {
     "music": "KZFzniwnSyZfZ7v7nJ",
     "sports": "KZFzniwnSyZfZ7v7nE",
-    "arts & Theatre": "KZFzniwnSyZfZ7v7na",
+    "arts": "KZFzniwnSyZfZ7v7na",
+    "theatre" : "KZFzniwnSyZfZ7v7na",
     "film": "KZFzniwnSyZfZ7v7nn",
     "miscellaneous": "KZFzniwnSyZfZ7v7n1"
 }
@@ -76,7 +77,7 @@ def search_tickets():
 #     url = "https://app.ticketmaster.com/discovery/v2/venues?apikey="+TicketsMasterAPIKey
 #     url += "&keyword=" + keyword
 #     response = requests.get(url)
-#     venueDetailJson = response.json()
+#     venueDetailJson = response.json()3
 #     return venueDetailJson
 
 # @app.route('/static/img/<path:filename>')
