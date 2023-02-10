@@ -234,3 +234,13 @@ td {
     width: 80px;
     height: 50px;
 }
+
+
+#event-detail {
+    width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 15px;
+    background-color: rgba(58, 58, 54, 0.9);
+    margin-top: 30px;
+}

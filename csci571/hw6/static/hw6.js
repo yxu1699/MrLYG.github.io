@@ -1,21 +1,64 @@
+const INPINFO_TOKEN_ID = "0c71fd7bc99cde"
+const GOOGLE_GEO_API_KEY = "AIzaSyDG0whBGCp_yx4zRwaIYyOFoVUHdhy9K-k"
+
 function submitSearchForm(event) {
     // console.log("preventDefault")
     event.preventDefault()
     //clear 之前的responseTable
     let table = document.getElementById("search-response-table")
     table.innerHTML = ''
+
     let value_keyword = document.getElementById("keyword").value
     let value_distance = document.getElementById("distance").value
-    console.log(value_distance)
     if (value_distance == "") {
         value_distance = "10"
     }
     let value_category = document.getElementById("category").value
-    search_tickets(value_keyword, value_distance, value_category, 34.022352, -118.285117)
+
+    let autoFindLocationCheckBox = document.getElementById("autoFindLocationCheckBox")
+    let x
+    let y
+    if (autoFindLocationCheckBox.checked) {
+        axios.get('https://ipinfo.io/?', {
+            params: {
+                token: INPINFO_TOKEN_ID
+            }
+        })
+            .then(function (response) {
+                // response.data.page.number==0 没数据
+                let location = response.data.loc
+                x = location.substring(0, location.indexOf(','))
+                y = location.substring(location.indexOf(',') + 1)
+                search_tickets(value_keyword, value_distance, value_category, x, y)
+            })
+            .catch(function (error) {
+                console.log(error)
+            })
+    } else {
+        let locationEle = document.getElementById("location")
+        axios.get('https://maps.googleapis.com/maps/api/geocode/json?', {
+            params: {
+                address: locationEle.value,
+                key: GOOGLE_GEO_API_KEY
+            }
+        })
+            .then(function (response) {
+                // response.data.page.number==0 没数据
+                // console.log(response)
+                x = response.data.results[0].geometry.location.lat
+                y = response.data.results[0].geometry.location.lng
+                search_tickets(value_keyword, value_distance, value_category, x, y)
+            })
+            .catch(function (error) {
+                console.log(error)
+            })
+    }
+
 
 
 }
 function search_tickets(keyword, distance, category, latitude, longitude) {
+    console.log(latitude, longitude)
     let events = {}
     axios.get('/search_tickets?', {
         params: {
@@ -27,9 +70,8 @@ function search_tickets(keyword, distance, category, latitude, longitude) {
         }
     })
         .then(function (response) {
-            // response.data.page.number==0 没数据
-            console.log(response['data'].page.totalElements)
-
+            // response.data.page.totalElements==0 没数据
+            console.log("response.data.page.totalElements = " + response['data'].page.totalElements)
             if (response['data'].page.totalElements > 0) {
                 events = response.data._embedded.events
                 console.log(events)
@@ -37,7 +79,6 @@ function search_tickets(keyword, distance, category, latitude, longitude) {
             } else {
                 generateResponseTableWithoutContent()
             }
-
 
         })
         .catch(function (error) {
@@ -49,6 +90,7 @@ let AutoLocationCheckBox = document.getElementById("autoFindLocationCheckBox")
 if (AutoLocationCheckBox.checked) {
     AutoLocationCheckBox.checked = false
 }
+
 function clearForm() {
     document.getElementById("form").reset()
     let locEle = document.getElementById("location")
@@ -61,12 +103,16 @@ function clearForm() {
     //clear 之前的responseTable
     let table = document.getElementById("search-response-table")
     table.innerHTML = ''
+
+    //clear 之前的event-detail
+    let detail = document.getElementById("event-detail")
+    detail.innerHTML = ''
 }
 
 // auto find location
-function locationCheckBox(AutoLocationCheckBox) {
+function locationCheckBox(autoLocationCheckBox) {
     let locEle = document.getElementById("location")
-    if (AutoLocationCheckBox.checked) {
+    if (autoLocationCheckBox.checked) {
         locEle.removeAttribute("required")
         locEle.style.display = 'none'
     }
@@ -88,7 +134,7 @@ function generateResponseTable(events) {
         let th = document.createElement('th')
         th.innerHTML = headerName
         if (headerName != "Date" && headerName != "Icon") {
-            
+
             th.onclick = function () {
                 tableSortByHeadName("search-response-table", this.className)
             }
@@ -101,7 +147,7 @@ function generateResponseTable(events) {
 
 
     //tbody
-    console.log(events)
+    // console.log(events)
     let tbody = document.createElement('tbody')
 
     console.log(events)
@@ -132,6 +178,9 @@ function generateResponseTable(events) {
         let tdEvent = document.createElement('td')
         tdEvent.className = "event"
         tdEvent.style.width = "520px"
+        tdEvent.onclick = function () {
+            showEventDetail(event.id)
+        }
         let EventHtmlContent = ""
         if (event.name !== null && typeof event.name !== "undefined" && event.name.length > 0) {
             EventHtmlContent = '<p style="display:inline;">' + event.name + '</p>'
@@ -227,3 +276,33 @@ function tableSortByHeadName(tableId, headName) {
     }
 }
 
+function showEventDetail(eventId) {
+    axios.get('/event_detail?', {
+        params: {
+            eventid: eventId
+        }
+    })
+        .then(function (response) {
+            // response.data.page.totalElements==0 没数据
+            console.log(response)
+            generateEventDetail(response.data)
+        })
+        .catch(function (error) {
+            console.log(error)
+        })
+}
+
+function generateEventDetail(EventDetail) {
+    // EventDetail
+    /**
+     * Date  event.dates.start.localDate event.dates.start.localDate
+     * Artist/Team event._embedded.attractions[loop].name event._embedded.attractions[loop].url
+     * Venue event._embedded.venues[0].name
+     * Genre event.classifications[0].subGenre genre segment  subType type
+     * Price Ranges combined with “ -”   event.priceRanges[0].min max
+     * Ticket Status event.dates.status.code
+     * Buy Ticket At  event.url
+     * Seat Map event.seatmap.staticUrl
+     */
+    
+}

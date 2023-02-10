@@ -37,7 +37,7 @@ def search_tickets():
     longitude = data.get('longitude')
     url = "https://app.ticketmaster.com/discovery/v2/events?apikey="+TicketsMasterAPIKey
     url += "&keyword=" + keyword
-    url += "&radius=" + distance + "&unit=miles&locale=*"
+    url += "&radius=" + str(distance) + "&unit=miles&locale=*"
     if category != "all":
         url += "&segmentId=" + SegmentId[category]
     url += "&geoPoint=" + geohash.encode(latitude, longitude, 7)
@@ -59,15 +59,16 @@ def search_tickets():
     return eventsJson
 
 
-# @app.route("/event_detail", methods=["GET"])
-# def event_detail():
-#     data = request_parse(request)
-#     eventid = data.get('eventid')
-#     url = "https://app.ticketmaster.com/discovery/v2/events/" + \
-#         eventid + "?apikey="+TicketsMasterAPIKey
-#     response = requests.get(url)
-#     eventDetailJson = response.json()
-#     return eventDetailJson
+@app.route("/event_detail", methods=["GET"])
+def event_detail():
+    data = request_parse(request)
+    eventid = data.get('eventid')
+    url = "https://app.ticketmaster.com/discovery/v2/events/" + \
+        str(eventid) + "?apikey="+TicketsMasterAPIKey
+    response = requests.get(url)
+    print(url)
+    eventDetailJson = response.json()
+    return eventDetailJson
 
 
 # @app.route("/venue_detail", methods=["GET"])
