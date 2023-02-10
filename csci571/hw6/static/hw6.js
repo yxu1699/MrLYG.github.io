@@ -138,8 +138,12 @@ function generateResponseTable(events) {
             th.onclick = function () {
                 tableSortByHeadName("search-response-table", this.className)
             }
+
         }
         th.className = headerName.toLowerCase()
+        th.onmouseover = function () {
+            th.style.cursor = "pointer"
+        }
         trOfHead.appendChild(th)
     })
     thead.appendChild(trOfHead)
@@ -178,14 +182,25 @@ function generateResponseTable(events) {
         let tdEvent = document.createElement('td')
         tdEvent.className = "event"
         tdEvent.style.width = "520px"
-        tdEvent.onclick = function () {
-            showEventDetail(event.id)
-        }
+
         let EventHtmlContent = ""
         if (event.name !== null && typeof event.name !== "undefined" && event.name.length > 0) {
             EventHtmlContent = '<p style="display:inline;">' + event.name + '</p>'
         }
         tdEvent.innerHTML = EventHtmlContent
+        let p_tdEvent = tdEvent.getElementsByTagName("p")[0]
+        p_tdEvent.onmouseover = function () {
+            p_tdEvent.style.cursor = "pointer"
+            p_tdEvent.style.color = "#6354ad"
+        }
+        p_tdEvent.onmouseout = function () {
+            p_tdEvent.style.color = ""
+        }
+        p_tdEvent.onclick = function () {
+            showEventDetail(event.id)
+        }
+
+        
 
         let tdGenre = document.createElement('td')
         tdGenre.className = "genre"
@@ -292,7 +307,7 @@ function showEventDetail(eventId) {
         })
 }
 
-function generateEventDetail(EventDetail) {
+function generateEventDetail(event) {
     // EventDetail
     /**
      * Date  event.dates.start.localDate event.dates.start.localDate
@@ -304,5 +319,40 @@ function generateEventDetail(EventDetail) {
      * Buy Ticket At  event.url
      * Seat Map event.seatmap.staticUrl
      */
+    console.log(event)
+    let eventDetailEle = document.getElementById("event-detail")
+    // eventDetailEle.style.removeProperty("display");
+    eventDetailEle.style.display = "block"
+    // console.log(eventDetailEle.style.display)
+
+    //Head Part
+    let headEle = document.createElement("div")
+    headEle.id = "detail-head-div"
     
+    let EventHtmlContent = ""
+    if (event.name !== null && typeof event.name !== "undefined" && event.name.length > 0) {
+        EventHtmlContent = '<h2 style="margin-top:20px;display:block">' + event.name + '</h2>'
+    }
+    headEle.innerHTML=EventHtmlContent
+
+
+    //Body left and right
+    let bodyEle = document.createElement("div")
+    bodyEle.id = "detail-body-div"
+    let bodyLeftEle = document.createElement("div")
+    bodyLeftEle.id = "detail-body-left-div"
+    let bodyRightEle = document.createElement("div")
+    bodyRightEle.id = "detail-body-right-div"
+
+
+    eventDetailEle.appendChild(headEle)
+    eventDetailEle.appendChild(bodyEle)
+    
+    bodyEle.appendChild(bodyLeftEle)
+    bodyEle.appendChild(bodyRightEle)
+
+    window.scrollTo({
+        top: eventDetailEle.offsetTop,
+        behavior: 'smooth'
+    })
 }
