@@ -200,7 +200,7 @@ function generateResponseTable(events) {
             showEventDetail(event.id)
         }
 
-        
+
 
         let tdGenre = document.createElement('td')
         tdGenre.className = "genre"
@@ -309,31 +309,23 @@ function showEventDetail(eventId) {
 
 function generateEventDetail(event) {
     // EventDetail
-    /**
-     * Date  event.dates.start.localDate event.dates.start.localDate
-     * Artist/Team event._embedded.attractions[loop].name event._embedded.attractions[loop].url
-     * Venue event._embedded.venues[0].name
-     * Genre event.classifications[0].subGenre genre segment  subType type
-     * Price Ranges combined with “ -”   event.priceRanges[0].min max
-     * Ticket Status event.dates.status.code
-     * Buy Ticket At  event.url
-     * Seat Map event.seatmap.staticUrl
-     */
+
     console.log(event)
     let eventDetailEle = document.getElementById("event-detail")
     // eventDetailEle.style.removeProperty("display");
     eventDetailEle.style.display = "block"
     // console.log(eventDetailEle.style.display)
+    eventDetailEle.innerHTML = ""
 
     //Head Part
     let headEle = document.createElement("div")
     headEle.id = "detail-head-div"
-    
+
     let EventHtmlContent = ""
     if (event.name !== null && typeof event.name !== "undefined" && event.name.length > 0) {
         EventHtmlContent = '<h2 style="margin-top:20px;display:block">' + event.name + '</h2>'
     }
-    headEle.innerHTML=EventHtmlContent
+    headEle.innerHTML = EventHtmlContent
 
 
     //Body left and right
@@ -344,10 +336,124 @@ function generateEventDetail(event) {
     let bodyRightEle = document.createElement("div")
     bodyRightEle.id = "detail-body-right-div"
 
+    /**
+     * 
+     * Ticket Status event.dates.status.code
+     * Buy Ticket At  event.url
+     * Seat Map event.seatmap.staticUrl
+     */
+
+    // Date  event.dates.start.localDate event.dates.start.localDate
+    if (event.dates.start.localDate !== null && typeof event.dates.start.localDate !== "undefined") {
+        let bodyLeftDateDivEle = document.createElement("div")
+        bodyLeftDateDivEle.className = "bodyLeftDiv"
+        let dateHtmlContent = ""
+        dateHtmlContent = '<p style="display:inline;">' + event.dates.start.localDate + '</p>'
+        if (event.dates.start.localTime !== null && typeof event.dates.start.localTime !== "undefined") {
+            dateHtmlContent = dateHtmlContent + '<p style="display:inline;"> ' + event.dates.start.localTime + '</p>'
+        }
+        bodyLeftDateDivEle.innerHTML = '<h3 style="color:#97fff9">Date</h3>' + dateHtmlContent
+        bodyLeftEle.appendChild(bodyLeftDateDivEle)
+    }
+
+    // Artist/Team event._embedded.attractions[loop].name event._embedded.attractions[loop].url
+    if (typeof event._embedded.attractions !== "undefined") {
+        if (event._embedded.attractions[0].name !== null && typeof event._embedded.attractions[0].name !== "undefined") {
+            let attractions = event._embedded.attractions
+            let bodyLeftArtistDivEle = document.createElement("div")
+            bodyLeftArtistDivEle.className = "bodyLeftDiv"
+            let htmlContent = ""
+            // 0 
+            for (let index = 0; index < attractions.length; index++) {
+                htmlContent = htmlContent + '<a style="text-decoration: none;" href="' + attractions[index].url + '" target="_blank" >' + attractions[index].name + '</a>'
+                if (index != attractions.length - 1) {
+                    htmlContent = htmlContent + " | "
+                }
+
+            }
+            bodyLeftArtistDivEle.innerHTML = '<h3 style="color:#97fff9">Artist/Team</h3>' + htmlContent
+            bodyLeftEle.appendChild(bodyLeftArtistDivEle)
+        }
+    }
+
+    // Venue event._embedded.venues[0].name
+    if (event._embedded.venues[0].name !== null && typeof event._embedded.venues[0].name !== "undefined") {
+        let bodyLeftVenueDivEle = document.createElement("div")
+        bodyLeftVenueDivEle.className = "bodyLeftDiv"
+        let htmlContent = ""
+        htmlContent = '<p style="display:inline;">' + event._embedded.venues[0].name + '</p>'
+        bodyLeftVenueDivEle.innerHTML = '<h3 style="color:#97fff9">Venue</h3>' + htmlContent
+        bodyLeftEle.appendChild(bodyLeftVenueDivEle)
+    }
+    // Genre event.classifications[0].subGenre genre segment  subType type
+    if (event.classifications[0] !== null && typeof event.classifications[0] !== "undefined") {
+        let bodyLeftGenreDivEle = document.createElement("div")
+        bodyLeftGenreDivEle.className = "bodyLeftDiv"
+        let genreArray = []
+        if (event.classifications[0].subGenre !== null && typeof event.classifications[0].subGenre !== "undefined" && event.classifications[0].subGenre.name !== null && typeof event.classifications[0].subGenre.name !== "undefined") {
+            if (event.classifications[0].subGenre.name !== "Undefined") {
+                genreArray[genreArray.length] = event.classifications[0].subGenre.name
+            }
+
+        }
+        if (event.classifications[0].genre !== null && typeof event.classifications[0].genre !== "undefined" && event.classifications[0].genre.name !== null && typeof event.classifications[0].genre.name !== "undefined") {
+
+            if (event.classifications[0].genre.name !== "Undefined") {
+                genreArray[genreArray.length] = event.classifications[0].genre.name
+            }
+        }
+        if (event.classifications[0].segment !== null && typeof event.classifications[0].segment !== "undefined" && event.classifications[0].segment.name !== null && typeof event.classifications[0].segment.name !== "undefined") {
+
+            if (event.classifications[0].segment.name !== "Undefined") {
+                genreArray[genreArray.length] = event.classifications[0].segment.name
+            }
+        }
+        if (event.classifications[0].subType !== null && typeof event.classifications[0].subType !== "undefined" && event.classifications[0].subType.name !== null && typeof event.classifications[0].subType.name !== "undefined") {
+
+            if (event.classifications[0].subType.name !== "Undefined") {
+                genreArray[genreArray.length] = event.classifications[0].subType.name
+            }
+        }
+        if (event.classifications[0].type !== null && typeof event.classifications[0].type !== "undefined" && event.classifications[0].type.name !== null && typeof event.classifications[0].type.name !== "undefined") {
+
+            if (event.classifications[0].type.name !== "Undefined") {
+                genreArray[genreArray.length] = event.classifications[0].type.name
+            }
+        }
+        if (genreArray.length > 0) {
+            let htmlContent = ""
+            for (let index = 0; index < genreArray.length; index++) {
+                htmlContent = htmlContent + '<p style="display:inline;">' + genreArray[index] + '</p>'
+                if (index != genreArray.length - 1) {
+                    htmlContent = htmlContent + " | "
+                }
+            }
+
+            bodyLeftGenreDivEle.innerHTML = '<h3 style="color:#97fff9">Genre/Team</h3>' + htmlContent
+            bodyLeftEle.appendChild(bodyLeftGenreDivEle)
+        }
+
+        // Price Ranges combined with “ -”   event.priceRanges[0].min max
+        if (event.priceRanges !== null && typeof event.priceRanges !== "undefined"){
+            if (event.priceRanges[0].min !== null && typeof event.priceRanges[0].min !== "undefined" && event.priceRanges[0].max !== null && typeof event.priceRanges[0].max !== "undefined") {
+                let bodyLeftPriceDivEle = document.createElement("div")
+                bodyLeftPriceDivEle.className = "bodyLeftDiv"
+                let htmlContent = ""
+                htmlContent = '<p style="display:inline;">' + event.priceRanges[0].min + ' - ' + event.priceRanges[0].max + ' USD</p>'
+                bodyLeftPriceDivEle.innerHTML = '<h3 style="color:#97fff9">Price Ranges</h3>' + htmlContent
+                bodyLeftEle.appendChild(bodyLeftPriceDivEle)
+            }
+        }
+
+
+    }
+
+
+
 
     eventDetailEle.appendChild(headEle)
     eventDetailEle.appendChild(bodyEle)
-    
+
     bodyEle.appendChild(bodyLeftEle)
     bodyEle.appendChild(bodyRightEle)
 

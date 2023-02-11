@@ -260,20 +260,23 @@ td {
 
 #detail-body-div {
     width: 1100px;
-    background: white;
     height:auto;
     float:left;
 }
 
 #detail-body-left-div {
-    width: 50%;
-    background: red;
+    width: 40%;
+    /* background: red; */
     float:left;
     height:429px;
 }
 #detail-body-right-div {
-    width: 50%;
+    width: 60%;
     background: blue;
     float:left;
     height:429px;
 } 
+.bodyLeftDiv{
+    /* float:left; */
+    margin-left: 30px;
+}
