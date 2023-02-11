@@ -338,7 +338,6 @@ function generateEventDetail(event) {
 
     /**
      * 
-     * Ticket Status event.dates.status.code
      * Buy Ticket At  event.url
      * Seat Map event.seatmap.staticUrl
      */
@@ -365,7 +364,7 @@ function generateEventDetail(event) {
             let htmlContent = ""
             // 0 
             for (let index = 0; index < attractions.length; index++) {
-                htmlContent = htmlContent + '<a style="text-decoration: none;" href="' + attractions[index].url + '" target="_blank" >' + attractions[index].name + '</a>'
+                htmlContent = htmlContent + '<a style="text-decoration: none;color:#297f93" href="' + attractions[index].url + '" target="_blank" >' + attractions[index].name + '</a>'
                 if (index != attractions.length - 1) {
                     htmlContent = htmlContent + " | "
                 }
@@ -432,24 +431,69 @@ function generateEventDetail(event) {
             bodyLeftGenreDivEle.innerHTML = '<h3 style="color:#97fff9">Genre/Team</h3>' + htmlContent
             bodyLeftEle.appendChild(bodyLeftGenreDivEle)
         }
-
-        // Price Ranges combined with “ -”   event.priceRanges[0].min max
-        if (event.priceRanges !== null && typeof event.priceRanges !== "undefined"){
-            if (event.priceRanges[0].min !== null && typeof event.priceRanges[0].min !== "undefined" && event.priceRanges[0].max !== null && typeof event.priceRanges[0].max !== "undefined") {
-                let bodyLeftPriceDivEle = document.createElement("div")
-                bodyLeftPriceDivEle.className = "bodyLeftDiv"
-                let htmlContent = ""
-                htmlContent = '<p style="display:inline;">' + event.priceRanges[0].min + ' - ' + event.priceRanges[0].max + ' USD</p>'
-                bodyLeftPriceDivEle.innerHTML = '<h3 style="color:#97fff9">Price Ranges</h3>' + htmlContent
-                bodyLeftEle.appendChild(bodyLeftPriceDivEle)
-            }
+    }
+    // Price Ranges combined with “ -”   event.priceRanges[0].min max
+    if (event.priceRanges !== null && typeof event.priceRanges !== "undefined") {
+        if (event.priceRanges[0].min !== null && typeof event.priceRanges[0].min !== "undefined" && event.priceRanges[0].max !== null && typeof event.priceRanges[0].max !== "undefined") {
+            let bodyLeftPriceDivEle = document.createElement("div")
+            bodyLeftPriceDivEle.className = "bodyLeftDiv"
+            let htmlContent = ""
+            htmlContent = '<p style="display:inline;">' + event.priceRanges[0].min + ' - ' + event.priceRanges[0].max + ' USD</p>'
+            bodyLeftPriceDivEle.innerHTML = '<h3 style="color:#97fff9">Price Ranges</h3>' + htmlContent
+            bodyLeftEle.appendChild(bodyLeftPriceDivEle)
         }
-
-
     }
 
 
+    // ● On sale: Green
+    // ● Off sale: Red
+    // ● Canceled: Black
+    // ● Postponed: Orange
+    // ● Rescheduled: Orange
+    // * Ticket Status event.dates.status.code
+    if (event.dates.status !== null && typeof event.dates.status !== "undefined") {
+        if (event.dates.status.code !== null && typeof event.dates.status.code !== "undefined") {
+            let bodyLeftStatusDivEle = document.createElement("div")
+            bodyLeftStatusDivEle.className = "bodyLeftDiv"
+            let htmlContent = ""
+            let code = event.dates.status.code
+            let style = "display:inline;"
+            
+            let cc = code.toLowerCase()
+            if (cc.includes("sale")){
+                if(cc.includes("on")) {
+                    style = style+ "background-color: green;"
+                }
+                if(cc.includes("off")) {
+                    style = style+ "background-color: red;"
+                }
+            }
+            if(cc.includes("canceled")) {
+                style = style+ "background-color: black;"
+            }
+            if(cc.includes("postponed")) {
+                style = style+ "background-color: Orange;"
+            }
+            if(cc.includes("rescheduled")) {
+                style = style+ "background-color: Orange;"
+            }
 
+            htmlContent = '<div style="'+style+'" id="bodyLeftStatusCode">' + code + '</div>'
+            bodyLeftStatusDivEle.innerHTML = '<h3 style="color:#97fff9">Ticket Status</h3>' + htmlContent
+            bodyLeftEle.appendChild(bodyLeftStatusDivEle)
+        }
+    }
+
+    // Buy Ticket At  event.url
+    if (event.url !== null && typeof event.url !== "undefined") {
+        let bodyLeftTicketDivEle = document.createElement("div")
+        bodyLeftTicketDivEle.className = "bodyLeftDiv"
+        let htmlContent = ""
+        // 0 
+        htmlContent = htmlContent + '<a style="text-decoration: none;color:#297f93" href="' + event.url + '" target="_blank" >Ticketmaster</a>'
+        bodyLeftTicketDivEle.innerHTML = '<h3 style="color:#97fff9">Buy Ticket At</h3>' + htmlContent
+        bodyLeftEle.appendChild(bodyLeftTicketDivEle)
+    }
 
     eventDetailEle.appendChild(headEle)
     eventDetailEle.appendChild(bodyEle)

@@ -255,28 +255,43 @@ td {
     margin-left: auto;
     margin-right: auto;
     display: block;
-    float:left;
+    float: left;
 }
 
 #detail-body-div {
     width: 1100px;
-    height:auto;
-    float:left;
+    height: auto;
+    float: left;
 }
 
 #detail-body-left-div {
     width: 40%;
     /* background: red; */
-    float:left;
-    height:429px;
+    float: left;
+    height: 429px;
 }
+
 #detail-body-right-div {
     width: 60%;
     background: blue;
-    float:left;
-    height:429px;
-} 
-.bodyLeftDiv{
+    float: left;
+    height: 429px;
+}
+
+.bodyLeftDiv {
     /* float:left; */
-    margin-left: 30px;
+    margin-left: 50px;
+}
+.bodyLeftDiv h3 {
+    margin-bottom: 5px;
+    margin-top: 10px;
+}
+
+#bodyLeftStatusCode {
+    /* background-color: #f14b03; */
+    border-radius: 6px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 1px;
+    padding-bottom: 1px;
 }
