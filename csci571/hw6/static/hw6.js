@@ -7,6 +7,13 @@ function submitSearchForm(event) {
     //clear 之前的responseTable
     let table = document.getElementById("search-response-table")
     table.innerHTML = ''
+    //clear 之前的event-detail
+    let detail = document.getElementById("event-detail")
+    detail.innerHTML = ''
+    detail.style.display = 'none'
+    //clear 之前的show-venue-detail
+    let showVenue = document.getElementById("show-venue-detail")
+    showVenue.style.display = 'none'
 
     let value_keyword = document.getElementById("keyword").value
     let value_distance = document.getElementById("distance").value
@@ -107,6 +114,10 @@ function clearForm() {
     //clear 之前的event-detail
     let detail = document.getElementById("event-detail")
     detail.innerHTML = ''
+    detail.style.display = 'none'
+    //clear 之前的show-venue-detail
+    let showVenue = document.getElementById("show-venue-detail")
+    showVenue.style.display = 'none'
 }
 
 // auto find location
@@ -175,9 +186,10 @@ function generateResponseTable(events) {
         tdIcon.style.width = "195px"
         let icon_url = ""
         if (event.images !== null && typeof event.images !== "undefined" && event.images.length > 0) {
-            icon_url = event.images[0].url
+            icon_url = '<img src="' + event.images[0].url + '" alt="image">'
+
         }
-        tdIcon.innerHTML = '<img src="' + icon_url + '" alt="image">'
+        tdIcon.innerHTML = icon_url
 
         let tdEvent = document.createElement('td')
         tdEvent.className = "event"
@@ -186,19 +198,25 @@ function generateResponseTable(events) {
         let EventHtmlContent = ""
         if (event.name !== null && typeof event.name !== "undefined" && event.name.length > 0) {
             EventHtmlContent = '<p style="display:inline;">' + event.name + '</p>'
+
         }
         tdEvent.innerHTML = EventHtmlContent
         let p_tdEvent = tdEvent.getElementsByTagName("p")[0]
-        p_tdEvent.onmouseover = function () {
-            p_tdEvent.style.cursor = "pointer"
-            p_tdEvent.style.color = "#6354ad"
+        if (p_tdEvent !== null && typeof p_tdEvent !== undefined) {
+            p_tdEvent.onmouseover = function () {
+                p_tdEvent.style.cursor = "pointer"
+                p_tdEvent.style.color = "#6354ad"
+            }
+            p_tdEvent.onmouseout = function () {
+                p_tdEvent.style.color = ""
+            }
+            p_tdEvent.onclick = function () {
+                showEventDetail(event.id)
+            }
         }
-        p_tdEvent.onmouseout = function () {
-            p_tdEvent.style.color = ""
-        }
-        p_tdEvent.onclick = function () {
-            showEventDetail(event.id)
-        }
+
+
+
 
 
 
@@ -230,9 +248,14 @@ function generateResponseTable(events) {
         tbody.appendChild(tr)
         console.log(event)
     })
+
+
+
     table.appendChild(tbody)
     // add thead to table 
     table.appendChild(thead)
+
+
 
 }
 
@@ -292,6 +315,8 @@ function tableSortByHeadName(tableId, headName) {
 }
 
 function showEventDetail(eventId) {
+    clearShowVenue()
+    clearShowDetail()
     axios.get('/event_detail?', {
         params: {
             eventid: eventId
@@ -313,16 +338,18 @@ function generateEventDetail(event) {
     console.log(event)
     let eventDetailEle = document.getElementById("event-detail")
     // eventDetailEle.style.removeProperty("display");
-    eventDetailEle.style.display = "block"
+
     // console.log(eventDetailEle.style.display)
     eventDetailEle.innerHTML = ""
 
+    let showFlag = false
     //Head Part
     let headEle = document.createElement("div")
     headEle.id = "detail-head-div"
 
     let EventHtmlContent = ""
     if (event.name !== null && typeof event.name !== "undefined" && event.name.length > 0) {
+        showFlag = true
         EventHtmlContent = '<h2 style="margin-top:20px;display:block">' + event.name + '</h2>'
     }
     headEle.innerHTML = EventHtmlContent
@@ -339,11 +366,12 @@ function generateEventDetail(event) {
     /**
      * 
      * Buy Ticket At  event.url
-     * Seat Map event.seatmap.staticUrl
+     * 
      */
 
     // Date  event.dates.start.localDate event.dates.start.localDate
     if (event.dates.start.localDate !== null && typeof event.dates.start.localDate !== "undefined") {
+        showFlag = true
         let bodyLeftDateDivEle = document.createElement("div")
         bodyLeftDateDivEle.className = "bodyLeftDiv"
         let dateHtmlContent = ""
@@ -358,13 +386,14 @@ function generateEventDetail(event) {
     // Artist/Team event._embedded.attractions[loop].name event._embedded.attractions[loop].url
     if (typeof event._embedded.attractions !== "undefined") {
         if (event._embedded.attractions[0].name !== null && typeof event._embedded.attractions[0].name !== "undefined") {
+            showFlag = true
             let attractions = event._embedded.attractions
             let bodyLeftArtistDivEle = document.createElement("div")
             bodyLeftArtistDivEle.className = "bodyLeftDiv"
             let htmlContent = ""
             // 0 
             for (let index = 0; index < attractions.length; index++) {
-                htmlContent = htmlContent + '<a style="text-decoration: none;color:#297f93" href="' + attractions[index].url + '" target="_blank" >' + attractions[index].name + '</a>'
+                htmlContent = htmlContent + '<a style="text-decoration: none;color:#3284a5" href="' + attractions[index].url + '" target="_blank" >' + attractions[index].name + '</a>'
                 if (index != attractions.length - 1) {
                     htmlContent = htmlContent + " | "
                 }
@@ -377,6 +406,7 @@ function generateEventDetail(event) {
 
     // Venue event._embedded.venues[0].name
     if (event._embedded.venues[0].name !== null && typeof event._embedded.venues[0].name !== "undefined") {
+        showFlag = true
         let bodyLeftVenueDivEle = document.createElement("div")
         bodyLeftVenueDivEle.className = "bodyLeftDiv"
         let htmlContent = ""
@@ -386,6 +416,7 @@ function generateEventDetail(event) {
     }
     // Genre event.classifications[0].subGenre genre segment  subType type
     if (event.classifications[0] !== null && typeof event.classifications[0] !== "undefined") {
+        showFlag = true
         let bodyLeftGenreDivEle = document.createElement("div")
         bodyLeftGenreDivEle.className = "bodyLeftDiv"
         let genreArray = []
@@ -435,6 +466,7 @@ function generateEventDetail(event) {
     // Price Ranges combined with “ -”   event.priceRanges[0].min max
     if (event.priceRanges !== null && typeof event.priceRanges !== "undefined") {
         if (event.priceRanges[0].min !== null && typeof event.priceRanges[0].min !== "undefined" && event.priceRanges[0].max !== null && typeof event.priceRanges[0].max !== "undefined") {
+            showFlag = true
             let bodyLeftPriceDivEle = document.createElement("div")
             bodyLeftPriceDivEle.className = "bodyLeftDiv"
             let htmlContent = ""
@@ -453,32 +485,33 @@ function generateEventDetail(event) {
     // * Ticket Status event.dates.status.code
     if (event.dates.status !== null && typeof event.dates.status !== "undefined") {
         if (event.dates.status.code !== null && typeof event.dates.status.code !== "undefined") {
+            showFlag = true
             let bodyLeftStatusDivEle = document.createElement("div")
             bodyLeftStatusDivEle.className = "bodyLeftDiv"
             let htmlContent = ""
             let code = event.dates.status.code
             let style = "display:inline;"
-            
+
             let cc = code.toLowerCase()
-            if (cc.includes("sale")){
-                if(cc.includes("on")) {
-                    style = style+ "background-color: green;"
+            if (cc.includes("sale")) {
+                if (cc.includes("on")) {
+                    style = style + "background-color: green;"
                 }
-                if(cc.includes("off")) {
-                    style = style+ "background-color: red;"
+                if (cc.includes("off")) {
+                    style = style + "background-color: red;"
                 }
             }
-            if(cc.includes("canceled")) {
-                style = style+ "background-color: black;"
+            if (cc.includes("cancel")) {
+                style = style + "background-color: black;"
             }
-            if(cc.includes("postponed")) {
-                style = style+ "background-color: Orange;"
+            if (cc.includes("postpone")) {
+                style = style + "background-color: Orange;"
             }
-            if(cc.includes("rescheduled")) {
-                style = style+ "background-color: Orange;"
+            if (cc.includes("reschedul")) {
+                style = style + "background-color: Orange;"
             }
 
-            htmlContent = '<div style="'+style+'" id="bodyLeftStatusCode">' + code + '</div>'
+            htmlContent = '<div style="' + style + '" id="bodyLeftStatusCode">' + code + '</div>'
             bodyLeftStatusDivEle.innerHTML = '<h3 style="color:#97fff9">Ticket Status</h3>' + htmlContent
             bodyLeftEle.appendChild(bodyLeftStatusDivEle)
         }
@@ -486,13 +519,25 @@ function generateEventDetail(event) {
 
     // Buy Ticket At  event.url
     if (event.url !== null && typeof event.url !== "undefined") {
+        showFlag = true
         let bodyLeftTicketDivEle = document.createElement("div")
         bodyLeftTicketDivEle.className = "bodyLeftDiv"
         let htmlContent = ""
-        // 0 
         htmlContent = htmlContent + '<a style="text-decoration: none;color:#297f93" href="' + event.url + '" target="_blank" >Ticketmaster</a>'
         bodyLeftTicketDivEle.innerHTML = '<h3 style="color:#97fff9">Buy Ticket At</h3>' + htmlContent
         bodyLeftEle.appendChild(bodyLeftTicketDivEle)
+    }
+    // Seat Map event.seatmap.staticUrl
+    if (event.seatmap !== null && typeof event.seatmap !== "undefined") {
+        if (event.seatmap.staticUrl !== null && typeof event.seatmap.staticUrl !== "undefined") {
+            showFlag = true
+            let img = document.createElement("img")
+            img.src = event.seatmap.staticUrl
+            img.style.width = "100%"
+            img.style.height = "100%"
+            img.style.objectFit = "contain"
+            bodyRightEle.appendChild(img)
+        }
     }
 
     eventDetailEle.appendChild(headEle)
@@ -501,8 +546,53 @@ function generateEventDetail(event) {
     bodyEle.appendChild(bodyLeftEle)
     bodyEle.appendChild(bodyRightEle)
 
-    window.scrollTo({
-        top: eventDetailEle.offsetTop,
-        behavior: 'smooth'
-    })
+
+
+    let showVenue = document.getElementById("show-venue-detail")
+    if (showFlag) {
+        eventDetailEle.style.display = "block"
+        showVenue.style.display = "block"
+
+        let venueArrow = document.getElementById("venue-arrow")
+        venueArrow.onclick = function () {
+            showVenueDetails(event.id)
+        }
+
+        venueArrow.onmouseout = function () {
+            venueArrow.style.color = ""
+        }
+
+        window.scrollTo({
+            top: eventDetailEle.offsetTop,
+            behavior: 'smooth'
+        })
+    }
+
+
+
+
+}
+
+function clearShowVenue() {
+    let showVenue = document.getElementById("show-venue-detail")
+    showVenue.style.display = 'none'
+}
+
+function clearShowDetail() {
+    let venueDetailEle = document.getElementById("venue-detail")
+    venueDetailEle.style.display = 'none'
+}
+
+
+function showVenueDetails(eventId) {
+    console.log("Xxxxx" + eventId)
+
+    clearShowVenue()
+
+
+
+
+
+    let venueDetailEle = document.getElementById("venue-detail")
+    venueDetailEle.style.display = 'block'
 }
