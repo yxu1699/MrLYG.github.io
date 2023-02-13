@@ -14,6 +14,8 @@ function submitSearchForm(event) {
     //clear 之前的show-venue-detail
     let showVenue = document.getElementById("show-venue-detail")
     showVenue.style.display = 'none'
+    //clear 之前的venue-detail
+    clearShowDetail()
 
     let value_keyword = document.getElementById("keyword").value
     let value_distance = document.getElementById("distance").value
@@ -118,6 +120,8 @@ function clearForm() {
     //clear 之前的show-venue-detail
     let showVenue = document.getElementById("show-venue-detail")
     showVenue.style.display = 'none'
+    //clear 之前的venue-detail
+    clearShowDetail()
 }
 
 // auto find location
@@ -720,7 +724,10 @@ function generateVenueDetails(venueData) {
         }
     }
 
-
+    window.scrollTo({
+        top: venueDetailEle.offsetTop,
+        behavior: 'smooth'
+    })
 
 }
 
