@@ -405,8 +405,10 @@ function generateEventDetail(event) {
     }
 
     // Venue event._embedded.venues[0].name
+    let isExistVenue = false
     if (event._embedded.venues[0].name !== null && typeof event._embedded.venues[0].name !== "undefined") {
         showFlag = true
+        isExistVenue = true
         let bodyLeftVenueDivEle = document.createElement("div")
         bodyLeftVenueDivEle.className = "bodyLeftDiv"
         let htmlContent = ""
@@ -553,14 +555,17 @@ function generateEventDetail(event) {
         eventDetailEle.style.display = "block"
         showVenue.style.display = "block"
 
-        let venueArrow = document.getElementById("venue-arrow")
-        venueArrow.onclick = function () {
-            showVenueDetails(event.id)
+        if (isExistVenue) {
+            let venueArrow = document.getElementById("venue-arrow")
+            venueArrow.onclick = function () {
+                showVenueDetails(event._embedded.venues[0].name)
+            }
+
+            venueArrow.onmouseout = function () {
+                venueArrow.style.color = ""
+            }
         }
 
-        venueArrow.onmouseout = function () {
-            venueArrow.style.color = ""
-        }
 
         window.scrollTo({
             top: eventDetailEle.offsetTop,
@@ -581,18 +586,147 @@ function clearShowVenue() {
 function clearShowDetail() {
     let venueDetailEle = document.getElementById("venue-detail")
     venueDetailEle.style.display = 'none'
+    let innerVenueEle = document.getElementById("inner-venue-detail")
+    innerVenueEle.innerHTML = ''
 }
 
 
-function showVenueDetails(eventId) {
-    console.log("Xxxxx" + eventId)
+function showVenueDetails(VenueName) {
+    axios.get('/venue_detail', {
+        params: {
+            keyword: VenueName
+        }
+    })
+        .then(function (response) {
+            console.log("venuedetailsbyName")
+            console.log(response)
+            if (response.data.page.totalElements == 0) {
+                console.log("show more venue details, can't find some venue by venue name")
+            } else {
+                generateVenueDetails(response.data)
+            }
 
+
+        })
+        .catch(function (error) {
+            console.log(error)
+        })
+
+}
+
+function generateVenueDetails(venueData) {
     clearShowVenue()
-
-
-
-
-
     let venueDetailEle = document.getElementById("venue-detail")
     venueDetailEle.style.display = 'block'
+
+    let innerVenueEle = document.getElementById("inner-venue-detail")
+    // venueData._embedded.venues
+    if (venueData._embedded !== null && typeof venueData._embedded !== "undefined") {
+        if (venueData._embedded.venues[0] !== null && typeof venueData._embedded.venues[0] !== "undefined") {
+            let venue = venueData._embedded.venues[0]
+            // name
+
+            if (venue.name !== null && typeof venue.name !== "undefined") {
+                innerVenueEle.innerHTML = '<div id="inner-venue-detail-head"><div style="margin: auto;">' + venue.name + '</div></div>'
+            }
+
+            // id="inner-venue-detail-logo"
+            // <div id="inner-venue-detail-logo">
+            // </div>
+            if (venue.images !== null && typeof venue.images !== "undefined") {
+                if (venue.images[0] !== null && typeof venue.images[0] !== "undefined") {
+                    if (venue.images[0].url !== null && typeof venue.images[0].url !== "undefined") {
+                        innerVenueEle.innerHTML = innerVenueEle.innerHTML + '<div id="inner-venue-detail-logo"></div>'
+                        let innerVenueDetailLogo = document.getElementById("inner-venue-detail-logo")
+                        innerVenueDetailLogo.style.display = 'flex'
+                        let VenueImg = document.createElement('img')
+                        VenueImg.src = venue.images[0].url
+                        VenueImg.style.width = "163px"
+                        VenueImg.style.height = "92px"
+                        VenueImg.style.objectFit = "contain"
+                        innerVenueDetailLogo.appendChild(VenueImg)
+                    }
+                }
+            }
+
+
+
+
+            // <div id="inner-venue-detail-body">
+            //     <div id="inner-venue-detail-body-left"></div>
+            //     <div id="inner-venue-detail-body-right"></div>
+            // </div>
+            //
+            //  city.name,   state.stateCode
+            // postalCode
+            //
+            if (checkValid(venue.address) || checkValid(venue.city.name) || checkValid(venue.state.stateCode) || checkValid(venue.postalCode) || checkValid(venue.url)) {
+                innerVenueEle.innerHTML = innerVenueEle.innerHTML + '<div id="inner-venue-detail-body"><div id="inner-venue-detail-body-left"></div><div id="inner-venue-detail-body-right"></div></div>'
+                let bodyleft = document.getElementById("inner-venue-detail-body-left")
+                let bodyright = document.getElementById("inner-venue-detail-body-right")
+                let bodyleftdiv = document.createElement("div")
+                let bodyrightdiv = document.createElement("div")
+                if (venue.address.line1 !== null && typeof venue.address.line1 !== "undefined") {
+                    let p = document.createElement("p")
+                    p.style.display = "inline"
+                    p.innerHTML = "<b>Address: </b>" + venue.address.line1
+                    bodyleftdiv.appendChild(p)
+                    bodyleft.appendChild(bodyleftdiv)
+                }
+
+                // Los Angeles,CA
+                let city_state_p = document.createElement("p")
+                city_state_p.style.paddingLeft = "75px"
+                if (checkValid(venue.city.name)) {
+                    city_state_p.innerHTML = venue.city.name
+                    bodyleftdiv.appendChild(city_state_p)
+                }
+                if (checkValid(venue.city.name) && checkValid(venue.state.stateCode)) {
+                    city_state_p.innerHTML = city_state_p.innerHTML + ", " + venue.state.stateCode
+                } else if (venue.state.stateCode) {
+                    city_state_p.innerHTML = city_state_p.innerHTML + venue.state.stateCode
+                }
+
+
+                if (checkValid(venue.postalCode)) {
+                    let p = document.createElement("p")
+                    p.style.paddingLeft = "75px"
+                    p.innerHTML = venue.postalCode
+                    bodyleftdiv.appendChild(p)
+                }
+
+                let maplink = document.createElement("div")
+                maplink.style.textAlign = "center"
+                maplink.style.marginTop = "10px"
+                maplink.innerHTML = '<a style="text-decoration: none;color:#357a8a" href="https://www.google.com/maps/search/?api=1&query=' + venue.name + ', ' + venue.address.line1 + ', ' + city_state_p.innerHTML + ', ' + venue.postalCode + '" target="_blank" >Open in Google Maps</a>'
+
+                // if (checkValid(venue.location)) {
+                //     maplink.innerHTML = '<a style="text-decoration: none;color:#357a8a" href="https://www.google.com/maps/search/?api=1&query=' + venue.location.latitude + '%2C' + venue.location.longitude + '" target="_blank" >Open in Google Maps</a>'
+                // } else {
+                //     maplink.innerHTML = '<a style="text-decoration: none;color:#357a8a" href="https://www.google.com/maps/search/?api=1&query=' + venue.name + ',' + venue.address.line1 + ', ' + city_state_p.innerHTML + ', ' + venue.postalCode + '" target="_blank" >Open in Google Maps</a>'
+
+                // }
+                bodyleftdiv.appendChild(maplink)
+
+
+                if (checkValid(venue.url)) {
+                    bodyrightdiv.innerHTML = '<a style="text-decoration: none;color:#357a8a" href="' + venue.url + '" target="_blank" >More events at this venue</a>'
+                }
+                bodyright.appendChild(bodyrightdiv)
+
+            }
+
+
+        }
+    }
+
+
+
+}
+
+function checkValid(x) {
+    if (x !== null && typeof x !== "undefined") {
+        return true
+    }
+    return false
 }

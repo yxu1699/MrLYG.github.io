@@ -349,7 +349,7 @@ td {
     margin-right: auto;
 
     border-radius: 15px;
-    background-color: #f7f7f4;
+    background-color: #fbfbfb;
     height: auto;
     /* display: none; */
     border: solid 1px;
@@ -375,11 +375,40 @@ td {
 }
 
 #inner-venue-detail-logo {
-    background-color: green;
+    /* background-color: green; */
     height: 96px;
+    /* display: flex; */
+    align-items: center;
+    justify-content: center;
 }
 
 #inner-venue-detail-body {
-    background-color: paleturquoise;
-    height: 160px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    /* background-color: paleturquoise; */
+    height: 120px;
+}
+#inner-venue-detail-body-left{
+    border: solid;
+    width: 535px;
+    border-top-width: 0px;
+    border-right-width: 1px;
+    border-bottom-width: 0px;
+    border-left-width: 0px;
+    height:100%;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    float: left;
+}
+
+#inner-venue-detail-body-right{
+    padding-top: 12px;
+    /* border: solid; */
+    height: 100%;
+    width: 534px;
+    /* align-items: center; */
+    justify-content: center;
+    display: flex;
+    float: left;
 }

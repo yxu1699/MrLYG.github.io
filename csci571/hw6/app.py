@@ -43,19 +43,6 @@ def search_tickets():
     url += "&geoPoint=" + geohash.encode(latitude, longitude, 7)
     response = requests.get(url)
     eventsJson = response.json()
-
-    resJson = {
-        "date": {
-            "localDate": "",
-            "localTime": ""
-        },
-        "icon": "",
-        "event": {},
-        "genre": "",
-        "venue": "",
-    }
-    # 根据前端页面需要生成json
-    print(url)
     return eventsJson
 
 
@@ -71,15 +58,16 @@ def event_detail():
     return eventDetailJson
 
 
-# @app.route("/venue_detail", methods=["GET"])
-# def venue_detail():
-#     data = request_parse(request)
-#     keyword = data.get('keyword')
-#     url = "https://app.ticketmaster.com/discovery/v2/venues?apikey="+TicketsMasterAPIKey
-#     url += "&keyword=" + keyword
-#     response = requests.get(url)
-#     venueDetailJson = response.json()3
-#     return venueDetailJson
+@app.route("/venue_detail", methods=["GET"])
+def venue_detail():
+    data = request_parse(request)
+    keyword = data.get('keyword')
+    url = "https://app.ticketmaster.com/discovery/v2/venues?apikey="+TicketsMasterAPIKey
+    url += "&keyword=" + keyword
+    print(url)
+    response = requests.get(url)
+    venueDetailJson = response.json()
+    return venueDetailJson
 
 # @app.route('/static/img/<path:filename>')
 # def server_jpg(filename):
