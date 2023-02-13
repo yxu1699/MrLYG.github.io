@@ -2,7 +2,11 @@ from flask import Flask
 from flask import request
 import requests
 from geolib import geohash
+from flask_cors import CORS
+
 app = Flask(__name__)
+CORS(app)
+
 
 TicketsMasterAPIKey = "Hi7gKkDkYdLmz9jNZOnvWveX8zfDYYSI"
 SegmentId = {
@@ -76,3 +80,5 @@ def venue_detail():
 # @app.route('/static/<path:filename>')
 # def serve_static(filename):
 #     return send_from_directory(('static'), filename)
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=8080, debug=True)
