@@ -557,24 +557,48 @@ function generateEventDetail(event) {
     let showVenue = document.getElementById("show-venue-detail")
     if (showFlag) {
         eventDetailEle.style.display = "block"
-        showVenue.style.display = "block"
 
         if (isExistVenue) {
-            let venueArrow = document.getElementById("venue-arrow")
-            venueArrow.onclick = function () {
-                showVenueDetails(event._embedded.venues[0].name)
-            }
+            axios.get('/venue_detail', {
+                params: {
+                    keyword: event._embedded.venues[0].name
+                }
+            })
+                .then(function (response) {
+                    if (response.data.page.totalElements > 0) {
+                        showVenue.style.display = "block"
+                        let venueArrow = document.getElementById("venue-arrow")
+                        venueArrow.onclick = function () {
+                            showVenueDetails(event._embedded.venues[0].name)
+                        }
 
-            venueArrow.onmouseout = function () {
-                venueArrow.style.color = ""
-            }
+                        venueArrow.onmouseout = function () {
+                            venueArrow.style.color = ""
+                        }
+                    }
+                    window.scrollTo({
+                        top: eventDetailEle.offsetTop + 20,
+                        behavior: 'smooth'
+                    })
+                    
+                })
+                .catch(function (error) {
+                    console.log(error)
+                    window.scrollTo({
+                        top: eventDetailEle.offsetTop + 20,
+                        behavior: 'smooth'
+                    })
+                })
+
+
         }
 
 
-        window.scrollTo({
-            top: eventDetailEle.offsetTop,
-            behavior: 'smooth'
-        })
+        // window.scrollTo({
+        //     top: eventDetailEle.offsetTop + 20,
+        //     behavior: 'smooth'
+        // })
+        
     }
 
 
