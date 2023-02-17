@@ -228,7 +228,7 @@ function generateResponseTable(events) {
         tdGenre.className = "genre"
         tdGenre.style.width = "130px"
         let GenreHtmlContent = ""
-        if (event.classifications[0].segment.name !== null && typeof event.classifications[0].segment.name !== "undefined" && event.classifications[0].segment.name.length > 0) {
+        if (event.classifications[0].segment.name !== null && typeof event.classifications[0].segment.name !== "undefined" && event.classifications[0].segment.name.length > 0 && event.classifications[0].segment.name.toLowerCase() !=="undefined") {
             GenreHtmlContent = '<p style="display:inline;">' + event.classifications[0].segment.name + '</p>'
         }
         tdGenre.innerHTML = GenreHtmlContent
@@ -237,7 +237,7 @@ function generateResponseTable(events) {
         tdVenue.className = "venue"
         tdVenue.style.width = "260px"
         let VenueHtmlContent = ""
-        if (event._embedded.venues[0].name !== null && typeof event._embedded.venues[0].name !== "undefined" && event._embedded.venues[0].name.length > 0) {
+        if (event._embedded.venues[0].name !== null && typeof event._embedded.venues[0].name !== "undefined" && event._embedded.venues[0].name.length > 0 && event._embedded.venues[0].name.toLowerCase() !== "undefined") {
             VenueHtmlContent = '<p style="display:inline;">' + event._embedded.venues[0].name + '</p>'
         }
         tdVenue.innerHTML = VenueHtmlContent
@@ -354,7 +354,7 @@ function generateEventDetail(event) {
     let EventHtmlContent = ""
     if (event.name !== null && typeof event.name !== "undefined" && event.name.length > 0) {
         showFlag = true
-        EventHtmlContent = '<h2 style="margin-top:20px;display:block">' + event.name + '</h2>'
+        EventHtmlContent = '<h2 style="margin-top:20px;margin-bottom:20px;display:block">' + event.name + '</h2>'
     }
     headEle.innerHTML = EventHtmlContent
 
@@ -565,6 +565,8 @@ function generateEventDetail(event) {
                 }
             })
                 .then(function (response) {
+                    console.log("/venue_detail")
+                    console.log(response)
                     if (response.data.page.totalElements > 0) {
                         showVenue.style.display = "block"
                         let venueArrow = document.getElementById("venue-arrow")
