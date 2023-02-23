@@ -176,9 +176,9 @@ function generateResponseTable(events) {
         tdDate.className = "date"
         tdDate.style.width = "195px"
         let dateHtmlContent = ""
-        if (event.dates.start.localDate !== null && typeof event.dates.start.localDate !== "undefined") {
+        if (event.dates.start.localDate !== null && typeof event.dates.start.localDate !== "undefined" && event.dates.start.localDate !== "Undefined") {
             dateHtmlContent = '<p style="display:inline;">' + event.dates.start.localDate + '</p>'
-            if (event.dates.start.localTime !== null && typeof event.dates.start.localTime !== "undefined") {
+            if (event.dates.start.localTime !== null && typeof event.dates.start.localTime !== "undefined" && event.dates.start.localTime !== "Undefined")  {
                 dateHtmlContent = dateHtmlContent + '<br>' + '<p style="display:inline;">' + event.dates.start.localTime + '</p>'
             }
         }
@@ -200,13 +200,12 @@ function generateResponseTable(events) {
         tdEvent.style.width = "520px"
 
         let EventHtmlContent = ""
-        if (event.name !== null && typeof event.name !== "undefined" && event.name.length > 0) {
+        if (event.name !== null && typeof event.name !== "undefined" && event.name.length > 0 && event.name !== "Undefined") {
             EventHtmlContent = '<p style="display:inline;">' + event.name + '</p>'
-
         }
         tdEvent.innerHTML = EventHtmlContent
         let p_tdEvent = tdEvent.getElementsByTagName("p")[0]
-        if (p_tdEvent !== null && typeof p_tdEvent !== undefined) {
+        if (p_tdEvent !== null && typeof p_tdEvent !== "undefined") {
             p_tdEvent.onmouseover = function () {
                 p_tdEvent.style.cursor = "pointer"
                 p_tdEvent.style.color = "#6354ad"
@@ -352,7 +351,7 @@ function generateEventDetail(event) {
     headEle.id = "detail-head-div"
 
     let EventHtmlContent = ""
-    if (event.name !== null && typeof event.name !== "undefined" && event.name.length > 0) {
+    if (event.name !== null && typeof event.name !== "undefined" && event.name.length > 0 && event.name !== "Undefined") {
         showFlag = true
         EventHtmlContent = '<h2 style="margin-top:20px;margin-bottom:20px;display:block">' + event.name + '</h2>'
     }
@@ -374,13 +373,13 @@ function generateEventDetail(event) {
      */
 
     // Date  event.dates.start.localDate event.dates.start.localDate
-    if (event.dates.start.localDate !== null && typeof event.dates.start.localDate !== "undefined") {
+    if (event.dates.start.localDate !== null && typeof event.dates.start.localDate !== "undefined" && event.dates.start.localDate !== "Undefined") {
         showFlag = true
         let bodyLeftDateDivEle = document.createElement("div")
         bodyLeftDateDivEle.className = "bodyLeftDiv"
         let dateHtmlContent = ""
         dateHtmlContent = '<p style="display:inline;">' + event.dates.start.localDate + '</p>'
-        if (event.dates.start.localTime !== null && typeof event.dates.start.localTime !== "undefined") {
+        if (event.dates.start.localTime !== null && typeof event.dates.start.localTime !== "undefined" && event.dates.start.localTime !== "Undefined") {
             dateHtmlContent = dateHtmlContent + '<p style="display:inline;"> ' + event.dates.start.localTime + '</p>'
         }
         bodyLeftDateDivEle.innerHTML = '<h3 style="color:#97fff9">Date</h3>' + dateHtmlContent
@@ -426,31 +425,31 @@ function generateEventDetail(event) {
         let bodyLeftGenreDivEle = document.createElement("div")
         bodyLeftGenreDivEle.className = "bodyLeftDiv"
         let genreArray = []
-        if (event.classifications[0].subGenre !== null && typeof event.classifications[0].subGenre !== "undefined" && event.classifications[0].subGenre.name !== null && typeof event.classifications[0].subGenre.name !== "undefined") {
+        if (event.classifications[0].subGenre !== null && typeof event.classifications[0].subGenre !== "undefined" && event.classifications[0].subGenre.name !== null && typeof event.classifications[0].subGenre.name !== "undefined" && event.classifications[0].subGenre.name !== "Undefined") {
             if (event.classifications[0].subGenre.name !== "Undefined") {
                 genreArray[genreArray.length] = event.classifications[0].subGenre.name
             }
 
         }
-        if (event.classifications[0].genre !== null && typeof event.classifications[0].genre !== "undefined" && event.classifications[0].genre.name !== null && typeof event.classifications[0].genre.name !== "undefined") {
+        if (event.classifications[0].genre !== null && typeof event.classifications[0].genre !== "undefined" && event.classifications[0].genre.name !== null && typeof event.classifications[0].genre.name !== "undefined" && event.classifications[0].genre.name !== "Undefined") {
 
             if (event.classifications[0].genre.name !== "Undefined") {
                 genreArray[genreArray.length] = event.classifications[0].genre.name
             }
         }
-        if (event.classifications[0].segment !== null && typeof event.classifications[0].segment !== "undefined" && event.classifications[0].segment.name !== null && typeof event.classifications[0].segment.name !== "undefined") {
+        if (event.classifications[0].segment !== null && typeof event.classifications[0].segment !== "undefined" && event.classifications[0].segment.name !== null && typeof event.classifications[0].segment.name !== "undefined" && event.classifications[0].segment.name !== "Undefined") {
 
             if (event.classifications[0].segment.name !== "Undefined") {
                 genreArray[genreArray.length] = event.classifications[0].segment.name
             }
         }
-        if (event.classifications[0].subType !== null && typeof event.classifications[0].subType !== "undefined" && event.classifications[0].subType.name !== null && typeof event.classifications[0].subType.name !== "undefined") {
+        if (event.classifications[0].subType !== null && typeof event.classifications[0].subType !== "undefined" && event.classifications[0].subType.name !== null && typeof event.classifications[0].subType.name !== "undefined" && event.classifications[0].subType.name !== "Undefined") {
 
             if (event.classifications[0].subType.name !== "Undefined") {
                 genreArray[genreArray.length] = event.classifications[0].subType.name
             }
         }
-        if (event.classifications[0].type !== null && typeof event.classifications[0].type !== "undefined" && event.classifications[0].type.name !== null && typeof event.classifications[0].type.name !== "undefined") {
+        if (event.classifications[0].type !== null && typeof event.classifications[0].type !== "undefined" && event.classifications[0].type.name !== null && typeof event.classifications[0].type.name !== "undefined" && event.classifications[0].type.name !== "Undefined") {
 
             if (event.classifications[0].type.name !== "Undefined") {
                 genreArray[genreArray.length] = event.classifications[0].type.name
@@ -465,7 +464,7 @@ function generateEventDetail(event) {
                 }
             }
 
-            bodyLeftGenreDivEle.innerHTML = '<h3 style="color:#97fff9">Genre/Team</h3>' + htmlContent
+            bodyLeftGenreDivEle.innerHTML = '<h3 style="color:#97fff9">Genres</h3>' + htmlContent
             bodyLeftEle.appendChild(bodyLeftGenreDivEle)
         }
     }
@@ -490,7 +489,7 @@ function generateEventDetail(event) {
     // ● Rescheduled: Orange
     // * Ticket Status event.dates.status.code
     if (event.dates.status !== null && typeof event.dates.status !== "undefined") {
-        if (event.dates.status.code !== null && typeof event.dates.status.code !== "undefined") {
+        if (event.dates.status.code !== null && typeof event.dates.status.code !== "undefined" && event.dates.status.code !== "Undefined") {
             showFlag = true
             let bodyLeftStatusDivEle = document.createElement("div")
             bodyLeftStatusDivEle.className = "bodyLeftDiv"
@@ -530,7 +529,7 @@ function generateEventDetail(event) {
         bodyLeftTicketDivEle.className = "bodyLeftDiv"
         let htmlContent = ""
         htmlContent = htmlContent + '<a style="text-decoration: none;color:#297f93" href="' + event.url + '" target="_blank" >Ticketmaster</a>'
-        bodyLeftTicketDivEle.innerHTML = '<h3 style="color:#97fff9">Buy Ticket At</h3>' + htmlContent
+        bodyLeftTicketDivEle.innerHTML = '<h3 style="color:#97fff9">Buy Ticket At:</h3>' + htmlContent
         bodyLeftEle.appendChild(bodyLeftTicketDivEle)
     }
     // Seat Map event.seatmap.staticUrl
@@ -656,7 +655,7 @@ function generateVenueDetails(venueData) {
             let venue = venueData._embedded.venues[0]
             // name
 
-            if (venue.name !== null && typeof venue.name !== "undefined") {
+            if (venue.name !== null && typeof venue.name !== "undefined" && venue.name !== "Undefined") {
                 innerVenueEle.innerHTML = '<div id="inner-venue-detail-head"><div style="margin: auto;">' + venue.name + '</div></div>'
             }
 
@@ -741,6 +740,8 @@ function generateVenueDetails(venueData) {
 
                 if (checkValid(venue.url)) {
                     bodyrightdiv.innerHTML = '<a style="text-decoration: none;color:#357a8a" href="' + venue.url + '" target="_blank" >More events at this venue</a>'
+                }else{
+                    bodyrightdiv.innerHTML = '<a style="text-decoration: none;color:gray" >More events at this venue</a>'
                 }
                 bodyright.appendChild(bodyrightdiv)
 
@@ -758,7 +759,7 @@ function generateVenueDetails(venueData) {
 }
 
 function checkValid(x) {
-    if (x !== null && typeof x !== "undefined") {
+    if (x !== null && typeof x !== "undefined" &&  x !== "Undefined") {
         return true
     }
     return false

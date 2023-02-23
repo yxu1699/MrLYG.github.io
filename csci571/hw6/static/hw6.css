@@ -4,6 +4,8 @@ body {
     background-repeat: no-repeat; */
     background-attachment: fixed;
     background-size: 100% 100%;
+    /* background-size: cover;
+    background-repeat: no-repeat; */
     /* background-size: cover; */
 
 }
@@ -27,8 +29,8 @@ input {
     margin-left: auto;
     margin-right: auto;
     /* background-color: #31312e; */
-    background-color: rgba(58, 58, 54, 0.9);
-    margin-top: 30px;
+    background-color: rgba(58, 58, 54, 0.8);
+    margin-top: 35px;
 }
 
 
@@ -181,7 +183,7 @@ input {
     width: 1300px;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 30px;
+    margin-top: 35px;
 }
 
 #search-response-table {
@@ -283,12 +285,14 @@ td {
     width: 60%;
     /* background: blue; */
     /* float: left; */
-    min-height: 429px;
+    height: 429px;
+    text-align: center;
 }
 
 .bodyLeftDiv {
     /* float:left; */
     /* margin-left: 50px; */
+    margin-bottom: 10px;
 }
 
 .bodyLeftDiv h3 {
