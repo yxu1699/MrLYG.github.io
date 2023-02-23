@@ -69,7 +69,7 @@ function submitSearchForm(event) {
 function search_tickets(keyword, distance, category, latitude, longitude) {
     console.log(latitude, longitude)
     let events = {}
-    axios.get('/search_tickets?', {
+    axios.get('/search_tickets', {
         params: {
             keyword: keyword,
             distance: distance,
@@ -320,7 +320,7 @@ function tableSortByHeadName(tableId, headName) {
 function showEventDetail(eventId) {
     clearShowVenue()
     clearShowDetail()
-    axios.get('/event_detail?', {
+    axios.get('/event_detail', {
         params: {
             eventid: eventId
         }
