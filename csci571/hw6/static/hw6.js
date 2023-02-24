@@ -707,7 +707,7 @@ function generateVenueDetails(venueData) {
                 let bodyright = document.getElementById("inner-venue-detail-body-right")
                 let bodyleftdiv = document.createElement("div")
                 let bodyrightdiv = document.createElement("div")
-                if (venue.address.line1 !== null && typeof venue.address.line1 !== "undefined") {
+                if (checkValid(venue.address) && venue.address.line1 !== null && typeof venue.address.line1 !== "undefined") {
                     let p = document.createElement("p")
                     p.style.display = "inline"
                     p.innerHTML = "<b>Address: </b>" + venue.address.line1
@@ -718,7 +718,7 @@ function generateVenueDetails(venueData) {
                 // Los Angeles,CA
                 let city_state_p = document.createElement("p")
                 city_state_p.style.paddingLeft = "75px"
-                if (checkValid(venue.city.name)) {
+                if (checkValid(venue.city) && checkValid(venue.city.name)) {
                     city_state_p.innerHTML = venue.city.name
                     bodyleftdiv.appendChild(city_state_p)
                 }
