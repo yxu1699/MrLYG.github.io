@@ -228,7 +228,8 @@ function generateResponseTable(events) {
         tdGenre.style.width = "130px"
         let GenreHtmlContent = ""
 
-        if (event.classifications[0].segment.name !== null && typeof event.classifications[0].segment.name !== "undefined" && event.classifications[0].segment.name.length > 0 && event.classifications[0].segment.name.toLowerCase() !== "undefined") {
+
+        if (event.classifications !== null && typeof event.classifications !== "undefined" && event.classifications[0].segment.name !== null && typeof event.classifications[0].segment.name !== "undefined" && event.classifications[0].segment.name.length > 0 && event.classifications[0].segment.name.toLowerCase() !== "undefined") {
             // let classes = event.classifications
             // let clasi 
             // classes.forEach(element => {
@@ -237,7 +238,7 @@ function generateResponseTable(events) {
             //     }
             // });
             // GenreHtmlContent = '<p style="display:inline;">' + clasi + '</p>'
-            
+
             GenreHtmlContent = '<p style="display:inline;">' + event.classifications[0].segment.name + '</p>'
         }
         tdGenre.innerHTML = GenreHtmlContent
@@ -485,7 +486,11 @@ function generateEventDetail(event) {
             let bodyLeftPriceDivEle = document.createElement("div")
             bodyLeftPriceDivEle.className = "bodyLeftDiv"
             let htmlContent = ""
-            htmlContent = '<p style="display:inline;">' + event.priceRanges[0].min + ' - ' + event.priceRanges[0].max + ' USD</p>'
+            htmlContent = '<p style="display:inline;">' + event.priceRanges[0].min + ' - ' + event.priceRanges[0].max + '</p>'
+            if ( event.priceRanges[0].currency !== null && typeof event.priceRanges[0].currency !== "undefined" && event.priceRanges[0].currency !== "Undefined" ){
+                htmlContent = '<p style="display:inline;">' + event.priceRanges[0].min + ' - ' + event.priceRanges[0].max + ' ' + event.priceRanges[0].currency + '</p>'
+            }
+            
             bodyLeftPriceDivEle.innerHTML = '<h3 style="color:#97fff9">Price Ranges</h3>' + htmlContent
             bodyLeftEle.appendChild(bodyLeftPriceDivEle)
         }
@@ -707,10 +712,12 @@ function generateVenueDetails(venueData) {
                 let bodyright = document.getElementById("inner-venue-detail-body-right")
                 let bodyleftdiv = document.createElement("div")
                 let bodyrightdiv = document.createElement("div")
+                let addressline1 = ""
                 if (checkValid(venue.address) && venue.address.line1 !== null && typeof venue.address.line1 !== "undefined") {
                     let p = document.createElement("p")
                     p.style.display = "inline"
                     p.innerHTML = "<b>Address: </b>" + venue.address.line1
+                    addressline1 = venue.address.line1
                     bodyleftdiv.appendChild(p)
                     bodyleft.appendChild(bodyleftdiv)
                 }
@@ -739,7 +746,19 @@ function generateVenueDetails(venueData) {
                 let maplink = document.createElement("div")
                 maplink.style.textAlign = "center"
                 maplink.style.marginTop = "10px"
-                maplink.innerHTML = '<a style="text-decoration: none;color:#357a8a" href="https://www.google.com/maps/search/?api=1&query=' + venue.name + ', ' + venue.address.line1 + ', ' + city_state_p.innerHTML + ', ' + venue.postalCode + '" target="_blank" >Open in Google Maps</a>'
+                searchAddress = venue.name + ', ' + addressline1 + ', ' + city_state_p.innerHTML + ', ' + venue.postalCode
+                let hre = 'https://www.google.com/maps/search/?api=1&query=' + searchAddress
+                // let aaa = hre.replace(/[&"']/g, function (s) {
+                //     switch (s) {
+                //         case "\"":
+                //             return "\\\""
+                //         case "'":
+                //             return "\\'"
+                //         case "&":
+                //             return "&amp;"
+                //     }
+                // })
+                maplink.innerHTML = '<a style="text-decoration: none;color:#357a8a" href="'+hre+'" target="_blank" >Open in Google Maps</a>'
 
                 // if (checkValid(venue.location)) {
                 //     maplink.innerHTML = '<a style="text-decoration: none;color:#357a8a" href="https://www.google.com/maps/search/?api=1&query=' + venue.location.latitude + '%2C' + venue.location.longitude + '" target="_blank" >Open in Google Maps</a>'
