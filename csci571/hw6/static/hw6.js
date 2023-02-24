@@ -238,7 +238,7 @@ function generateResponseTable(events) {
             // });
             // GenreHtmlContent = '<p style="display:inline;">' + clasi + '</p>'
             
-            // GenreHtmlContent = '<p style="display:inline;">' + event.classifications[0].segment.name + '</p>'
+            GenreHtmlContent = '<p style="display:inline;">' + event.classifications[0].segment.name + '</p>'
         }
         tdGenre.innerHTML = GenreHtmlContent
 
@@ -722,9 +722,9 @@ function generateVenueDetails(venueData) {
                     city_state_p.innerHTML = venue.city.name
                     bodyleftdiv.appendChild(city_state_p)
                 }
-                if (checkValid(venue.city.name) && checkValid(venue.state.stateCode)) {
+                if (checkValid(venue.city) && checkValid(venue.state) && checkValid(venue.city.name) && checkValid(venue.state.stateCode)) {
                     city_state_p.innerHTML = city_state_p.innerHTML + ", " + venue.state.stateCode
-                } else if (venue.state.stateCode) {
+                } else if (checkValid(venue.state) && venue.state.stateCode) {
                     city_state_p.innerHTML = city_state_p.innerHTML + venue.state.stateCode
                 }
 
