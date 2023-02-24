@@ -178,7 +178,7 @@ function generateResponseTable(events) {
         let dateHtmlContent = ""
         if (event.dates.start.localDate !== null && typeof event.dates.start.localDate !== "undefined" && event.dates.start.localDate !== "Undefined") {
             dateHtmlContent = '<p style="display:inline;">' + event.dates.start.localDate + '</p>'
-            if (event.dates.start.localTime !== null && typeof event.dates.start.localTime !== "undefined" && event.dates.start.localTime !== "Undefined")  {
+            if (event.dates.start.localTime !== null && typeof event.dates.start.localTime !== "undefined" && event.dates.start.localTime !== "Undefined") {
                 dateHtmlContent = dateHtmlContent + '<br>' + '<p style="display:inline;">' + event.dates.start.localTime + '</p>'
             }
         }
@@ -227,8 +227,18 @@ function generateResponseTable(events) {
         tdGenre.className = "genre"
         tdGenre.style.width = "130px"
         let GenreHtmlContent = ""
-        if (event.classifications[0].segment.name !== null && typeof event.classifications[0].segment.name !== "undefined" && event.classifications[0].segment.name.length > 0 && event.classifications[0].segment.name.toLowerCase() !=="undefined") {
-            GenreHtmlContent = '<p style="display:inline;">' + event.classifications[0].segment.name + '</p>'
+
+        if (event.classifications[0].segment.name !== null && typeof event.classifications[0].segment.name !== "undefined" && event.classifications[0].segment.name.length > 0 && event.classifications[0].segment.name.toLowerCase() !== "undefined") {
+            // let classes = event.classifications
+            // let clasi 
+            // classes.forEach(element => {
+            //     if(element.primary == true){
+            //         clasi = element.segment.name
+            //     }
+            // });
+            // GenreHtmlContent = '<p style="display:inline;">' + clasi + '</p>'
+            
+            // GenreHtmlContent = '<p style="display:inline;">' + event.classifications[0].segment.name + '</p>'
         }
         tdGenre.innerHTML = GenreHtmlContent
 
@@ -581,7 +591,7 @@ function generateEventDetail(event) {
                         top: eventDetailEle.offsetTop + 20,
                         behavior: 'smooth'
                     })
-                    
+
                 })
                 .catch(function (error) {
                     console.log(error)
@@ -599,7 +609,7 @@ function generateEventDetail(event) {
         //     top: eventDetailEle.offsetTop + 20,
         //     behavior: 'smooth'
         // })
-        
+
     }
 
 
@@ -676,6 +686,8 @@ function generateVenueDetails(venueData) {
                         innerVenueDetailLogo.appendChild(VenueImg)
                     }
                 }
+            } else {
+                innerVenueEle.innerHTML = innerVenueEle.innerHTML + '<div style="min-height:20px;"></div>'
             }
 
 
@@ -740,7 +752,7 @@ function generateVenueDetails(venueData) {
 
                 if (checkValid(venue.url)) {
                     bodyrightdiv.innerHTML = '<a style="text-decoration: none;color:#357a8a" href="' + venue.url + '" target="_blank" >More events at this venue</a>'
-                }else{
+                } else {
                     bodyrightdiv.innerHTML = '<a style="text-decoration: none;color:gray" >More events at this venue</a>'
                 }
                 bodyright.appendChild(bodyrightdiv)
@@ -759,7 +771,7 @@ function generateVenueDetails(venueData) {
 }
 
 function checkValid(x) {
-    if (x !== null && typeof x !== "undefined" &&  x !== "Undefined") {
+    if (x !== null && typeof x !== "undefined" && x !== "Undefined") {
         return true
     }
     return false

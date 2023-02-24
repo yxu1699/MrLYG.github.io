@@ -41,10 +41,11 @@ def search_tickets():
     longitude = data.get('longitude')
     url = "https://app.ticketmaster.com/discovery/v2/events?apikey="+TicketsMasterAPIKey
     url += "&keyword=" + keyword
-    url += "&radius=" + str(distance) + "&unit=miles&locale=*"
+    url += "&radius=" + str(distance) + "&unit=miles"
     if category != "all":
         url += "&segmentId=" + SegmentId[category]
     url += "&geoPoint=" + geohash.encode(latitude, longitude, 7)
+    print(url)
     response = requests.get(url)
     eventsJson = response.json()
     return eventsJson
