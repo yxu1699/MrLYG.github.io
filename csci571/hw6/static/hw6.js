@@ -487,10 +487,10 @@ function generateEventDetail(event) {
             bodyLeftPriceDivEle.className = "bodyLeftDiv"
             let htmlContent = ""
             htmlContent = '<p style="display:inline;">' + event.priceRanges[0].min + ' - ' + event.priceRanges[0].max + '</p>'
-            if ( event.priceRanges[0].currency !== null && typeof event.priceRanges[0].currency !== "undefined" && event.priceRanges[0].currency !== "Undefined" ){
+            if (event.priceRanges[0].currency !== null && typeof event.priceRanges[0].currency !== "undefined" && event.priceRanges[0].currency !== "Undefined") {
                 htmlContent = '<p style="display:inline;">' + event.priceRanges[0].min + ' - ' + event.priceRanges[0].max + ' ' + event.priceRanges[0].currency + '</p>'
             }
-            
+
             bodyLeftPriceDivEle.innerHTML = '<h3 style="color:#97fff9">Price Ranges</h3>' + htmlContent
             bodyLeftEle.appendChild(bodyLeftPriceDivEle)
         }
@@ -747,18 +747,18 @@ function generateVenueDetails(venueData) {
                 maplink.style.textAlign = "center"
                 maplink.style.marginTop = "10px"
                 searchAddress = venue.name + ', ' + addressline1 + ', ' + city_state_p.innerHTML + ', ' + venue.postalCode
-                let hre = 'https://www.google.com/maps/search/?api=1&query=' + searchAddress
-                // let aaa = hre.replace(/[&"']/g, function (s) {
-                //     switch (s) {
-                //         case "\"":
-                //             return "\\\""
-                //         case "'":
-                //             return "\\'"
-                //         case "&":
-                //             return "&amp;"
-                //     }
-                // })
-                maplink.innerHTML = '<a style="text-decoration: none;color:#357a8a" href="'+hre+'" target="_blank" >Open in Google Maps</a>'
+                let hre = searchAddress
+                hre = hre.replace(/[&"']/g, function (s) {
+                    switch (s) {
+                        case "\"":
+                            return "\\\""
+                        case "'":
+                            return "\\'"
+                        case "&":
+                            return " "
+                    }
+                })
+                maplink.innerHTML = '<a style="text-decoration: none;color:#357a8a" href="https://www.google.com/maps/search/?api=1&query=' + hre + '" target="_blank" >Open in Google Maps</a>'
 
                 // if (checkValid(venue.location)) {
                 //     maplink.innerHTML = '<a style="text-decoration: none;color:#357a8a" href="https://www.google.com/maps/search/?api=1&query=' + venue.location.latitude + '%2C' + venue.location.longitude + '" target="_blank" >Open in Google Maps</a>'
