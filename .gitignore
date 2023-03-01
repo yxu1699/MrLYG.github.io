@@ -1,3 +1,5 @@
 .vscode
 /csci571/hw6/venv
 /csci571/hw6/__pycache__
+*node_modules
+/csci571/hw8/backend/node_modules
