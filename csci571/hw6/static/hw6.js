@@ -431,7 +431,8 @@ function generateEventDetail(event) {
         bodyLeftEle.appendChild(bodyLeftVenueDivEle)
     }
     // Genre event.classifications[0].subGenre genre segment  subType type
-    if (event.classifications[0] !== null && typeof event.classifications[0] !== "undefined") {
+
+    if (event.classifications !== null && typeof event.classifications !== "undefined" && event.classifications[0] !== null && typeof event.classifications[0] !== "undefined") {
         showFlag = true
         let bodyLeftGenreDivEle = document.createElement("div")
         bodyLeftGenreDivEle.className = "bodyLeftDiv"
@@ -748,16 +749,8 @@ function generateVenueDetails(venueData) {
                 maplink.style.marginTop = "10px"
                 searchAddress = venue.name + ', ' + addressline1 + ', ' + city_state_p.innerHTML + ', ' + venue.postalCode
                 let hre = searchAddress
-                hre = hre.replace(/[&"']/g, function (s) {
-                    switch (s) {
-                        case "\"":
-                            return "\\\""
-                        case "'":
-                            return "\\'"
-                        case "&":
-                            return " "
-                    }
-                })
+
+                hre = encodeURIComponent(hre)
                 maplink.innerHTML = '<a style="text-decoration: none;color:#357a8a" href="https://www.google.com/maps/search/?api=1&query=' + hre + '" target="_blank" >Open in Google Maps</a>'
 
                 // if (checkValid(venue.location)) {
