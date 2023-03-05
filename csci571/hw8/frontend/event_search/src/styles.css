@@ -1,1 +1,20 @@
 /* You can add global styles to this file, and also import other style files */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-image: url("/assets/background.jpg");
+  background-attachment: fixed;
+  background-size: 100% 100%;
+  background-position: center;
+
+}
+
+@media (max-width: 767px) {
+  body {
+    background-size: auto 100%;
+    background-position: center top;
+  }
+}
