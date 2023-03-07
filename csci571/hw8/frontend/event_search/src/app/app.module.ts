@@ -6,7 +6,6 @@ import { AppComponent } from './app.component';
 import { SearchformComponent } from './searchform/searchform.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms'; // <-- NgModel lives here
-
 @NgModule({
   declarations: [
     AppComponent,

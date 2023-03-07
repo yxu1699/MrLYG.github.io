@@ -1,40 +1,51 @@
-<div class="row mx-auto col-11">
-  <div id="search" class="mx-auto col-12 col-md-12 col-lg-4 ml-2 mr-2">
-    <div id="search-header">
+<!-- <div id="search" class="container col-11 col-lg-6">
+  <div id="search-header" class="row mt-3">
+    <p>Events Search</p>
+  </div>
+</div> -->
+
+
+
+
+<div class="container-fluid">
+  <div id="search" class="row mx-auto col-12 col-md-10 col-lg-5 ml-2 mr-2">
+    <div id="search-header" class="mt-3">
       <p>Events Search</p>
     </div>
 
     <!-- Form -->
-    <form method="get" #myForm="ngForm" ngNativeValidate>
+    <form #myForm="ngForm" ngNativeValidate (ngSubmit)="submitForSearch(myForm)">
       <div id="search-form">
         <hr>
 
         <div id="search-form-keyword" class="form-group col-12 mt-3 required">
           <label for="keyword" class="form-label search-form-label">Keyword</label><span style="color:red;">*</span>
           <br />
-          <input type="text" id="keyword" name="keyword" [(ngModel)]="keyword" class="form-control  mx-auto" required>
+          <input type="text" id="keyword" name="keyword" [(ngModel)]="keyword" class="form-control  mx-auto mt-1"
+            required>
         </div>
 
 
-        <div id="search-form-distance" class="form-group col-12 col-md-12 col-lg-5 mt-3">
+        <div id="search-form-distance" class="form-group col-12 col-md-5 col-lg-5 mt-3 d-inline-block">
           <label for="distance" class="form-label search-form-label">Distance (miles)</label>
-          <input type="number" class="form-control" id="distance" name="distance" [(ngModel)]="distance"
+          <input type="number" class="form-control mt-1" id="distance" name="distance" [(ngModel)]="distance"
             placeholder="10" min="0" max="19999">
         </div>
 
-        <div id="search-form-category" class="form-group col-5 mt-3 required">
+        <div id="search-form-category" class="form-group col-4 mt-3 d-inline-block mx-lg-5 mx-md-5 required">
           <label for="category" class="search-form-label form-label">Category</label><span style="color:red;">*</span>
           <br />
-          <select id="category" name="category" [(ngModel)]="category" class="form-select" required>
+          <select id="category" name="category" [(ngModel)]="category"
+            class="form-select mt-1 d-inline-block ml-2 required">
             <option *ngFor="let c of availableCategory" [value]="c">
               {{c}}
           </select>
         </div>
 
-        <div id="search-form-location" class="form-group col-12 col-sm-12 col-md-12 col-lg-12 mt-3 required">
+        <div id="search-form-location" class="form-group col-12 mt-3 required">
           <label for="location" class="search-form-label form-label">Location</label><span style="color:red;">*</span>
-          <input type="text" id="location" name="location" [(ngModel)]="location" class="form-control" required>
-          <div class="mt-3">
+          <input type="text" id="location" name="location" [(ngModel)]="location" class="form-control mt-1" required>
+          <div class="mt-4">
             <input id="autoFindLocationCheckBox" class="form-check-input" type="checkbox" value="">
             <span class="d-inline-block" style="margin-left: 10px;color: #7c9ba5;">Auto-Detect
               Location</span>
@@ -44,10 +55,10 @@
 
 
 
-      <div class="mt-3 text-center form-group ">
-        <button type="submit" id="searchButton" class="btn btn-danger d-inline-block col-4 col-sm-4 col-md-2"
+      <div class="mt-3 text-center ">
+        <button type="submit" id="searchButton" class="btn btn-danger d-inline-block col-4 col-sm-4 col-md-2 btn-sm"
           style="font-size:1rem;">SUBMIT</button>
-        <button id="clearButton" type="button" class="btn btn-primary d-inline-block col-4 col-sm-4 col-md-2"
+        <button id="clearButton" type="button" class="btn btn-primary d-inline-block col-4 col-sm-4 col-md-2 btn-sm"
           style="font-size:1rem;margin-left: 20px;" (click)="onClick()">CLEAR
         </button>
       </div>

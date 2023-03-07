@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-
+import axios from 'axios';
+import { NgForm } from '@angular/forms';
 @Component({
   selector: 'app-searchform',
   templateUrl: './searchform.component.html',
@@ -23,11 +24,28 @@ export class SearchformComponent {
   onClick(): void {
     console.log(this.keyword)
   }
-  constructor() {
-    //Old Code
-   // this.title = this.titles[0]name;
 
-  //New Code
-  this.category = this.availableCategory[0];
+  constructor() {
+    this.category = this.availableCategory[0];
   }
+
+  submitForSearch(form: NgForm) {
+    
+    // event.preventDefault()
+    axios.get('/api/data', {
+      params: {
+        keyword: this.keyword,
+        distance: this.distance,
+        category: this.category,
+        location: this.location,
+      }
+    })
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
 }
