@@ -18,6 +18,8 @@
       <div id="search-form">
         <hr>
 
+
+
         <div id="search-form-keyword" class="form-group col-12 mt-3 required">
           <label for="keyword" class="form-label search-form-label">Keyword</label><span style="color:red;">*</span>
           <br />
@@ -44,9 +46,9 @@
 
         <div id="search-form-location" class="form-group col-12 mt-3 required">
           <label for="location" class="search-form-label form-label">Location</label><span style="color:red;">*</span>
-          <input type="text" id="location" name="location" [(ngModel)]="location" class="form-control mt-1" required>
+          <input type="text" id="location" name="location" [(ngModel)]="location" class="form-control mt-1" [disabled]="isAutoFindLocation" required>
           <div class="mt-4">
-            <input id="autoFindLocationCheckBox" class="form-check-input" type="checkbox" value="">
+            <input id="autoFindLocationCheckBox" class="form-check-input" type="checkbox" value="" [checked]="isAutoFindLocation" (change)="locationCheckBoxChange()" >
             <span class="d-inline-block" style="margin-left: 10px;color: #7c9ba5;">Auto-Detect
               Location</span>
           </div>

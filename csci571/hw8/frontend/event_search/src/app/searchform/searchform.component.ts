@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import axios from 'axios';
 import { NgForm } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-searchform',
   templateUrl: './searchform.component.html',
@@ -12,7 +13,6 @@ export class SearchformComponent {
   distance: string = "";
   category: string = "";
   location: string = "";
-
   public availableCategory: any = [
     "Default",
     "Music",
@@ -21,13 +21,37 @@ export class SearchformComponent {
     "Film",
     "Miscellaneous"
   ]
+
+  isAutoFindLocation: boolean = false;
+
+  constructor(private route: ActivatedRoute) {
+    this.category = this.availableCategory[0];
+  }
+
+
   onClick(): void {
     console.log(this.keyword)
   }
 
-  constructor() {
-    this.category = this.availableCategory[0];
+  
+
+  // control loction input text
+  locationCheckBoxChange(){
+    console.log(this.isAutoFindLocation)
+    this.isAutoFindLocation = !this.isAutoFindLocation
   }
+
+
+
+
+
+
+
+
+
+
+
+
 
   submitForSearch(form: NgForm) {
     
