@@ -5,8 +5,6 @@ import { FormControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { debounceTime, tap, switchMap, finalize, distinctUntilChanged, filter } from 'rxjs/operators';
 
-const API_KEY = "e8067b53"
-
 @Component({
   selector: 'app-autocom',
   templateUrl: './autocom.component.html',
@@ -14,33 +12,35 @@ const API_KEY = "e8067b53"
 })
 export class AutocomComponent implements OnInit {
 
-  searchMoviesCtrl = new FormControl();
-  filteredMovies: any;
+  suggestCtrl = new FormControl();
+  filteredSuggestes: any;
   isLoading = false;
   errorMsg!: string;
   minLengthTerm = 3;
-  selectedMovie: any = "";
+  keyword: any = "";
 
   constructor(
     private http: HttpClient
   ) { }
 
   onSelected() {
-    console.log(this.selectedMovie);
-    this.selectedMovie = this.selectedMovie;
+    console.log("selected")
+    console.log(this.keyword);
+    this.keyword = this.keyword;
   }
 
   displayWith(value: any) {
-    return value?.Title;
+    return value?.name;
   }
 
   clearSelection() {
-    this.selectedMovie = "";
-    this.filteredMovies = [];
+    console.log("clear")
+    this.keyword = "";
+    this.filteredSuggestes = [];
   }
 
   ngOnInit() {
-    this.searchMoviesCtrl.valueChanges
+    this.suggestCtrl.valueChanges
       .pipe(
         filter(res => {
           return res !== null && res.length >= this.minLengthTerm
@@ -49,10 +49,10 @@ export class AutocomComponent implements OnInit {
         debounceTime(1000),
         tap(() => {
           this.errorMsg = "";
-          this.filteredMovies = [];
+          this.filteredSuggestes = [];
           this.isLoading = true;
         }),
-        switchMap(value => this.http.get('http://www.omdbapi.com/?apikey=' + API_KEY + '&s=' + value)
+        switchMap(value => this.http.get('https://nodejs-379321.uw.r.appspot.com/suggest?keyword=' + value)
           .pipe(
             finalize(() => {
               this.isLoading = false
@@ -61,14 +61,15 @@ export class AutocomComponent implements OnInit {
         )
       )
       .subscribe((data: any) => {
-        if (data['Search'] == undefined) {
-          this.errorMsg = data['Error'];
-          this.filteredMovies = [];
+        if (data['suggest'] == undefined) {
+          this.errorMsg = data['error'];
+          this.filteredSuggestes = [];
         } else {
           this.errorMsg = "";
-          this.filteredMovies = data['Search'];
+          this.filteredSuggestes = data['suggest'];
         }
-        console.log(this.filteredMovies);
+        console.log("get all suggestes")
+        console.log(this.filteredSuggestes);
       });
   }
 }

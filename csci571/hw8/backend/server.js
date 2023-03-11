@@ -1,12 +1,12 @@
 const express = require('express')
 const app = express()
 const axios = require('axios')
-const cors = require('cors');
+const cors = require('cors')
 
 
 app.use(cors({
     origin: '*'
-}));
+}))
 
 TicketsMasterAPIKey = "Hi7gKkDkYdLmz9jNZOnvWveX8zfDYYSI"
 
@@ -39,13 +39,21 @@ app.get('/suggest', function (req, res) {
         }
         attractions.forEach(attraction => {
             if (checkValue(attraction.name)) {
-                suggestArray.push(attraction.name)
+                let el = {
+                    name: attraction.name
+                }
+                suggestArray.push(el)
             }
-
         })
-        res.send(attractions)
+        res.send({
+            "suggest": suggestArray
+        })
     }).catch(err => {
-        res.send(err)
+        console.log(err)
+        res.send(
+            {
+            "error": err.toString()
+        })
     })
 })
 

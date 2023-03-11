@@ -1,19 +1,16 @@
 <div class="wrapper">
-  <h2>
-    IMDB - Movie Search - FreakyJolly.com
-  </h2>
   <mat-form-field class="example-full-width">
-    <input matInput placeholder="Search Movie" [(ngModel)]="selectedMovie" [matAutocomplete]="auto"
-      [formControl]="searchMoviesCtrl" placeholder="Min 3 Characters Ex. Ant">
-    <button *ngIf="selectedMovie" matSuffix mat-icon-button aria-label="Clear" (click)="clearSelection()">
+    <input matInput placeholder="Search Movie" [(ngModel)]="keyword" [matAutocomplete]="auto"
+      [formControl]="suggestCtrl" >
+    <!-- <button *ngIf="keyword" matSuffix mat-icon-button aria-label="Clear" (click)="clearSelection()">
       <mat-icon>close</mat-icon>
-    </button>
+    </button> -->
     <mat-autocomplete [panelWidth]="400" #auto="matAutocomplete" (optionSelected)="onSelected()"
       [displayWith]="displayWith">
       <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
       <ng-container *ngIf="!isLoading">
-        <mat-option *ngFor="let movie of filteredMovies" [value]="movie">
-          <span><b>{{movie.Title}}</b> ({{movie.Year}})</span>
+        <mat-option *ngFor="let suggest of filteredSuggestes" [value]="suggest">
+          <span>{{suggest.name}}</span>
         </mat-option>
       </ng-container>
     </mat-autocomplete>
@@ -21,7 +18,7 @@
 
   <br>
 
-  <ng-container *ngIf="errorMsg; else elseTemplate">
+  <!-- <ng-container *ngIf="errorMsg; else elseTemplate">
     {{errorMsg}}
   </ng-container>
   <ng-template #elseTemplate>
@@ -36,6 +33,6 @@
         </ul>
       </div>
     </div>
-  </ng-template>
+  </ng-template> -->
 
 </div>
