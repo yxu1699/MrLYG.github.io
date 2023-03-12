@@ -6,13 +6,14 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { debounceTime, tap, switchMap, finalize, distinctUntilChanged, filter } from 'rxjs/operators';
-
+import { Observable } from 'rxjs';
+import { GeocodingService } from '../geocoding.service';
 @Component({
   selector: 'app-searchform',
   templateUrl: './searchform.component.html',
   styleUrls: ['./searchform.component.css']
 })
-export class SearchformComponent implements OnInit{
+export class SearchformComponent implements OnInit {
 
   keyword: string = "";
   distance: string = "";
@@ -29,57 +30,69 @@ export class SearchformComponent implements OnInit{
 
   isAutoFindLocation: boolean = false;
 
-  constructor(private route: ActivatedRoute,private http: HttpClient) {
+  constructor(private route: ActivatedRoute, private http: HttpClient, private geocodingService: GeocodingService) {
     this.category = this.availableCategory[0];
   }
 
 
-  onClick(): void {
-    console.log(this.keyword)
-  }
 
-  
+
+
 
   // control loction input text
-  locationCheckBoxChange(){
+  locationCheckBoxChange() {
     console.log(this.isAutoFindLocation)
     this.isAutoFindLocation = !this.isAutoFindLocation
+    this.location = ""
   }
 
 
 
 
 
-
-
-
-
-
-
-
-
-  submitForSearch(form: NgForm) {
+  submitForSearch(lat: string, lng: string) {
+    // get lat and long
+    console.log(lat)
+    console.log(lng)
     
-    // event.preventDefault()
-    axios.get('/api/data', {
-      params: {
-        keyword: this.keyword,
-        distance: this.distance,
-        category: this.category,
-        location: this.location,
-      }
-    })
-      .then(response => {
-        console.log(response.data);
+    
+
+  }
+
+  submitForm(){
+    if (!this.isAutoFindLocation) {
+      this.geocodingService.getLatLng(this.location).subscribe(data => {
+        this.submitForSearch(data.lat,data.lng)
       })
-      .catch(error => {
-        console.log(error);
-      });
+    } else {
+      this.geocodingService.getLatLngAuto().subscribe(data => {
+        let loc = data.loc
+        this.submitForSearch(loc.substring(0, loc.indexOf(',')),loc.substring(loc.indexOf(',') + 1))
+      }
+      )
+    }
   }
 
 
 
 
+
+
+  clear(): void {
+    this.keyword = "";
+    this.distance = "";
+    this.category = this.availableCategory[0];
+    this.location = "";
+  }
+
+
+
+
+
+
+
+
+  /** auto complete */
   suggestCtrl = new FormControl();
   filteredSuggestes: any;
   isLoading = false;
