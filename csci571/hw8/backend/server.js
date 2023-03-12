@@ -8,7 +8,8 @@ app.use(cors({
     origin: '*'
 }))
 
-TicketsMasterAPIKey = "Hi7gKkDkYdLmz9jNZOnvWveX8zfDYYSI"
+const TicketsMasterAPIKey = "Hi7gKkDkYdLmz9jNZOnvWveX8zfDYYSI"
+const GOOGLE_GEO_API_KEY = "AIzaSyDG0whBGCp_yx4zRwaIYyOFoVUHdhy9K-k"
 
 app.get('/', function (req, res) {
     res.send('Hello, World!')
@@ -52,11 +53,39 @@ app.get('/suggest', function (req, res) {
         console.log(err)
         res.send(
             {
-            "error": err.toString()
-        })
+                "error": err.toString()
+            })
     })
 })
 
+app.get('/latlong', function (req, res) {
+    let location = req.query.location
+    axios.get('https://maps.googleapis.com/maps/api/geocode/json?', {
+        params: {
+            address: location,
+            key: GOOGLE_GEO_API_KEY
+        }
+    })
+        .then(function (response) {
+            // response.data.page.number==0 没数据
+            // console.log(response)
+            x = response.data.results[0].geometry.location.lat
+            y = response.data.results[0].geometry.location.lng
+            res.send(
+                {
+                    'lat': x,
+                    'lng': y,
+                    'original': response.data
+                },
+            )
+        })
+        .catch(function (error) {
+            res.send(
+                {
+                    "error": error.toString()
+                })
+        })
+})
 
 app.listen(8080, function () {
     console.log('Server is running on port 8080')
