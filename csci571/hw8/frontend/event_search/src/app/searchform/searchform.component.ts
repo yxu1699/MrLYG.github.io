@@ -8,6 +8,8 @@ import { HttpClient } from '@angular/common/http';
 import { debounceTime, tap, switchMap, finalize, distinctUntilChanged, filter } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { GeocodingService } from '../geocoding.service';
+import { TicketmarketapiService } from '../ticketmarketapi.service'
+import { SearchResultMessageService } from '../search-result-message.service';
 @Component({
   selector: 'app-searchform',
   templateUrl: './searchform.component.html',
@@ -16,7 +18,7 @@ import { GeocodingService } from '../geocoding.service';
 export class SearchformComponent implements OnInit {
 
   keyword: string = "";
-  distance: string = "";
+  distance: number = 10;
   category: string = "";
   location: string = "";
   public availableCategory: any = [
@@ -30,7 +32,9 @@ export class SearchformComponent implements OnInit {
 
   isAutoFindLocation: boolean = false;
 
-  constructor(private route: ActivatedRoute, private http: HttpClient, private geocodingService: GeocodingService) {
+  constructor(private route: ActivatedRoute, private http: HttpClient,
+    private geocodingService: GeocodingService, private ticketmarketapiService: TicketmarketapiService,
+    private searchResultMessageService: SearchResultMessageService) {
     this.category = this.availableCategory[0];
   }
 
@@ -54,20 +58,36 @@ export class SearchformComponent implements OnInit {
     // get lat and long
     console.log(lat)
     console.log(lng)
-    
-    
+
+    console.log(this.keyword, this.distance, this.category, lat, lng)
+    this.ticketmarketapiService.getTickects(this.keyword, this.distance, this.category, lat, lng).subscribe(data => {
+      console.log(data)
+      this.searchResultMessageService.serachResult = data
+    })
+
+
 
   }
 
-  submitForm(){
+  submitForm() {
     if (!this.isAutoFindLocation) {
       this.geocodingService.getLatLng(this.location).subscribe(data => {
-        this.submitForSearch(data.lat,data.lng)
+
+        if (data.error !== null) {
+          this.geocodingService.getLatLngAuto().subscribe(data => {
+            let loc = data.loc
+            this.submitForSearch(loc.substring(0, loc.indexOf(',')), loc.substring(loc.indexOf(',') + 1))
+          }
+          )
+        } else {
+          this.submitForSearch(data.lat, data.lng)
+        }
+
       })
     } else {
       this.geocodingService.getLatLngAuto().subscribe(data => {
         let loc = data.loc
-        this.submitForSearch(loc.substring(0, loc.indexOf(',')),loc.substring(loc.indexOf(',') + 1))
+        this.submitForSearch(loc.substring(0, loc.indexOf(',')), loc.substring(loc.indexOf(',') + 1))
       }
       )
     }
@@ -80,9 +100,10 @@ export class SearchformComponent implements OnInit {
 
   clear(): void {
     this.keyword = "";
-    this.distance = "";
+    this.distance = 10;
     this.category = this.availableCategory[0];
     this.location = "";
+    this.searchResultMessageService.serachResult = null;
   }
 
 

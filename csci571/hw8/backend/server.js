@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 const axios = require('axios')
 const cors = require('cors')
-
+const geohash = require('ngeohash');
 
 app.use(cors({
     origin: '*'
@@ -86,6 +86,44 @@ app.get('/latlong', function (req, res) {
                 })
         })
 })
+
+
+const SegmentId = {
+    "Music": "KZFzniwnSyZfZ7v7nJ",
+    "Sports": "KZFzniwnSyZfZ7v7nE",
+    "Arts & Theatre": "KZFzniwnSyZfZ7v7na",
+    "theatre" : "KZFzniwnSyZfZ7v7na",
+    "Film": "KZFzniwnSyZfZ7v7nn",
+    "Miscellaneous": "KZFzniwnSyZfZ7v7n1"
+
+}
+app.get('/tickets', function (req, res) {
+    let keyword = req.query.keyword
+    let distance = req.query.distance
+    let category = req.query.category
+    let latitude = req.query.latitude
+    let longitude = req.query.longitude
+    let url = "https://app.ticketmaster.com/discovery/v2/events?apikey="+TicketsMasterAPIKey
+    url += "&keyword=" + keyword
+    url += "&radius=" + distance.toString() + "&unit=miles"
+    if (category != "Default"){
+        url += "&segmentId=" + SegmentId[category]
+    }
+    url += "&geoPoint=" + geohash.encode(latitude, longitude, 7)
+    console.log(url)
+    axios.get(url).then(response => {
+        let data = response.data
+        res.send(data)
+    }).catch(err => {
+        console.log(err)
+        res.send(
+            {
+                "error": err.toString()
+            })
+    })
+
+})
+
 
 app.listen(8080, function () {
     console.log('Server is running on port 8080')

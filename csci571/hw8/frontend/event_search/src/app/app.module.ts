@@ -17,12 +17,14 @@ import { MatButtonModule } from '@angular/material/button';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { SearchResultComponent } from './search-result/search-result.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SearchformComponent,
-    AutocomComponent
+    AutocomComponent,
+    SearchResultComponent
   ],
   imports: [
     HttpClientModule,
