@@ -4,8 +4,10 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class SearchResultMessageService {
-
   serachResult:any
+  serachResultisShow:any
   constructor() { }
+
+  detailCardisShow:any
 
 }

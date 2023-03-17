@@ -145,6 +145,7 @@ export class SearchformComponent implements OnInit {
       }
 
       let ele = {
+        'id':event.id,
         'date': date,
         'time': time,
         'icon': icon,
@@ -173,6 +174,7 @@ export class SearchformComponent implements OnInit {
       console.log(data)
       //把数据封装到event{}-->把数据传输给service
       this.searchResultMessageService.serachResult = this.convertDataToEvents(data)
+      this.searchResultMessageService.serachResultisShow = true
       console.log( this.searchResultMessageService.serachResult)
     })
 

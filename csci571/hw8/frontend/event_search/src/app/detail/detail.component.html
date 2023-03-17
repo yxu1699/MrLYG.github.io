@@ -1,7 +1,7 @@
-<div  class="container-fluid mt-3" >
+<div  class="container-fluid mt-3" *ngIf="this.searchResultMessageService.detailCardisShow">
     <div id="details-div"  class="mx-auto col-12 col-md-10 col-lg-6 mt-5 ">
         <div id="details-eventname-div" style="min-height: 100px;">
-            asdasd
+            <a>back</a>
         </div>
         <div >
             <mat-tab-group mat-align-tabs="center" backgroundColor="primary"  >
@@ -42,7 +42,9 @@
               
               </mat-tab-group>
         </div>
-        
+    </div>
+    <div style="height: 30px;">
+
     </div>
 </div>
 

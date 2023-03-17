@@ -7,7 +7,6 @@ import { Observable } from 'rxjs';
 export class TicketmarketapiService {
   constructor(private http: HttpClient) { }
 
-
   getTickects(keyword: string, distance: number, category: string, lat: string, lng: string): Observable<any> {
     let url = "https://nodejs-379321.uw.r.appspot.com/tickets?" +
       'keyword=' + keyword + '&distance=' + distance + '&category=' + category + "&latitude=" + lat +

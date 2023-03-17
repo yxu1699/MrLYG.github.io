@@ -2,44 +2,49 @@
     <p>search-result works!</p>
 </div> -->
 
-<div class="container-fluid mt-3 text-center align-middle" *ngIf="this.searchResultMessageService.serachResult">
-  <div id="resultFalse" style="background-color: white;" *ngIf="!this.searchResultMessageService.serachResult.iscontainData" class="row mx-auto col-12 col-md-10 col-lg-5 ml-2 mr-2 rounded">
+<div class="container-fluid mt-3 text-center align-middle"
+  *ngIf="this.searchResultMessageService.serachResult && this.searchResultMessageService.serachResultisShow">
+  <div id="resultFalse" style="background-color: white;"
+    *ngIf="!this.searchResultMessageService.serachResult.iscontainData"
+    class="row mx-auto col-12 col-md-10 col-lg-5 ml-2 mr-2 rounded">
     <b>no data</b>
   </div>
   <!-- *ngIf="this.searchResultMessageService.serachResult.iscontainData" -->
-  <div id="result"  *ngIf="this.searchResultMessageService.serachResult.iscontainData" class="row mx-auto col-12 col-md-10 col-lg-6 ml-2 mr-2 mt-5 table-responsive rounded">
-    <table class="table table-striped table-dark" >
-        <thead>
-          <tr>
-            <th class="col-2">Date/Time</th>
-            <th class="col-2">Icon</th>
-            <th class="col-4">Event</th>
-            <th class="col-1">Genre</th>
-            <th class="col-3" >Venue</th>
-          </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let event of this.searchResultMessageService.serachResult.data">
-                <td>
-                    <span *ngIf="event.date">{{ event.date }}</span><br>
-                    <span *ngIf="event.time">{{ event.time }}</span>
-                </td>
-             
-                <td>
-                   <img  style="width: 70px;height: 70px;" *ngIf="event.icon" src={{event.icon}} alt="icon">
-                </td>
-                <td>
-                    <span *ngIf="event.eventname">{{ event.eventname }}</span>
-                </td>
+  <div id="result" *ngIf="this.searchResultMessageService.serachResult.iscontainData"
+    class="row mx-auto col-12 col-md-10 col-lg-6 ml-2 mr-2 mt-5 table-responsive rounded">
+    <table class="table table-striped table-dark">
+      <thead>
+        <tr>
+          <th class="col-2">Date/Time</th>
+          <th class="col-2">Icon</th>
+          <th class="col-4">Event</th>
+          <th class="col-1">Genre</th>
+          <th class="col-3">Venue</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style=" cursor: pointer;" *ngFor="let event of this.searchResultMessageService.serachResult.data"
+          (click)="getDetail(event.id)">
+          <td>
+            <span *ngIf="event.date">{{ event.date }}</span><br>
+            <span *ngIf="event.time">{{ event.time }}</span>
+          </td>
 
-                <td>
-                    <span *ngIf="event.genre">{{ event.genre }}</span>
-                </td>
-                <td>
-                    <span *ngIf="event.venue">{{ event.venue }}</span>
-                </td>
-            </tr>
-          </tbody>
-      </table>
+          <td>
+            <img style="width: 70px;height: 70px;" *ngIf="event.icon" src={{event.icon}} alt="icon">
+          </td>
+          <td>
+            <span *ngIf="event.eventname">{{ event.eventname }}</span>
+          </td>
+
+          <td>
+            <span *ngIf="event.genre">{{ event.genre }}</span>
+          </td>
+          <td>
+            <span *ngIf="event.venue">{{ event.venue }}</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>
