@@ -3,11 +3,11 @@
 </div> -->
 
 <div class="container-fluid mt-3 text-center align-middle" *ngIf="this.searchResultMessageService.serachResult">
-  <div id="resultFalse" *ngIf="!this.searchResultMessageService.serachResult.iscontainData" class="row mx-auto col-12 col-md-10 col-lg-5 ml-2 mr-2">
-    <p>no data</p>
+  <div id="resultFalse" style="background-color: white;" *ngIf="!this.searchResultMessageService.serachResult.iscontainData" class="row mx-auto col-12 col-md-10 col-lg-5 ml-2 mr-2 rounded">
+    <b>no data</b>
   </div>
   <!-- *ngIf="this.searchResultMessageService.serachResult.iscontainData" -->
-  <div id="result"  class="row mx-auto col-12 col-md-10 col-lg-6 ml-2 mr-2 mt-5 table-responsive rounded">
+  <div id="result"  *ngIf="this.searchResultMessageService.serachResult.iscontainData" class="row mx-auto col-12 col-md-10 col-lg-6 ml-2 mr-2 mt-5 table-responsive rounded">
     <table class="table table-striped table-dark" >
         <thead>
           <tr>

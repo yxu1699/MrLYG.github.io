@@ -19,13 +19,15 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { SearchResultComponent } from './search-result/search-result.component';
+import { DetailComponent } from './detail/detail.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SearchformComponent,
     AutocomComponent,
-    SearchResultComponent
+    SearchResultComponent,
+    DetailComponent
   ],
   imports: [
     HttpClientModule,
