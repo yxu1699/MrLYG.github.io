@@ -51,8 +51,117 @@ export class SearchformComponent implements OnInit {
   }
 
 
+  convertDataToEvents(data: any) {
+    let res = {
+      'iscontainData': false,
+      'data': []
+    }
+
+    if (data.page.totalElements <= 0) {
+      return res
+    }
 
 
+    let events = data._embedded.events.sort((a: any, b: any) => {
+      let ad = new Date(a.dates.start.localDate)
+      let at = ad.getTime()
+      let bd = new Date(b.dates.start.localDate)
+      let bt = bd.getTime()
+      return at - bt
+    })
+
+    // type ev = {
+    //   date: string;
+    //   time: string;
+    //   icon: string;
+    //   eventname: string;
+    //   genre: string;
+    //   venue: string;
+    // }
+    let evens :any[] = []
+    // for (let i = 0; i < events.length; i++) {
+    //   let event = events[i];
+    //   let date = null
+    //   let time = null
+    //   let icon = null
+    //   let eventname = null
+    //   let genre = null
+    //   let venue = null
+    //   if (this.checkvalue(event.dates.start.localDate)) {
+    //     date = event.dates.start.localDate
+    //   }
+    //   if (this.checkvalue(event.dates.start.localTime)) {
+    //     time = event.dates.start.localTime
+    //   }
+    //   if (this.checkvalue(event.images)) {
+    //     icon = event.images
+    //   }
+    //   if (this.checkvalue(event.name)) {
+    //     eventname = event.name
+    //   }
+    //   if (this.checkvalue(event.classifications) && this.checkvalue(event.classifications[0].segment.name)) {
+    //     genre = event.classifications[0].segment.name
+    //   }
+    //   if (this.checkvalue(event._embedded.venues) && this.checkvalue(event._embedded.venues[0].name)) {
+    //     venue = event._embedded.venues[0].name
+    //   }
+
+    //   let ele = {
+    //     'date': date,
+    //     'time': time,
+    //     'icon': icon,
+    //     'eventname': eventname,
+    //     'genre': genre,
+    //     'venue': venue
+    //   }
+    //   evens[i] 
+      
+
+    // }
+    events.forEach((event: any) => {
+      let date = null
+      let time = null
+      let icon = null
+      let eventname = null
+      let genre = null
+      let venue = null
+      if (this.checkvalue(event.dates.start.localDate)) {
+        date = event.dates.start.localDate
+      }
+      if (this.checkvalue(event.dates.start.localTime)) {
+        time = event.dates.start.localTime
+      }
+      if (this.checkvalue(event.images)) {
+        icon = event.images[0].url
+      }
+      if (this.checkvalue(event.name)) {
+        eventname = event.name
+      }
+      if (this.checkvalue(event.classifications) && this.checkvalue(event.classifications[0].segment.name)) {
+        genre = event.classifications[0].segment.name
+      }
+      if (this.checkvalue(event._embedded.venues) && this.checkvalue(event._embedded.venues[0].name)) {
+        venue = event._embedded.venues[0].name
+      }
+
+      let ele = {
+        'date': date,
+        'time': time,
+        'icon': icon,
+        'eventname': eventname,
+        'genre': genre,
+        'venue': venue
+      }
+      evens.push(ele)
+      
+
+    });
+
+    return {
+      'iscontainData': true,
+      'data': evens
+    }
+  }
 
   submitForSearch(lat: string, lng: string) {
     // get lat and long
@@ -62,7 +171,9 @@ export class SearchformComponent implements OnInit {
     console.log(this.keyword, this.distance, this.category, lat, lng)
     this.ticketmarketapiService.getTickects(this.keyword, this.distance, this.category, lat, lng).subscribe(data => {
       console.log(data)
-      this.searchResultMessageService.serachResult = data
+      //把数据封装到event{}-->把数据传输给service
+      this.searchResultMessageService.serachResult = this.convertDataToEvents(data)
+      console.log( this.searchResultMessageService.serachResult)
     })
 
 
@@ -77,8 +188,7 @@ export class SearchformComponent implements OnInit {
           this.geocodingService.getLatLngAuto().subscribe(data => {
             let loc = data.loc
             this.submitForSearch(loc.substring(0, loc.indexOf(',')), loc.substring(loc.indexOf(',') + 1))
-          }
-          )
+          })
         } else {
           this.submitForSearch(data.lat, data.lng)
         }
@@ -108,7 +218,12 @@ export class SearchformComponent implements OnInit {
 
 
 
-
+  checkvalue(x: any) {
+    if (x !== null && typeof x !== "undefined" && x !== "Undefined") {
+      return true
+    }
+    return false
+  }
 
 
 

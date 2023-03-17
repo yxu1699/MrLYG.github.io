@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class SearchResultMessageService {
 
-  serachResult=null
+  serachResult:any
   constructor() { }
 
 }
