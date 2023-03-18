@@ -14,4 +14,15 @@ export class TicketmarketapiService {
     return this.http.get<any>(url);
   }
 
+  getEventById(id:string): Observable<any> {
+    let url = "https://nodejs-379321.uw.r.appspot.com/event?" +
+      'id=' + id 
+    return this.http.get<any>(url);
+  }
+
+  getSpotifyAryisyInfo(artist:string): Observable<any> {
+    let url = "https://nodejs-379321.uw.r.appspot.com/artistinfo?" +
+      'artist=' + artist 
+    return this.http.get<any>(url);
+  }
 }
