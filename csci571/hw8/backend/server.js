@@ -182,6 +182,22 @@ app.get('/artistinfo', function (req, res) {
 })
 
 
+app.get('/venue', function (req, res) {
+    let name = req.query.name
+    url = "https://app.ticketmaster.com/discovery/v2/venues?"+'keyword='+name+"&apikey="+TicketsMasterAPIKey
+    console.log(url)
+    axios.get(url).then(response => {
+        let data = response.data
+        res.send(data)
+    }).catch(err => {
+        console.log(err)
+        res.send(
+            {
+                "error": err.toString()
+            })
+    })
+
+})
 
 
 

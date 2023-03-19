@@ -20,6 +20,12 @@ export class TicketmarketapiService {
     return this.http.get<any>(url);
   }
 
+  getVenueByName(name:string): Observable<any> {
+    let url = "https://nodejs-379321.uw.r.appspot.com/venue?" +
+      'name=' + name 
+    return this.http.get<any>(url);
+  }
+
   getSpotifyAryisyInfo(artist:string): Observable<any> {
     let url = "https://nodejs-379321.uw.r.appspot.com/artistinfo?" +
       'artist=' + artist 

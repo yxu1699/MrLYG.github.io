@@ -166,8 +166,6 @@ export class SearchformComponent implements OnInit {
 
   submitForSearch(lat: string, lng: string) {
     // get lat and long
-    console.log(lat)
-    console.log(lng)
 
     console.log(this.keyword, this.distance, this.category, lat, lng)
     this.ticketmarketapiService.getTickects(this.keyword, this.distance, this.category, lat, lng).subscribe(data => {
@@ -185,8 +183,11 @@ export class SearchformComponent implements OnInit {
   submitForm() {
     if (!this.isAutoFindLocation) {
       this.geocodingService.getLatLng(this.location).subscribe(data => {
-
-        if (data.error !== null) {
+        console.log("input get geo")
+        if (data.error !== null && typeof data.error !== "undefined") {
+          console.log(data)
+          console.log(data.error)
+          console.log("input get geo has error")
           this.geocodingService.getLatLngAuto().subscribe(data => {
             let loc = data.loc
             this.submitForSearch(loc.substring(0, loc.indexOf(',')), loc.substring(loc.indexOf(',') + 1))
@@ -197,6 +198,7 @@ export class SearchformComponent implements OnInit {
 
       })
     } else {
+      
       this.geocodingService.getLatLngAuto().subscribe(data => {
         let loc = data.loc
         this.submitForSearch(loc.substring(0, loc.indexOf(',')), loc.substring(loc.indexOf(',') + 1))

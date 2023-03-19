@@ -46,6 +46,7 @@ export class SearchResultComponent {
     let iscontainEventData = false
     //get event--
     this.ticketmarketapiService.getEventById(id).subscribe(event => {
+      console.log("event")
       console.log(event)
 
       if (event.error) {
@@ -62,7 +63,9 @@ export class SearchResultComponent {
         let priceRanges = null
         let priceUnit = null
         let ticketStatus = null
-        let goAHeadNextSearch = false
+        let isDetailContainMusic = false
+        let venuename = null
+
         if (this.checkvalue(event.name)) {
           eventname = event.name
         }
@@ -84,11 +87,15 @@ export class SearchResultComponent {
         }
         if (this.checkvalue(event._embedded.venues)) {
           venue = event._embedded.venues[0].name
+          venuename = event._embedded.venues[0].name
         }
         // Genres – displays genre in the order of "segment", "genre", "subGenre", "type","subType",
         if (this.checkvalue(event.classifications)) {
           let cs = []
           if (this.checkvalue(event.classifications[0].segment)) {
+            if (event.classifications[0].segment.name.toLowerCase() === 'music') {
+              isDetailContainMusic = true
+            }
             cs.push(event.classifications[0].segment)
           }
 
@@ -112,9 +119,7 @@ export class SearchResultComponent {
             console.log(cs)
             for (let index = 0; index < cs.length; index++) {
               genres = genres + cs[index].name
-              if ( genres.toLowerCase() === 'music'){
-                goAHeadNextSearch = true
-              }
+              
               if (index != cs.length - 1) {
                 genres = genres + " | "
               }
@@ -139,6 +144,7 @@ export class SearchResultComponent {
         let eventdetail = {
           'isContainData': iscontainEventData,
           'data': {
+            "eventname": eventname,
             "localDate": date,
             "localTime": time,
             "artists": artists,
@@ -149,17 +155,102 @@ export class SearchResultComponent {
             "ticketStatus": ticketStatus,
           }
         }
-        console.log(eventdetail)
-        if(goAHeadNextSearch){
-          
-        }else{
+        // console.log(eventdetail)
+        console.log("eventdetail", eventdetail)
 
+        // artist -------------------------
+        let isContainArtistData = false
+        //if segemet is music.
+        if (isDetailContainMusic && this.checkvalue(event._embedded.attractions)) {
+          isContainArtistData = true
+          let attractions = event._embedded.attractions
+          let artistinfo: any[] = []
+          attractions.forEach((attraction: any) => {
+            
+            let artistName = attraction.name
+            this.ticketmarketapiService.getSpotifyAryisyInfo(artistName).subscribe(data => {
+              if (this.checkvalue(data.artists.items)) {
+                let items = data.artists.items
+                items.forEach((item: any) => {
+                  if (artistName.toLowerCase() === item.name.toLowerCase()) {
+
+                    let itemdata = this.itemabstract(item)
+                    itemdata.artistname = artistName
+                    artistinfo.push(itemdata)
+                  }
+                });
+
+              }
+
+            })
+          });
+          let artistsdetail = {
+            'isContainData': isContainArtistData,
+            'data': artistinfo
+          }
+          // console.log(artistsdetail)
+          console.log("artistsdetail", artistsdetail)
+
+          //venue--------------------
+          let isContainVenueData = false
+          // console.log
+          this.ticketmarketapiService.getVenueByName(venuename).subscribe(venue => {
+            console.log("venue detail")
+            console.log(venue)
+            let venuedata = null
+            if (venue.error) {
+              isContainVenueData = false
+            } else {
+              isContainVenueData = true
+              venuedata = this.venueabstract(venue._embedded.venues[0])
+            }
+            let venuedetail = {
+              'isContainData': isContainVenueData,
+              'data': venuedata
+            }
+            console.log("venuedetail", venuedetail)
+            
+            let details = {
+              "eventdetail":eventdetail,
+              "artistsdetail":artistsdetail,
+              "venuedetail":venuedetail
+            }
+            console.log("details",details)
+          })
+        } else {
+          //venue--------------------
+          let isContainVenueData = false
+          // console.log
+          this.ticketmarketapiService.getVenueByName(venuename).subscribe(venue => {
+            console.log("venue detail")
+            console.log(venue)
+            let venuedata = null
+            if (venue.error) {
+              isContainVenueData = false
+            } else {
+              isContainVenueData = true
+              venuedata = this.venueabstract(venue._embedded.venues[0])
+            }
+            let venuedetail = {
+              'isContainData': isContainVenueData,
+              'data': venuedata
+            }
+            console.log("venuedetail", venuedetail)
+
+            let details = {
+              "eventdetail":eventdetail,
+              "artistsdetail":{'isContainData':isContainArtistData},
+              "venuedetail":venuedetail
+            }
+            console.log("details",details)
+          })
         }
 
       }
 
 
-      let artistName = event._embedded.attractions[0].name
+
+
       // if genre contains music **need sure?
       // this.ticketmarketapiService.getSpotifyAryisyInfo(artistName).subscribe(data => {
       // //get venue -- need backend
@@ -182,6 +273,58 @@ export class SearchResultComponent {
     this.searchResultMessageService.detailCardisShow = true
   }
 
+  venueabstract(venue: any) {
+    let address = null
+    let city = null
+    let phonenumber = null
+    let openhours = null
+    let generalrule = null
+    let childrule = null
+    if (this.checkvalue(venue.address) && this.checkvalue(venue.address.line1)) {
+      address = venue.address.line1
+    }
+    let cityname = ""
+    let statename = ""
+    if (this.checkvalue(venue.state) && this.checkvalue(venue.state.name)) {
+      statename = venue.state.name
+    }
+    if (this.checkvalue(venue.city) && this.checkvalue(venue.city.name)) {
+      cityname = venue.city.name
+    }
+    if ((this.checkvalue(venue.state) && this.checkvalue(venue.state.name)) || (this.checkvalue(venue.city) && this.checkvalue(venue.city.name))) {
+      city = cityname + ", " + statename
+    }
+
+    //phonenumber openhours
+    if (this.checkvalue(venue.boxOfficeInfo)) {
+      if (this.checkvalue(venue.boxOfficeInfo.phoneNumberDetail)) {
+        phonenumber = venue.boxOfficeInfo.phoneNumberDetail
+      }
+      if (this.checkvalue(venue.boxOfficeInfo.openHoursDetail)) {
+        openhours = venue.boxOfficeInfo.openHoursDetail
+      }
+    }
+
+    //generalrule childrule
+    if (this.checkvalue(venue.generalInfo)) {
+      if (this.checkvalue(venue.generalInfo.childRule)) {
+        childrule = venue.generalInfo.childRule
+      }
+      if (this.checkvalue(venue.generalInfo.generalRule)) {
+        generalrule = venue.generalInfo.generalRule
+      }
+    }
+
+    return {
+      'address': address,
+      'city': city,
+      'phonenumber': phonenumber,
+      'openhours': openhours,
+      'generalrule': generalrule,
+      'childrule': childrule,
+    }
+  }
+
   checkvalue(x: any) {
     if (x !== null && typeof x !== "undefined" && x !== "Undefined") {
       return true
@@ -189,4 +332,38 @@ export class SearchResultComponent {
     return false
   }
 
+  itemabstract(item: any): any {
+    let name = null
+    let followers = null
+    let popularity = null
+    let spotifyLink = null
+    let images = null
+    if (this.checkvalue(item.name)) {
+      name = item.name
+    }
+    if (this.checkvalue(item.followers) && this.checkvalue(item.followers.total)) {
+      followers = item.followers.total
+    }
+    if (this.checkvalue(item.popularity)) {
+      popularity = item.popularity
+    }
+    if (this.checkvalue(item.href)) {
+      spotifyLink = item.href
+    }
+    if (this.checkvalue(item.images)) {
+      images = item.images
+    }
+
+    return {
+      'name': name,
+      'followers': followers,
+      'popularity': popularity,
+      'spotifyLink': spotifyLink,
+      'images': images
+    }
+
+  }
 }
+
+
+
