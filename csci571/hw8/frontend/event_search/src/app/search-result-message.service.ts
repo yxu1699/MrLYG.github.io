@@ -9,5 +9,5 @@ export class SearchResultMessageService {
   constructor() { }
 
   detailCardisShow:any
-
+  detailCard:any
 }

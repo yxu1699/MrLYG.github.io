@@ -63,6 +63,7 @@ export class SearchResultComponent {
         let priceRanges = null
         let priceUnit = null
         let ticketStatus = null
+        let imgurl = null
         let venuename:any
         if (this.checkvalue(event.name)) {
           eventname = event.name
@@ -82,6 +83,12 @@ export class SearchResultComponent {
               artists = artists + " | "
             }
           }
+        }
+        if (this.checkvalue(event.seatmap)) {
+          if (this.checkvalue(event.seatmap.staticUrl)) {
+            imgurl = event.seatmap.staticUrl
+          }
+          
         }
         if (this.checkvalue(event._embedded.venues)) {
           venue = event._embedded.venues[0].name
@@ -148,6 +155,7 @@ export class SearchResultComponent {
             "priceRanges": priceRanges,
             "priceUnit": priceUnit,
             "ticketStatus": ticketStatus,
+            "imgurl":imgurl
           }
         }
         // console.log(eventdetail)
@@ -221,6 +229,7 @@ export class SearchResultComponent {
               "artistsdetail": artistsdetail,
               "venuedetail": venuedetail
             }
+            this.searchResultMessageService.detailCard = details
             console.log("details", details)
           })
         };

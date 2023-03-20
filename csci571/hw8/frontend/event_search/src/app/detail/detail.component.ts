@@ -14,5 +14,6 @@ export class DetailComponent {
 		this.searchResultMessageService.serachResultisShow = true
 		// disable details card
 		this.searchResultMessageService.detailCardisShow = false
+		this.searchResultMessageService.detailCard = null
 	}
 }
