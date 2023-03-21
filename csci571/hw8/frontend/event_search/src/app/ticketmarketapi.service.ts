@@ -26,9 +26,15 @@ export class TicketmarketapiService {
     return this.http.get<any>(url);
   }
 
-  getSpotifyAryisyInfo(artist:string): Observable<any> {
+  getSpotifyArtistInfo(artist:string): Observable<any> {
     let url = "https://nodejs-379321.uw.r.appspot.com/artistinfo?" +
       'artist=' + artist 
+    return this.http.get<any>(url);
+  }
+
+  getSpotifyArtistAlbum(artistid:string): Observable<any> {
+    let url = "https://nodejs-379321.uw.r.appspot.com/artistalbum?" +
+      'artistid=' + artistid
     return this.http.get<any>(url);
   }
 }

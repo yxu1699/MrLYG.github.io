@@ -194,85 +194,95 @@ export class SearchResultComponent {
         this.searchResultMessageService.detailCard = details
         console.log("details", details)
         // artist -------------------------
-        // let isContainArtistData = false
-        // let attractions = event._embedded.attractions
-        // let artistinfo: any[] = []
+        let isContainArtistData = false
+        let attractions = event._embedded.attractions
+        let artistinfo: any[] = []
 
-        // const getArtistInfo = (attraction: any) => {
-        //   return new Promise<void>((resolve, reject) => {
-        //     if (attraction.classifications[0].segment.name.toLowerCase() === 'music') {
-        //       let artistName = attraction.name;
-        //       this.ticketmarketapiService.getSpotifyAryisyInfo(artistName).subscribe(data => {
-        //         if (this.checkvalue(data.artists.items)) {
-        //           let items = data.artists.items;
-        //           items.forEach((item: any) => {
-        //             if (artistName.toLowerCase() === item.name.toLowerCase()) {
-        //               let itemdata = this.itemabstract(item);
-        //               itemdata.artistname = artistName;
-        //               artistinfo.push(itemdata);
-        //             }
-        //           });
-        //           resolve();
-        //         } else {
-        //           reject('No artist info found');
-        //         }
-        //       });
-        //     } else {
-        //       resolve();
-        //     }
-        //   });
-        // };
-        // let artistsdetail = {}
-        // const processAttractions = async () => {
-        //   console.log("get attractions", attractions)
-        //   if (this.checkvalue(attractions)) {
-        //     for (let i = 0; i < attractions.length; i++) {
-        //       await getArtistInfo(attractions[i]);
-        //     }
-        //   }
-        //   console.log(artistinfo.length)
-        //   if (artistinfo.length > 0) {
-        //     isContainArtistData = true
-        //   }
-        //   artistsdetail = {
-        //     'isContainData': isContainArtistData,
-        //     'data': artistinfo
-        //   }
-        //   console.log("artistsdetail", artistsdetail)
+        const getArtistInfo = (attraction: any) => {
+          return new Promise<void>((resolve, reject) => {
+            if (attraction.classifications[0].segment.name.toLowerCase() === 'music') {
+              let artistName = attraction.name;
+              this.ticketmarketapiService.getSpotifyArtistInfo(artistName).subscribe(data => {
+                if (this.checkvalue(data.artists.items)) {
+                  let items = data.artists.items;
+                  items.forEach((item: any) => {
+                    if (artistName.toLowerCase() === item.name.toLowerCase()) {
+                      console.log("artist from spotify",item)
+                      let itemdata = this.itemabstract(item);
+                      itemdata.artistname = artistName;
+                      artistinfo.push(itemdata);
+                    }
+                  });
+                  resolve();
+                } else {
+                  reject('No artist info found');
+                }
+              });
+            } else {
+              resolve();
+            }
+          });
+        };
+        let artistsdetail = {}
+        const processAttractions = async () => {
+          console.log("get attractions", attractions)
+          if (this.checkvalue(attractions)) {
+            // for (let i = 0; i < attractions.length; i++) {
+            //   await getArtistInfo(attractions[i]);
+            // }
+            const promises = []
+            for (let i = 0; i < attractions.length; i++) {
+              // await getArtistInfo(attractions[i]);
+              
+              promises.push(getArtistInfo(attractions[i]))
+            }
+            for await (let result of promises){
+              console.log("await all promises result",result)
+            }
+          }
+          console.log(artistinfo.length)
+          if (artistinfo.length > 0) {
+            isContainArtistData = true
+          }
+          artistsdetail = {
+            'isContainData': isContainArtistData,
+            'data': artistinfo
+          }
+          console.log("artistsdetail", artistsdetail)
 
-        //   //venue--------------------
-        //   let isContainVenueData = false
-        //   // console.log
-        //   this.ticketmarketapiService.getVenueByName(venuename).subscribe(venue => {
-        //     console.log("venue detail")
-        //     console.log(venue)
-        //     let venuedata = null
-        //     if (venue.error || venue.page.totalElements === 0) {
-        //       isContainVenueData = false
-        //     } else {
-        //       isContainVenueData = true
-        //       venuedata = this.venueabstract(venue._embedded.venues[0])
-        //     }
-        //     let venuedetail = {
-        //       'isContainData': isContainVenueData,
-        //       'data': venuedata
-        //     }
-        //     console.log("venuedetail", venuedetail)
+          //venue--------------------
+          let isContainVenueData = false
+          // console.log
+          this.ticketmarketapiService.getVenueByName(venuename).subscribe(venue => {
+            console.log("venue detail")
+            console.log(venue)
+            let venuedata = null
+            if (venue.error || venue.page.totalElements === 0) {
+              isContainVenueData = false
+            } else {
+              isContainVenueData = true
+              venuedata = this.venueabstract(venue._embedded.venues[0])
+            }
+            let venuedetail = {
+              'isContainData': isContainVenueData,
+              'data': venuedata
+            }
+            console.log("venuedetail", venuedetail)
 
-        //     let details = {
-        //       "eventdetail": eventdetail,
-        //       "artistsdetail": artistsdetail,
-        //       "venuedetail": venuedetail
-        //     }
-        //     this.searchResultMessageService.detailCard = details
-        //     console.log("details", details)
-        //   })
-        // };
-
-
+            let details = {
+              "eventdetail": eventdetail,
+              "artistsdetail": artistsdetail,
+              "venuedetail": venuedetail
+            }
+            this.searchResultMessageService.detailCard = details
+            console.log("details", details)
+          })
+        };
 
 
-        // processAttractions();
+
+
+        processAttractions();
 
         // attractions.forEach((attraction: any) => {
         //   if (attraction.classifications[0].segment.name.toLowerCase() === 'music') {

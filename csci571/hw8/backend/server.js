@@ -177,10 +177,33 @@ app.get('/artistinfo', function (req, res) {
                 })
         }
     )
-
-
 })
 
+app.get('/artistalbum', function (req, res) {
+    let artistid = req.query.artistid
+    // getArtistAlbums(spotifyArtistID ,{ limit: 3})
+    spotifyApi.clientCredentialsGrant().then(
+        function (data) {
+            console.log('The access token is ' + data.body['access_token'])
+            spotifyApi.setAccessToken(data.body['access_token'])
+            spotifyApi.getArtistAlbums(artistid,{ limit: 3})
+                .then(function (data) {
+                    res.send(data.body)
+                }, function (err) {
+                    res.send(
+                        {
+                            "error": err.toString()
+                        })
+                })
+        },
+        function (err) {
+            res.send(
+                {
+                    "error": err.toString()
+                })
+        }
+    )
+})
 
 app.get('/venue', function (req, res) {
     let name = req.query.name
