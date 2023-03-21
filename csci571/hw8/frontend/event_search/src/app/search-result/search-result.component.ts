@@ -160,8 +160,8 @@ export class SearchResultComponent {
           eventname +
           " on Ticketmaster.\r\n"
         twitterurl = encodeURIComponent(twitterurl)
-        twitterurl = twitterurl + "&url=" + eventurl
-        console.log("twitterurl",twitterurl)
+        // twitterurl = twitterurl + "&url=" + eventurl
+        // console.log("twitterurl",twitterurl)
 
         facebookurl =
           eventurl + "&amp;src=sdkpreparse"
