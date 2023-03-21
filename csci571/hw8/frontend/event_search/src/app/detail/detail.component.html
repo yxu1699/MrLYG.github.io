@@ -1,59 +1,142 @@
 <div class="container-fluid mt-3" *ngIf="this.searchResultMessageService.detailCard">
   <div id="details-div" class="mx-auto col-12 col-md-10 col-lg-6 mt-5 ">
-    <div id="details-eventname-div" style="min-height: 100px;">
-      <a (click)="back()">back</a>
+    <div id="details-eventname-div">
+      <div>
+        <a (click)="back()" style=" cursor: pointer; color: white;font-size:large;text-decoration: underline;"><img
+            src="./../../assets/left_arrow.png">back</a>
+      </div>
+      <div class="col-12" style="text-align: center;color: white; max-width: 100%; min-height: 100px; display: flex;
+      align-items: center;
+      justify-content: center;">
+        <div>
+          <h3>{{this.searchResultMessageService.detailCard.eventdetail.data.eventname}}</h3>
+        </div>
+      </div>
     </div>
     <div>
-      <mat-tab-group mat-align-tabs="center" backgroundColor="primary" >
+      <mat-tab-group mat-align-tabs="center" backgroundColor="primary">
         <mat-tab label="Events" class="my-mat-tab">
           <div style="min-height: 400px;">
-            <div *ngIf="this.searchResultMessageService.detailCard.eventdetail.isContainData" class="row" style="margin-left: 0px;margin-right: 0px; padding-right:0px;padding-left: 0px;">
-              <div id="eventinfo" class="col-12 col-lg-6 d-inline-block">
+            <div *ngIf="this.searchResultMessageService.detailCard.eventdetail.isContainData" class="row"
+              style="min-height: 400px;margin-left: 0px;margin-right: 0px; padding-right:0px;padding-left: 0px;">
+              <div id="eventinfo" class="col-12 col-lg-5 d-inline-block" style="text-align: center;">
                 <div *ngIf="this.searchResultMessageService.detailCard.eventdetail.data.localDate">
-                  <h3 style="color:#97fff9">Date</h3>
-                  <p style="display:inline;color: white;">{{this.searchResultMessageService.detailCard.eventdetail.data.localDate}} </p>
-                  <p style="display:inline;color: white;" *ngIf="this.searchResultMessageService.detailCard.eventdetail.data.localTime">
+                  <h5 style="color:#97fff9">Date</h5>
+                  <p style="display:inline;color: white;">
+                    {{this.searchResultMessageService.detailCard.eventdetail.data.localDate}} </p>
+                  <p style="display:inline;color: white;"
+                    *ngIf="this.searchResultMessageService.detailCard.eventdetail.data.localTime">
                     {{this.searchResultMessageService.detailCard.eventdetail.data.localTime}}</p>
                 </div>
-                
-              </div>
-              <div id="eventmap" class="col-12 col-lg-6 d-inline-block">
-                <div *ngIf="this.searchResultMessageService.detailCard.eventdetail.data.imgurl" class="text-center " style="display: flex;align-items: center;max-width: 100%; max-height: 100%;">
-                  <img class="mx-auto d-block col-8" 
-                    [src]="this.searchResultMessageService.detailCard.eventdetail.data.imgurl">>
+                <div *ngIf="this.searchResultMessageService.detailCard.eventdetail.data.artists">
+                  <h5 style="color:#97fff9">Artist/Team</h5>
+                  <p style="display:inline;color: white;">
+                    {{this.searchResultMessageService.detailCard.eventdetail.data.artists }} </p>
+                </div>
+                <!-- *--------- -->
+                <div *ngIf="this.searchResultMessageService.detailCard.eventdetail.data.venue">
+                  <h5 style="color:#97fff9">Venue</h5>
+                  <p style="display:inline;color: white;">
+                    {{this.searchResultMessageService.detailCard.eventdetail.data.venue }} </p>
+                </div>
+                <div *ngIf="this.searchResultMessageService.detailCard.eventdetail.data.genres">
+                  <h5 style="color:#97fff9">Genres</h5>
+                  <p style="display:inline;color: white;">
+                    {{this.searchResultMessageService.detailCard.eventdetail.data.genres }} </p>
+                </div>
+                <div *ngIf="this.searchResultMessageService.detailCard.eventdetail.data.priceRanges">
+                  <h5 style="color:#97fff9">Price Ranges</h5>
+                  <p style="display:inline;color: white;">
+                    {{this.searchResultMessageService.detailCard.eventdetail.data.priceRanges }} </p>
+                  <p style="display:inline;color: white;"
+                    *ngIf="this.searchResultMessageService.detailCard.eventdetail.data.priceUnit">
+                    {{this.searchResultMessageService.detailCard.eventdetail.data.priceUnit}}</p>
+                </div>
+                <div id="bodyLeftStatusCode"
+                  *ngIf="this.searchResultMessageService.detailCard.eventdetail.data.ticketStatus">
+                  <h5 style="color:#97fff9">Ticket Status</h5>
+
+                  <div style="display:inline;color: white;background-color:green; " class="rounded"
+                    *ngIf="this.searchResultMessageService.detailCard.eventdetail.data.ticketStatus.toLowerCase().includes('onsale')">
+                    {{this.searchResultMessageService.detailCard.eventdetail.data.ticketStatus }} </div>
+                  <div style="display:inline;color: white;background-color:red;" class="rounded"
+                    *ngIf="this.searchResultMessageService.detailCard.eventdetail.data.ticketStatus.toLowerCase().includes('offsale')">
+                    {{this.searchResultMessageService.detailCard.eventdetail.data.ticketStatus }} </div>
+
+                  <div style="display:inline;color: white;background-color:black;" class="rounded"
+                    *ngIf="this.searchResultMessageService.detailCard.eventdetail.data.ticketStatus.toLowerCase().includes('cancel')">
+                    {{this.searchResultMessageService.detailCard.eventdetail.data.ticketStatus }} </div>
+                  <div style="display:inline;color: white;background-color:Orange;" class="rounded"
+                    *ngIf="this.searchResultMessageService.detailCard.eventdetail.data.ticketStatus.toLowerCase().includes('postpone')">
+                    {{this.searchResultMessageService.detailCard.eventdetail.data.ticketStatus }} </div>
+                  <div style="display:inline;color: white;background-color:Orange;" class="rounded"
+                    *ngIf="this.searchResultMessageService.detailCard.eventdetail.data.ticketStatus.toLowerCase().includes('reschedul')">
+                    {{this.searchResultMessageService.detailCard.eventdetail.data.ticketStatus }} </div>
+                </div>
+                <div *ngIf="this.searchResultMessageService.detailCard.eventdetail.data.eventurl">
+                  <h5 style="color:#97fff9">Buy Ticket At:</h5>
+                  <a [href]="this.searchResultMessageService.detailCard.eventdetail.data.eventurl" target="_blank">
+                    Ticketmaster
+                  </a>
                 </div>
               </div>
-              <div id="twittersoonlink" class="col-12"></div>
+              <div id="eventmap" class="col-12 col-lg-7 d-inline-block"
+                style="display: flex;align-items: center;max-width: 100%; max-height: 100%;">
+                <div *ngIf="this.searchResultMessageService.detailCard.eventdetail.data.imgurl"
+                  style="display: flex;align-items: center;max-width: 100%; height: 100%;" class="text-center ">
+                  <img class="mx-auto d-block col-8"
+                    [src]="this.searchResultMessageService.detailCard.eventdetail.data.imgurl">
+
+                </div>
+              </div>
+              <div id="twittersoonlink" class="col-12 mt-3 mb-2" style="text-align: center;color: white;">
+                Share on:
+                <!-- <a href="http://twitter.com/share?text=Check {{this.searchResultMessageService.detailCard.eventdetail.data.eventname}} on Ticketmaster.%0D%0A&url={{this.searchResultMessageService.detailCard.eventdetail.data.eventurl}}"
+                  target="_blank"><i class="fa-brands fa-twitter fa-2xl" style="color: #09a6d2;"></i></a>
+                <a target="_blank" style="margin-left: 10px;"
+                  href="https://www.facebook.com/sharer/sharer.php?u={{this.searchResultMessageService.detailCard.eventdetail.data.eventurl}}&amp;src=sdkpreparse"><i
+                    class="fa-brands fa-square-facebook fa-2xl" style="color: #1751d1;"></i></a> -->
+                <a href="http://twitter.com/share?text=Check {{this.searchResultMessageService.detailCard.eventdetail.data.twitterurl}}"
+                  target="_blank"><i class="fa-brands fa-twitter fa-2xl" style="color: #09a6d2;"></i></a>
+                <a target="_blank" style="margin-left: 10px;"
+                  href="https://www.facebook.com/sharer/sharer.php?u={{this.searchResultMessageService.detailCard.eventdetail.data.facebookurl}}"><i
+                    class="fa-brands fa-square-facebook fa-2xl" style="color: #1751d1;"></i></a>
+              </div>
             </div>
           </div>
         </mat-tab>
         <mat-tab label="Artist/Teams" class="my-mat-tab">
-          <div id="carouselExample" class="carousel slide" style="min-height: 400px;"
-            *ngIf="this.searchResultMessageService.detailCard.artistsdetail.isContainData">
-            <div class="carousel-inner">
-              <div class="carousel-item active">
-                xxxxxxxxxxx
+          <div *ngIf="this.searchResultMessageService.detailCard.artistsdetail">
+            <div id="carouselExample" class="carousel slide" style="min-height: 400px;"
+              *ngIf="this.searchResultMessageService.detailCard.artistsdetail.isContainData">
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  xxxxxxxxxxx
+                </div>
+                <div class="carousel-item">
+                  ssssssssssss
+                </div>
+                <div class="carousel-item">d
+                  dddddddddddddddd
+                </div>
               </div>
-              <div class="carousel-item">
-                ssssssssssss
-              </div>
-              <div class="carousel-item">d
-                dddddddddddddddd
-              </div>
+              <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample"
+                data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#carouselExample"
+                data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Next</span>
-            </button>
-          </div>
-          <div id="carouselExample2" class="carousel slide d-flex justify-content-center align-items-center"
-            style="min-height: 400px;" *ngIf="!this.searchResultMessageService.detailCard.artistsdetail.isContainData">
-            <div class="rounded mt-6 col-10" style="background-color: white;color:red; text-align: center;"><b>No music
-                related artist details to show</b></div>
+            <div id="carouselExample2" class="carousel slide d-flex justify-content-center align-items-center"
+              style="min-height: 400px;"
+              *ngIf="!this.searchResultMessageService.detailCard.artistsdetail.isContainData">
+              <div class="rounded mt-6 col-10" style="background-color: white;color:red; text-align: center;"><b>No
+                  music related artist details to show</b></div>
+            </div>
           </div>
         </mat-tab>
 

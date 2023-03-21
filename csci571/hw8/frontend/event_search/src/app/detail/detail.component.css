@@ -1,5 +1,7 @@
 #details-div {
   background-color: rgba(58, 58, 54, 0.7);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
 }
 
 .my-mat-tab>div {
@@ -10,3 +12,15 @@
   background-color: rgba(45, 44, 45)
 }
 
+#bodyLeftStatusCode div {
+  /* background-color: #f14b03; */
+  border-radius: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+#eventinfo>div {
+  margin-top: 20px;
+}
