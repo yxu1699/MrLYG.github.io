@@ -24,3 +24,41 @@
 #eventinfo>div {
   margin-top: 20px;
 }
+
+.circular-image {
+  border-radius: 50%;
+  width: 150px; /* Adjust the width according to your needs */
+  height: 150px; /* Adjust the height according to your needs */
+  object-fit: cover; /* To maintain the aspect ratio of the image */
+}
+.example-margin {
+  margin: 0 10px;
+}
+
+.example-card {
+  margin-bottom: 10px;
+}
+#up-of-artist-carousel{
+  height: 100%;
+}
+::ng-deep .custom-spinner {
+  width: 50px !important;
+  height: 50px !important;
+}
+::ng-deep .custom-spotify {
+  width: 50px !important;
+  height: 50px !important;
+}
+::ng-deep .full-height {
+  height: 100%;
+}
+::ng-deep .custom-spinner .mat-progress-spinner-circle::after {
+  content: attr(value);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.8em;
+  font-weight: bold;
+  color: white !important;
+}

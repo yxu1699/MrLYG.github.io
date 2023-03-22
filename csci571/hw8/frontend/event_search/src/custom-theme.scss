@@ -12,8 +12,9 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$event_search-primary: mat.define-palette(mat.$indigo-palette);
+$event_search-primary: mat.define-palette(mat.$teal-palette, 500, 100, 900);
 $event_search-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+$event_search-spinner: mat.define-palette(mat.$red-palette);
 
 // The warn palette is optional (defaults to red).
 $event_search-warn: mat.define-palette(mat.$red-palette);
@@ -25,6 +26,7 @@ $event_search-theme: mat.define-light-theme((
     primary: $event_search-primary,
     accent: $event_search-accent,
     warn: $event_search-warn,
+    spinner:$event_search-spinner,
   )
 ));
 

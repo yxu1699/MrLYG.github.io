@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { SearchResultMessageService } from '../search-result-message.service';
 import { TicketmarketapiService } from '../ticketmarketapi.service';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-search-result',
@@ -199,21 +200,26 @@ export class SearchResultComponent {
         let artistinfo: any[] = []
 
         const getArtistInfo = (attraction: any) => {
-          return new Promise<void>((resolve, reject) => {
+          return new Promise<void>(async (resolve, reject) => {
             if (attraction.classifications[0].segment.name.toLowerCase() === 'music') {
               let artistName = attraction.name;
-              this.ticketmarketapiService.getSpotifyArtistInfo(artistName).subscribe(data => {
+              this.ticketmarketapiService.getSpotifyArtistInfo(artistName).subscribe(async data => {
                 if (this.checkvalue(data.artists.items)) {
                   let items = data.artists.items;
-                  items.forEach((item: any) => {
+                  const asyncTasks = items.map(async (item: any) => {
                     if (artistName.toLowerCase() === item.name.toLowerCase()) {
-                      console.log("artist from spotify",item)
-                      let itemdata = this.itemabstract(item);
+                      console.log("artist from spotify", item);
+                      let itemdata = await this.itemabstract(item);
                       itemdata.artistname = artistName;
                       artistinfo.push(itemdata);
                     }
                   });
-                  resolve();
+                  try {
+                    await Promise.all(asyncTasks);
+                    resolve();
+                  } catch (error) {
+                    reject('Error while processing artist info');
+                  }
                 } else {
                   reject('No artist info found');
                 }
@@ -223,6 +229,41 @@ export class SearchResultComponent {
             }
           });
         };
+        
+        // const getArtistInfo = (attraction: any) => {
+        //   return new Promise<void>((resolve, reject) => {
+        //     if (attraction.classifications[0].segment.name.toLowerCase() === 'music') {
+        //       let artistName = attraction.name;
+        //       this.ticketmarketapiService.getSpotifyArtistInfo(artistName).subscribe(data => {
+        //         if (this.checkvalue(data.artists.items)) {
+        //           let items = data.artists.items;
+        //           // items.forEach(async (item: any) => {
+        //           //   if (artistName.toLowerCase() === item.name.toLowerCase()) {
+        //           //     console.log("artist from spotify", item)
+        //           //     let itemdata = await this.itemabstract(item);
+        //           //     itemdata.artistname = artistName;
+        //           //     artistinfo.push(itemdata);
+        //           //   }
+        //           // });
+        //           const asyncTasks = items.map(async (item: any) => {
+        //             if (artistName.toLowerCase() === item.name.toLowerCase()) {
+        //               console.log("artist from spotify", item);
+        //               let itemdata = await this.itemabstract(item);
+        //               itemdata.artistname = artistName;
+        //               artistinfo.push(itemdata);
+        //             }
+        //           });
+        //           await Promise.all(asyncTasks);
+        //           resolve();
+        //         } else {
+        //           reject('No artist info found');
+        //         }
+        //       });
+        //     } else {
+        //       resolve();
+        //     }
+        //   });
+        // };
         let artistsdetail = {}
         const processAttractions = async () => {
           console.log("get attractions", attractions)
@@ -233,11 +274,10 @@ export class SearchResultComponent {
             const promises = []
             for (let i = 0; i < attractions.length; i++) {
               // await getArtistInfo(attractions[i]);
-              
               promises.push(getArtistInfo(attractions[i]))
             }
-            for await (let result of promises){
-              console.log("await all promises result",result)
+            for await (let result of promises) {
+              console.log("await all promises result", result)
             }
           }
           console.log(artistinfo.length)
@@ -377,34 +417,54 @@ export class SearchResultComponent {
     return false
   }
 
-  itemabstract(item: any): any {
+  async itemabstract(item: any): Promise<any> {
     let name = null
     let followers = null
     let popularity = null
     let spotifyLink = null
     let images = null
+    let artistid = null
+    let album = null
     if (this.checkvalue(item.name)) {
       name = item.name
     }
     if (this.checkvalue(item.followers) && this.checkvalue(item.followers.total)) {
       followers = item.followers.total
+      let num = parseInt(followers);
+      let formattedNumber = new Intl.NumberFormat().format(num);
+      followers = formattedNumber
     }
     if (this.checkvalue(item.popularity)) {
       popularity = item.popularity
     }
-    if (this.checkvalue(item.href)) {
-      spotifyLink = item.href
+    if (this.checkvalue(item.external_urls)) {
+      spotifyLink = item.external_urls.spotify
+      
     }
     if (this.checkvalue(item.images)) {
       images = item.images
     }
+    if (this.checkvalue(item.id)) {
+      artistid = item.id
+    }
 
+    try {
+      let data = await lastValueFrom(this.ticketmarketapiService.getSpotifyArtistAlbum(artistid));
+      album = data;
+    } catch (error) {
+      console.error('Error while fetching artist album:', error);
+    }
+    // album = this.ticketmarketapiService.getSpotifyArtistAlbum(artistid)
+    // .subscribe(data => {
+    //   album = data;
+    // })
     return {
       'name': name,
       'followers': followers,
       'popularity': popularity,
       'spotifyLink': spotifyLink,
-      'images': images
+      'images': images,
+      'album':album
     }
 
   }
