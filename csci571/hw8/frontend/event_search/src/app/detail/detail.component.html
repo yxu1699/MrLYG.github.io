@@ -107,7 +107,7 @@
         </mat-tab>
         <mat-tab label="Artist/Teams" class="my-mat-tab">
           <div *ngIf="this.searchResultMessageService.detailCard.artistsdetail">
-            <div id="carouselExample" class="carousel slide" style="min-height: 600px;"
+            <div id="carouselExample" class="carousel slide" style="min-height: 500px;"
               *ngIf="this.searchResultMessageService.detailCard.artistsdetail.isContainData">
 
               <div id="carousel-inner" class="carousel-inner col-12 full-height">
@@ -116,7 +116,7 @@
                   [ngClass]="{'carousel-item': true, 'active': isFirst}" style="height: 100%;">
 
                   <div style="height: 100%;margin: auto;" class="col-10">
-                    <div id="up-of-artist-carousel" class="row mt-4" style="height: 50%;">
+                    <div id="up-of-artist-carousel" class="row mt-4" style="height: 250px;">
                       <div class="col-12 col-lg-3 d-flex justify-content-center align-items-center text-center">
                         <div class="d-flex flex-column justify-content-center align-items-center">
                           <img *ngIf="artist.images.length > 0" [src]="artist.images[0].url" alt="artist picture"
@@ -128,7 +128,8 @@
                       </div>
                       <!-- other columns -->
                       <div class="col-12 col-lg-3 d-flex justify-content-center align-items-center text-center">
-                        <div class="d-flex flex-column justify-content-center align-items-center">
+                        <div class="d-flex flex-column justify-content-center align-items-center"
+                          style="    height: 120px;">
                           <h5 style="color:#97fff9;height:2rem;line-height:2rem;">Popularity</h5>
                           <div style="height:2rem;line-height:2rem;">
                             <div>
@@ -165,7 +166,9 @@
                         </div>
                       </div>
                     </div>
-                    <div id="down-of-artist-carousel" style="height: 50%;"></div>
+
+
+                    <div id="down-of-artist-carousel" style="height: 250px;"></div>
                   </div>
 
 
