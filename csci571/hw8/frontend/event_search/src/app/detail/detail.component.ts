@@ -24,4 +24,22 @@ export class DetailComponent {
 		this.searchResultMessageService.detailCardisShow = false
 		this.searchResultMessageService.detailCard = null
 	}
+
+
+	isOHCollapsed = true;
+	isGRCollapsed = true;
+	isCRCollapsed = true;
+
+	toggleOHCollapse() {
+		this.isOHCollapsed = !this.isOHCollapsed;
+		console.log("this.isOHCollapsed",this.isOHCollapsed)
+	}
+	toggleGRCollapse(){
+		this.isGRCollapsed = !this.isGRCollapsed;
+		console.log("this.isGRCollapsed",this.isGRCollapsed)
+	}
+	toggleCRCollapse(){
+		this.isCRCollapsed = !this.isCRCollapsed;
+		console.log("this.isCRCollapsed",this.isCRCollapsed)
+	}
 }

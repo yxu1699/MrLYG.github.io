@@ -365,6 +365,12 @@ export class SearchResultComponent {
     let openhours = null
     let generalrule = null
     let childrule = null
+    let name = null
+
+    if (this.checkvalue(venue.name)) {
+      name = venue.name
+    }
+
     if (this.checkvalue(venue.address) && this.checkvalue(venue.address.line1)) {
       address = venue.address.line1
     }
@@ -401,6 +407,7 @@ export class SearchResultComponent {
     }
 
     return {
+      'name':name,
       'address': address,
       'city': city,
       'phonenumber': phonenumber,

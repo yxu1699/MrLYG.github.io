@@ -53,3 +53,10 @@
   height: 100%;
 }
 
+#venueinfo > div{
+  margin-top: 20px;
+}
+.short-content {
+  max-height: 50px; /* Adjust this value based on your desired preview height */
+  overflow: hidden;
+}

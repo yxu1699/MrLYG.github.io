@@ -25,6 +25,7 @@
     "axios": "^1.3.4",
     "bootstrap": "^5.2.3",
     "ngx-bootstrap": "^10.2.0",
+    "ngx-read-more": "^1.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.12.0"

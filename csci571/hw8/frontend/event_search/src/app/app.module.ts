@@ -10,7 +10,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 // import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AutocomComponent } from './autocom/autocom.component';
-
+// import { NgxReadMoreModule } from 'ngx-read-more';
+import { CollapseModule } from 'ngx-bootstrap/collapse';
 
 // Material Modules
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -49,7 +50,8 @@ import { DetailComponent } from './detail/detail.component';
     MatTabsModule,
     CarouselModule.forRoot(),
     MatCardModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    CollapseModule
   ],
   providers: [],
   bootstrap: [AppComponent]
