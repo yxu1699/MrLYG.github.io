@@ -167,7 +167,6 @@ export class SearchformComponent implements OnInit {
 
   submitForSearch(lat: string, lng: string) {
     // get lat and long
-
     console.log(this.keyword, this.distance, this.category, lat, lng)
     this.ticketmarketapiService.getTickects(this.keyword, this.distance, this.category, lat, lng).subscribe(data => {
       console.log(data)

@@ -106,92 +106,143 @@
           </div>
         </mat-tab>
         <mat-tab label="Artist/Teams" class="my-mat-tab">
-          <div *ngIf="this.searchResultMessageService.detailCard.artistsdetail">
-            <div id="carouselExample" class="carousel slide" style="min-height: 500px;"
-              *ngIf="this.searchResultMessageService.detailCard.artistsdetail.isContainData">
+          <div style="min-height: 500px;">
+            <div *ngIf="this.searchResultMessageService.detailCard.artistsdetail">
+              <div id="carouselExample" class="carousel slide"
+                *ngIf="this.searchResultMessageService.detailCard.artistsdetail.isContainData">
+                <div id="carousel-inner" class="carousel-inner col-12 full-height">
+                  <div
+                    *ngFor="let artist of this.searchResultMessageService.detailCard.artistsdetail.data; let isFirst = first;"
+                    [ngClass]="{'carousel-item': true, 'active': isFirst}">
 
-              <div id="carousel-inner" class="carousel-inner col-12 full-height">
-                <div
-                  *ngFor="let artist of this.searchResultMessageService.detailCard.artistsdetail.data; let isFirst = first;"
-                  [ngClass]="{'carousel-item': true, 'active': isFirst}" style="height: 100%;">
-
-                  <div style="height: 100%;margin: auto;" class="col-10">
-                    <div id="up-of-artist-carousel" class="row mt-4" style="height: 250px;">
-                      <div class="col-12 col-lg-3 d-flex justify-content-center align-items-center text-center">
-                        <div class="d-flex flex-column justify-content-center align-items-center">
+                    <div style="margin: auto;" class="col-9">
+                      <!-- <div class="d-flex flex-wrap mt-2">
+                        <div class="col-12 col-md-3 d-flex flex-column align-items-center justify-content-center">
                           <img *ngIf="artist.images.length > 0" [src]="artist.images[0].url" alt="artist picture"
-                            class="circular-image" style="height:150px">
+                            class="circular-image" style="min-height:150px">
                           <div *ngIf="!(artist.images.length > 0)" class="circular-image"
-                            style="height:150px;color: gray;"></div>
-                          <h5 class="mt-2" style="color:#97fff9;height:20%">{{artist.name}}</h5>
+                            style="min-height:150px;color: gray;"></div>
+                          <h5 class="mt-2" style="color:#97fff9">{{artist.name}}</h5>
                         </div>
-                      </div>
-                      <!-- other columns -->
-                      <div class="col-12 col-lg-3 d-flex justify-content-center align-items-center text-center">
-                        <div class="d-flex flex-column justify-content-center align-items-center"
-                          style="    height: 120px;">
-                          <h5 style="color:#97fff9;height:2rem;line-height:2rem;">Popularity</h5>
-                          <div style="height:2rem;line-height:2rem;">
-                            <div>
-                              <mat-progress-spinner class="example-margin custom-spinner" color="warn"
-                                mode="determinate" style="background-color: transparent;" [value]="artist.popularity">
-                                <ng-template matProgressSpinnerContent>
-                                  <div class="progress-value" style="color: white;">{{ artist.popularity }}</div>
-                                </ng-template>
-                              </mat-progress-spinner>
-                              <div style="position:relative; top: -40px; color: white;">
-                                {{ artist.popularity }}</div>
+
+                        <div class="col-12 col-md-3 d-flex flex-column align-items-center justify-content-center">
+                          <h5 class="h-50" style="color:#97fff9;line-height:2rem;display: flex;
+                          align-items: flex-end;">Popularity</h5>
+                          <div class="d-flex justify-content-center position-relative h-50">
+                            <mat-progress-spinner class="example-margin custom-spinner" color="warn" mode="determinate"
+                              style="background-color: transparent;" [value]="artist.popularity">
+                            </mat-progress-spinner>
+                          </div>
+                        </div>
+
+                        <div class="col-12 col-md-3 d-flex flex-column align-items-center justify-content-center">
+                          <h5 style="color:#97fff9;line-height:2rem;display: flex;
+                          align-items: flex-end;" class="h-50">Followers</h5>
+                          <div class="h-50">
+                            <h6 style="color:white;" >{{artist.followers}}</h6>
+                          </div>
+
+                        </div>
+
+                        <div class="col-12 col-md-3 d-flex flex-column align-items-center justify-content-center">
+                          <h5 style="color:#97fff9;line-height:2rem;display: flex;
+                          align-items: flex-end;" class="h-50">Spotify Link</h5>
+                          <a [href]="artist.spotifyLink" style="cursor: pointer;" target="_blank" class="h-50"><i
+                              class="fa-brands fa-spotify custom-spotify fa-3x"
+                              style="color: #0f8015;height: 20px;width: 20px;"></i></a>
+                        </div>
+                      </div> -->
+
+                      <div id="up-of-artist-carousel" class="row mt-5 mt-md-0 mt-lg-0"
+                        style="min-height: 230px;margin-right: 0px;padding-right: 0;">
+                        <div class="col-12 col-md-3 col-lg-3 d-flex justify-content-center align-items-center text-center mt-2">
+                          <div class="d-flex flex-column justify-content-center align-items-center">
+                            <img *ngIf="artist.images.length > 0" [src]="artist.images[0].url" alt="artist picture"
+                              class="circular-image" style=" min-height:150px">
+                            <div *ngIf="!(artist.images.length > 0)" class="circular-image"
+                              style="min-height:150px;color: gray;"></div>
+                            <h5 class="mt-2" style="color:#97fff9">{{artist.name}}</h5>
+                          </div>
+                        </div>
+                        <div
+                          class="col-12 col-md-3 col-lg-3 d-flex justify-content-center align-items-center text-center mt-2">
+                          <div class="d-flex flex-column justify-content-center align-items-center"
+                            style="min-height: 100px;">
+                            <h5 style="color:#97fff9; height:2rem;line-height:2rem;">Popularity</h5>
+                            <div style=" height:2rem;line-height:2rem;margin-top: 10px;">
+                              <div>
+                                <mat-progress-spinner class="example-margin custom-spinner" color="warn"
+                                  mode="determinate" style="background-color: transparent;" [value]="artist.popularity">
+                                  <ng-template matProgressSpinnerContent>
+                                    <div class="progress-value" style="color: white;">{{ artist.popularity }}</div>
+                                  </ng-template>
+                                </mat-progress-spinner>
+                                <div style="position:relative; top: -40px; color: white;">
+                                  {{ artist.popularity }}</div>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                        <div
+                          class="col-12 col-md-3 col-lg-3 d-flex justify-content-center align-items-center text-center mt-2" >
+                          <div class="d-flex flex-column justify-content-center align-items-center" style="min-height: 100px;">
+                            <h5 style="color:#97fff9;height:2rem;line-height:2rem;">Followers</h5>
+                            <div style="height:2rem;line-height:2rem;margin-top: 10px;">
+                              <h6 style="color:white;">{{artist.followers}}</h6>
                             </div>
                           </div>
-
                         </div>
-                      </div>
-                      <div class="col-12 col-lg-3 d-flex justify-content-center align-items-center text-center">
-                        <div class="d-flex flex-column justify-content-center align-items-center">
-                          <h5 style="color:#97fff9;height:2rem;line-height:2rem;">Followers</h5>
-                          <div style="height:2rem;line-height:2rem;">
-                            <h6 style="color:white;">{{artist.followers}}</h6>
+                        <div
+                          class="col-12 col-md-3 col-lg-3 d-flex justify-content-center align-items-center text-center mt-2">
+                          <div class="d-flex flex-column justify-content-center align-items-center" style="min-height: 80px;">
+                            <h5 style="color:#97fff9;height:2rem;line-height:2rem;" class="h-50">Spotify Link</h5>
+                            <div style="height:2rem;line-height:2rem;margin-top: 10px;">
+                              <a [href]="artist.spotifyLink" style="cursor: pointer;" target="_blank"><i
+                                  class="fa-brands fa-spotify custom-spotify fa-3x"
+                                  style="color: #0f8015;height: 20px;width: 20px;"></i></a>
+                            </div>
                           </div>
                         </div>
                       </div>
-                      <div class="col-12 col-lg-3 d-flex justify-content-center align-items-center text-center">
-                        <div class="d-flex flex-column justify-content-center align-items-center">
-                          <h5 style="color:#97fff9;height:2rem;line-height:2rem;">Spotify Link</h5>
-                          <div style="height:2rem;line-height:2rem;">
-                            <a [href]="artist.spotifyLink" style="cursor: pointer;" target="_blank"><i
-                                class="fa-brands fa-spotify custom-spotify fa-3x"
-                                style="color: #0f8015;height: 20px;width: 20px;"></i></a>
+                      <div id="down-of-artist-carousel" class="row mt-5 mt-lg-0" style="margin-right: 0px;">
+                        <div class="col-12" style="min-height: 30px;padding-right: 0;">
+                          <h6 style="color:#97fff9;">Album featuring {{artist.name}}</h6>
+                        </div>
+                        <div class="col-12" style="min-height: 210px;">
+                          <div class="row">
+                            <div class="col-12 col-lg-4" *ngFor="let item of artist.album.items" style="padding-top: 15px;
+                          padding-bottom: 15px;
+                          /* padding-left: 20px; */
+                          padding-right: 20px;">
+                              <img col="col-12" style="width: 100%;" [src]="item.images[0].url">
+                            </div>
                           </div>
-
                         </div>
                       </div>
+
+
                     </div>
 
-
-                    <div id="down-of-artist-carousel" style="height: 250px;"></div>
                   </div>
-
-
                 </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample"
+                  data-bs-slide="prev" *ngIf="this.searchResultMessageService.detailCard.artistsdetail.data.length > 1">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExample"
+                  data-bs-slide="next" *ngIf="this.searchResultMessageService.detailCard.artistsdetail.data.length > 1">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
               </div>
-
-
-              <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev"
-                *ngIf="this.searchResultMessageService.detailCard.artistsdetail.data.length > 1">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-              </button>
-              <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next"
-                *ngIf="this.searchResultMessageService.detailCard.artistsdetail.data.length > 1">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-              </button>
-            </div>
-            <div id="carouselExample2" class="carousel slide d-flex justify-content-center align-items-center"
-              style="min-height: 400px;"
-              *ngIf="!this.searchResultMessageService.detailCard.artistsdetail.isContainData">
-              <div class="rounded mt-6 col-10" style="background-color: white;color:red; text-align: center;"><b>No
-                  music related artist details to show</b></div>
+              <div id="carouselExample2" class="carousel slide d-flex justify-content-center align-items-center"
+                style="min-height: 400px;"
+                *ngIf="!this.searchResultMessageService.detailCard.artistsdetail.isContainData">
+                <div class="rounded mt-6 col-10" style="background-color: white;color:red; text-align: center;"><b>No
+                    music related artist details to show</b></div>
+              </div>
             </div>
           </div>
         </mat-tab>
