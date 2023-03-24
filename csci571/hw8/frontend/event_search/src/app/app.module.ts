@@ -7,6 +7,7 @@ import { SearchformComponent } from './searchform/searchform.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { GoogleMapsModule } from '@angular/google-maps'
 // import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AutocomComponent } from './autocom/autocom.component';
@@ -51,7 +52,8 @@ import { DetailComponent } from './detail/detail.component';
     CarouselModule.forRoot(),
     MatCardModule,
     MatProgressSpinnerModule,
-    CollapseModule
+    CollapseModule,
+    GoogleMapsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
