@@ -28,6 +28,7 @@ import { SearchResultComponent } from './search-result/search-result.component';
 import { DetailComponent } from './detail/detail.component';
 import { ModalComponent } from './modal/modal.component';
 import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
+import { FavoritesComponent } from './favorites/favorites.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
     AutocomComponent,
     SearchResultComponent,
     DetailComponent,
-    ModalComponent
+    ModalComponent,
+    FavoritesComponent
   ],
   imports: [
     HttpClientModule,

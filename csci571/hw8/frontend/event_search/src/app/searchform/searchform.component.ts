@@ -218,6 +218,9 @@ export class SearchformComponent implements OnInit {
     this.category = this.availableCategory[0];
     this.location = "";
     this.searchResultMessageService.serachResult = null;
+    this.isAutoFindLocation = false
+    this.searchResultMessageService.detailCard = null;
+    this.searchResultMessageService.detailCardisShow = false;
   }
 
 

@@ -75,9 +75,11 @@ export class DetailComponent {
 			"Venue":this.searchResultMessageService.detailCard.eventdetail.data.venue,
 		}
 		localStorage.setItem(key,JSON.stringify(event))
+		alert('Event Added to Favorites!')
 	}
 
 	deleteFavorite(key: string){
 		localStorage.removeItem(key)
+		// alert('Removed from favorites!')
 	}
 }
