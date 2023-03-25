@@ -9,7 +9,17 @@
       align-items: center;
       justify-content: center;">
         <div>
-          <h3>{{this.searchResultMessageService.detailCard.eventdetail.data.eventname}}</h3>
+          <h3 class="d-inline-block">{{this.searchResultMessageService.detailCard.eventdetail.data.eventname}}
+          </h3>
+          <!-- <i class="fa-duotone fa-circle-heart" style="--fa-primary-color: #ff0000; --fa-secondary-color: #ffffff;"></i> -->
+          <div class="icon-circle d-inline-block" style="margin-left: 10px;">
+            <div class="icon-circle" style="cursor: pointer;" *ngIf="!this.getItemFromLocalStorage(this.searchResultMessageService.detailCard.eventdetail.data.eventid)" (click)="addFavorite(this.searchResultMessageService.detailCard.eventdetail.data.eventid)">
+              <i class="fa-regular fa-heart" style="color: #808080;"></i>
+            </div>
+            <div class="icon-circle" style="cursor: pointer;" *ngIf="this.getItemFromLocalStorage(this.searchResultMessageService.detailCard.eventdetail.data.eventid)" (click)="deleteFavorite(this.searchResultMessageService.detailCard.eventdetail.data.eventid)">
+              <i class="fa-solid fa-heart" style="color: #d91212;"></i>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -296,7 +306,7 @@
                 <div *ngIf="this.searchResultMessageService.detailCard.venuedetail.data.openhours"
                   style="margin-top: 30px;">
                   <h5 style="color:#97fff9">Open Hours</h5>
-                  <p style="color: white;margin: 0 0 0 0;"  [ngClass]="{'short-content': this.isOHCollapsed}">
+                  <p style="color: white;margin: 0 0 0 0;" [ngClass]="{'short-content': this.isOHCollapsed}">
                     {{this.searchResultMessageService.detailCard.venuedetail.data.openhours}}
                     <!-- {{(isOHCollapsed) ? (this.searchResultMessageService.detailCard.venuedetail.data.openhours | slice:0:100): this.searchResultMessageService.detailCard.venuedetail.data.openhours }} -->
                   </p>
@@ -353,8 +363,10 @@
                   <i class="fa-solid fa-angle-up d-inline-block" style="color:white;" *ngIf="!this.isCRCollapsed"></i>
                 </div>
               </div>
-              <div id="map"  class="col-12">
-                <button class="btn btn-danger"  (click)="this.openModal(this.searchResultMessageService.detailCard.venuedetail.data.latitude,this.searchResultMessageService.detailCard.venuedetail.data.longitude)">Show venue on Google map</button>
+              <div id="map" class="col-12">
+                <button class="btn btn-danger"
+                  (click)="this.openModal(this.searchResultMessageService.detailCard.venuedetail.data.latitude,this.searchResultMessageService.detailCard.venuedetail.data.longitude)">Show
+                  venue on Google map</button>
               </div>
             </div>
           </div>

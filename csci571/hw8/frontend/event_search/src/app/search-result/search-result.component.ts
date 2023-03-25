@@ -69,7 +69,7 @@ export class SearchResultComponent {
         let twitterurl = null
         let facebookurl = null
         let venuename: any
-
+        let eventid = null
         if (this.checkvalue(event.url)) {
           eventurl = event.url
         }
@@ -182,7 +182,8 @@ export class SearchResultComponent {
             "imgurl": imgurl,
             "eventurl": eventurl,
             "facebookurl": facebookurl,
-            "twitterurl": twitterurl
+            "twitterurl": twitterurl,
+            "eventid":event.id
           }
         }
         // console.log(eventdetail)

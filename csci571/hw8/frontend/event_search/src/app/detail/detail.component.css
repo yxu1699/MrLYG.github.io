@@ -69,3 +69,16 @@
 #map button {
   display: inline-block;
 }
+.icon-circle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  border-radius: 50%; /* Creates a circle */
+  width: 40px; /* Adjust to the desired size */
+  height: 40px; /* Adjust to the desired size */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Optional: Add a shadow for a nicer look */
+}
+.icon-circle i {
+  font-size: 25px; /* Adjust to the desired size */
+}

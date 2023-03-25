@@ -50,12 +50,34 @@ export class DetailComponent {
 
 
 	openModal(lati: number, long: number) {
-		console.log("lat",typeof(lati),lati)
-		console.log("long",typeof(long),long)
+		console.log("lat", typeof (lati), lati)
+		console.log("long", typeof (long), long)
 
 		// this.modalRef = this.modalService.open(ModalComponent)
-		this.modalRef = this.modalService.open(ModalComponent,{
-			data:{lat:lati,lng:long}
+		this.modalRef = this.modalService.open(ModalComponent, {
+			data: { lat: lati, lng: long }
 		})
+	}
+
+
+	getItemFromLocalStorage(key: string): boolean {
+		return !!localStorage.getItem(key);
+	}
+	addFavorite(key: string) {
+		let date = this.searchResultMessageService.detailCard.eventdetail.data.localDate
+		if (this.searchResultMessageService.detailCard.eventdetail.data.localTime) {
+			date = date + " " + this.searchResultMessageService.detailCard.eventdetail.data.localTime
+		}
+		let event = {
+			"Date":date,
+			"Event":this.searchResultMessageService.detailCard.eventdetail.data.eventname,
+			"Category":this.searchResultMessageService.detailCard.eventdetail.data.genres,
+			"Venue":this.searchResultMessageService.detailCard.eventdetail.data.venue,
+		}
+		localStorage.setItem(key,JSON.stringify(event))
+	}
+
+	deleteFavorite(key: string){
+		localStorage.removeItem(key)
 	}
 }
