@@ -26,7 +26,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { SearchResultComponent } from './search-result/search-result.component';
 import { DetailComponent } from './detail/detail.component';
-
+import { ModalComponent } from './modal/modal.component';
+import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { DetailComponent } from './detail/detail.component';
     SearchformComponent,
     AutocomComponent,
     SearchResultComponent,
-    DetailComponent
+    DetailComponent,
+    ModalComponent
   ],
   imports: [
     HttpClientModule,
@@ -53,7 +55,8 @@ import { DetailComponent } from './detail/detail.component';
     MatCardModule,
     MatProgressSpinnerModule,
     CollapseModule,
-    GoogleMapsModule
+    GoogleMapsModule,
+    MdbModalModule
   ],
   providers: [],
   bootstrap: [AppComponent]

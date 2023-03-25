@@ -353,10 +353,8 @@
                   <i class="fa-solid fa-angle-up d-inline-block" style="color:white;" *ngIf="!this.isCRCollapsed"></i>
                 </div>
               </div>
-              <div id="map" style="margin:auto" class="col-12">
-                <div class="my-google-map">
-                  <google-map></google-map>
-                </div>
+              <div id="map"  class="col-12">
+                <button class="btn btn-danger"  (click)="this.openModal(this.searchResultMessageService.detailCard.venuedetail.data.latitude,this.searchResultMessageService.detailCard.venuedetail.data.longitude)">Show venue on Google map</button>
               </div>
             </div>
           </div>

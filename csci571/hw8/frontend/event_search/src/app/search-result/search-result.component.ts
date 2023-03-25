@@ -229,7 +229,7 @@ export class SearchResultComponent {
             }
           });
         };
-        
+
         // const getArtistInfo = (attraction: any) => {
         //   return new Promise<void>((resolve, reject) => {
         //     if (attraction.classifications[0].segment.name.toLowerCase() === 'music') {
@@ -366,7 +366,8 @@ export class SearchResultComponent {
     let generalrule = null
     let childrule = null
     let name = null
-
+    let latitude :number | null = null
+    let longitude :number | null = null
     if (this.checkvalue(venue.name)) {
       name = venue.name
     }
@@ -405,15 +406,24 @@ export class SearchResultComponent {
         generalrule = venue.generalInfo.generalRule
       }
     }
+    if (this.checkvalue(venue.location.latitude)){
+      latitude = parseFloat(venue.location.latitude)
+      
+    }
+    if (this.checkvalue(venue.location.longitude)){
+      longitude = parseFloat(venue.location.longitude)
+    }
 
     return {
-      'name':name,
+      'name': name,
       'address': address,
       'city': city,
       'phonenumber': phonenumber,
       'openhours': openhours,
       'generalrule': generalrule,
       'childrule': childrule,
+      "latitude":latitude,
+      "longitude":longitude
     }
   }
 
@@ -446,7 +456,7 @@ export class SearchResultComponent {
     }
     if (this.checkvalue(item.external_urls)) {
       spotifyLink = item.external_urls.spotify
-      
+
     }
     if (this.checkvalue(item.images)) {
       images = item.images
@@ -471,7 +481,7 @@ export class SearchResultComponent {
       'popularity': popularity,
       'spotifyLink': spotifyLink,
       'images': images,
-      'album':album
+      'album': album
     }
 
   }

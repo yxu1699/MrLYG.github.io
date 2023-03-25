@@ -1,0 +1,15 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="exampleModalLabel">Event Venue</h5>
+</div>
+<div class="modal-body">
+  <div class="my-google-map">
+    <google-map [options]="mapOptions" [height]="400" [width]="null">
+      <map-marker [position]="marker.position"></map-marker>
+    </google-map>
+  </div>
+</div>
+<div class="modal-footer" style="display: block;">
+  <button type="button" class="btn btn-secondary" style="background-color: black;" (click)="this.modalRef.close()">
+    Close
+  </button>
+</div>
