@@ -65,9 +65,9 @@ export class DetailComponent {
 	}
 	addFavorite(key: string) {
 		let date = this.searchResultMessageService.detailCard.eventdetail.data.localDate
-		if (this.searchResultMessageService.detailCard.eventdetail.data.localTime) {
-			date = date + " " + this.searchResultMessageService.detailCard.eventdetail.data.localTime
-		}
+		// if (this.searchResultMessageService.detailCard.eventdetail.data.localTime) {
+		// 	date = date + " " + this.searchResultMessageService.detailCard.eventdetail.data.localTime
+		// }
 		let event = {
 			"Date":date,
 			"Event":this.searchResultMessageService.detailCard.eventdetail.data.eventname,
@@ -80,6 +80,6 @@ export class DetailComponent {
 
 	deleteFavorite(key: string){
 		localStorage.removeItem(key)
-		// alert('Removed from favorites!')
+		alert('Event Removed from Favorites!')
 	}
 }

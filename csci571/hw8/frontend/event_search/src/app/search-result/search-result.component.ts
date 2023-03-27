@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { SearchResultMessageService } from '../search-result-message.service';
 import { TicketmarketapiService } from '../ticketmarketapi.service';
 import { lastValueFrom } from 'rxjs';
@@ -9,6 +9,7 @@ import { lastValueFrom } from 'rxjs';
   styleUrls: ['./search-result.component.css']
 })
 export class SearchResultComponent {
+
   constructor(public searchResultMessageService: SearchResultMessageService, private ticketmarketapiService: TicketmarketapiService) {
 
   }
@@ -183,7 +184,7 @@ export class SearchResultComponent {
             "eventurl": eventurl,
             "facebookurl": facebookurl,
             "twitterurl": twitterurl,
-            "eventid":event.id
+            "eventid": event.id
           }
         }
         // console.log(eventdetail)
@@ -196,56 +197,17 @@ export class SearchResultComponent {
         this.searchResultMessageService.detailCard = details
         console.log("details", details)
         // artist -------------------------
-        let isContainArtistData = false
-        let attractions = event._embedded.attractions
-        let artistinfo: any[] = []
-
-        const getArtistInfo = (attraction: any) => {
-          return new Promise<void>(async (resolve, reject) => {
-            if (attraction.classifications[0].segment.name.toLowerCase() === 'music') {
-              let artistName = attraction.name;
-              this.ticketmarketapiService.getSpotifyArtistInfo(artistName).subscribe(async data => {
-                if (this.checkvalue(data.artists.items)) {
-                  let items = data.artists.items;
-                  const asyncTasks = items.map(async (item: any) => {
-                    if (artistName.toLowerCase() === item.name.toLowerCase()) {
-                      console.log("artist from spotify", item);
-                      let itemdata = await this.itemabstract(item);
-                      itemdata.artistname = artistName;
-                      artistinfo.push(itemdata);
-                    }
-                  });
-                  try {
-                    await Promise.all(asyncTasks);
-                    resolve();
-                  } catch (error) {
-                    reject('Error while processing artist info');
-                  }
-                } else {
-                  reject('No artist info found');
-                }
-              });
-            } else {
-              resolve();
-            }
-          });
-        };
+        // let isContainArtistData = false
+        // let attractions = event._embedded.attractions
+        // let artistinfo: any[] = []
 
         // const getArtistInfo = (attraction: any) => {
-        //   return new Promise<void>((resolve, reject) => {
+        //   return new Promise<void>(async (resolve, reject) => {
         //     if (attraction.classifications[0].segment.name.toLowerCase() === 'music') {
         //       let artistName = attraction.name;
-        //       this.ticketmarketapiService.getSpotifyArtistInfo(artistName).subscribe(data => {
+        //       this.ticketmarketapiService.getSpotifyArtistInfo(artistName).subscribe(async data => {
         //         if (this.checkvalue(data.artists.items)) {
         //           let items = data.artists.items;
-        //           // items.forEach(async (item: any) => {
-        //           //   if (artistName.toLowerCase() === item.name.toLowerCase()) {
-        //           //     console.log("artist from spotify", item)
-        //           //     let itemdata = await this.itemabstract(item);
-        //           //     itemdata.artistname = artistName;
-        //           //     artistinfo.push(itemdata);
-        //           //   }
-        //           // });
         //           const asyncTasks = items.map(async (item: any) => {
         //             if (artistName.toLowerCase() === item.name.toLowerCase()) {
         //               console.log("artist from spotify", item);
@@ -254,7 +216,37 @@ export class SearchResultComponent {
         //               artistinfo.push(itemdata);
         //             }
         //           });
-        //           await Promise.all(asyncTasks);
+        //           try {
+        //             await Promise.all(asyncTasks);
+        //             resolve();
+        //           } catch (error) {
+        //             reject('Error while processing artist info');
+        //           }
+        //         } else {
+        //           reject('No artist info found');
+        //         }
+        //       });
+        //     } else {
+        //       resolve();
+        //     }
+        //   });
+        // };
+
+        // const getArtistInfo = (attraction: any) => {
+        //   return new Promise<void>((resolve, reject) => {
+        //     if (attraction.classifications[0].segment.name.toLowerCase() === 'music') {
+        //       let artistName = attraction.name;
+        //       this.ticketmarketapiService.getSpotifyArtistInfo(artistName).subscribe(data => {
+        //         if (this.checkvalue(data.artists.items)) {
+        //           let items = data.artists.items;
+        //           for (const item of items) {
+        //             if (artistName.toLowerCase() === item.name.toLowerCase()) {
+        //               console.log("artist from spotify", item);
+        //               let itemdata = await this.itemabstract(item);
+        //               itemdata.artistname = artistName;
+        //               artistinfo.push(itemdata);
+        //             }
+        //           }
         //           resolve();
         //         } else {
         //           reject('No artist info found');
@@ -265,6 +257,81 @@ export class SearchResultComponent {
         //     }
         //   });
         // };
+        // let isContainArtistData = false
+        // let attractions = event._embedded.attractions
+        // let artistinfo: any[] = []
+        // const processItems = async (items: any[], artistName: string) => {
+        //   for (const item of items) {
+        //     if (artistName.toLowerCase() === item.name.toLowerCase()) {
+        //       console.log("artist from spotify", item);
+        //       let itemdata = await this.itemabstract(item);
+        //       itemdata.artistname = artistName;
+        //       artistinfo.push(itemdata);
+        //       break;
+        //     }
+        //   }
+        // };
+
+        // const getArtistInfo = (attraction: any) => {
+        //   return new Promise<void>((resolve, reject) => {
+        //     if (attraction.classifications[0].segment.name.toLowerCase() === 'music') {
+        //       let artistName = attraction.name;
+        //       this.ticketmarketapiService.getSpotifyArtistInfo(artistName).subscribe(data => {
+        //         if (this.checkvalue(data.artists.items)) {
+        //           let items = data.artists.items;
+        //           processItems(items, artistName).then(() => {
+        //             resolve();
+        //           }).catch(error => {
+        //             reject(error);
+        //           });
+        //         } else {
+        //           reject('No artist info found');
+        //         }
+        //       });
+        //     } else {
+        //       resolve();
+        //     }
+        //   });
+        // };
+        let isContainArtistData = false;
+        let attractions = event._embedded.attractions;
+        let artistinfo: any[] = [];
+
+        const processItems = async (items: any[], artistName: string) => {
+          for (const item of items) {
+            if (artistName.toLowerCase() === item.name.toLowerCase()) {
+              console.log("artist from spotify", item);
+              let itemdata = await this.itemabstract(item);
+              itemdata.artistname = artistName;
+              return itemdata;
+            }
+          }
+        };
+
+        const getArtistInfo = (attraction: any) => {
+          return new Promise<any>((resolve, reject) => {
+            if (attraction.classifications[0].segment.name.toLowerCase() === "music") {
+              let artistName = attraction.name;
+              this.ticketmarketapiService.getSpotifyArtistInfo(artistName).subscribe(data => {
+                if (this.checkvalue(data.artists.items)) {
+                  let items = data.artists.items;
+                  processItems(items, artistName)
+                    .then(result => {
+                      resolve(result);
+                    })
+                    .catch(error => {
+                      reject(error);
+                    });
+                } else {
+                  resolve(null);
+                }
+              });
+            } else {
+              resolve(null);
+            }
+          });
+        };
+
         let artistsdetail = {}
         const processAttractions = async () => {
           console.log("get attractions", attractions)
@@ -272,14 +339,10 @@ export class SearchResultComponent {
             // for (let i = 0; i < attractions.length; i++) {
             //   await getArtistInfo(attractions[i]);
             // }
-            const promises = []
-            for (let i = 0; i < attractions.length; i++) {
-              // await getArtistInfo(attractions[i]);
-              promises.push(getArtistInfo(attractions[i]))
-            }
-            for await (let result of promises) {
-              console.log("await all promises result", result)
-            }
+            // Map attractions to an array of promises
+            const promises = attractions.map((attraction: any) => getArtistInfo(attraction));
+            // Wait for all promises to resolve and filter out null values
+            artistinfo = (await Promise.all(promises)).filter(result => result !== null);
           }
           console.log(artistinfo.length)
           if (artistinfo.length > 0) {
@@ -367,8 +430,8 @@ export class SearchResultComponent {
     let generalrule = null
     let childrule = null
     let name = null
-    let latitude :number | null = null
-    let longitude :number | null = null
+    let latitude: number | null = null
+    let longitude: number | null = null
     if (this.checkvalue(venue.name)) {
       name = venue.name
     }
@@ -407,11 +470,11 @@ export class SearchResultComponent {
         generalrule = venue.generalInfo.generalRule
       }
     }
-    if (this.checkvalue(venue.location.latitude)){
+    if (this.checkvalue(venue.location.latitude)) {
       latitude = parseFloat(venue.location.latitude)
-      
+
     }
-    if (this.checkvalue(venue.location.longitude)){
+    if (this.checkvalue(venue.location.longitude)) {
       longitude = parseFloat(venue.location.longitude)
     }
 
@@ -423,8 +486,8 @@ export class SearchResultComponent {
       'openhours': openhours,
       'generalrule': generalrule,
       'childrule': childrule,
-      "latitude":latitude,
-      "longitude":longitude
+      "latitude": latitude,
+      "longitude": longitude
     }
   }
 

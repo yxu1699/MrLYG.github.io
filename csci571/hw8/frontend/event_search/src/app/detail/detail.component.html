@@ -1,13 +1,13 @@
-<div class="container-fluid mt-3" *ngIf="this.searchResultMessageService.detailCard">
-  <div id="details-div" class="mx-auto col-12 col-md-10 col-lg-6 mt-5 ">
+<div class="container-fluid"  style="margin-top: 7rem!important;">
+  <div id="details-div"  *ngIf="this.searchResultMessageService.detailCard && this.searchResultMessageService.detailCardisShow" class="mx-auto col-12 col-md-10 col-lg-7 mt-5 ">
     <div id="details-eventname-div">
-      <div>
-        <a (click)="back()" style=" cursor: pointer; color: white;font-size:large;text-decoration: underline;"><img
-            src="./../../assets/left_arrow.png">back</a>
+      <div style="display: flex;">
+        <a (click)="back()" style=" cursor: pointer; color: white;font-size:large;text-decoration: underline;margin-top: 10px;"><img
+            src="./../../assets/left_arrow.png">Back</a>
       </div>
       <div class="col-12" style="text-align: center;color: white; max-width: 100%; min-height: 100px; display: flex;
       align-items: center;
-      justify-content: center;">
+      justify-content: center;" >
         <div>
           <h3 class="d-inline-block">{{this.searchResultMessageService.detailCard.eventdetail.data.eventname}}
           </h3>
@@ -24,7 +24,7 @@
       </div>
     </div>
     <div>
-      <mat-tab-group mat-align-tabs="center" backgroundColor="primary">
+      <mat-tab-group mat-align-tabs="center" backgroundColor="primary" mat-stretch-tabs="false">
         <mat-tab label="Events" class="my-mat-tab">
           <div style="min-height: 400px;">
             <div *ngIf="this.searchResultMessageService.detailCard.eventdetail.isContainData" class="row"
@@ -34,9 +34,9 @@
                   <h5 style="color:#97fff9">Date</h5>
                   <p style="display:inline;color: white;">
                     {{this.searchResultMessageService.detailCard.eventdetail.data.localDate}} </p>
-                  <p style="display:inline;color: white;"
+                  <!-- <p style="display:inline;color: white;"
                     *ngIf="this.searchResultMessageService.detailCard.eventdetail.data.localTime">
-                    {{this.searchResultMessageService.detailCard.eventdetail.data.localTime}}</p>
+                    {{this.searchResultMessageService.detailCard.eventdetail.data.localTime}}</p> -->
                 </div>
                 <div *ngIf="this.searchResultMessageService.detailCard.eventdetail.data.artists">
                   <h5 style="color:#97fff9">Artist/Team</h5>
@@ -94,7 +94,7 @@
                 style="display: flex;align-items: center;max-width: 100%; max-height: 100%;">
                 <div *ngIf="this.searchResultMessageService.detailCard.eventdetail.data.imgurl"
                   style="display: flex;align-items: center;max-width: 100%; height: 100%;" class="text-center ">
-                  <img class="mx-auto d-block col-8"
+                  <img class="mx-auto d-block col-10"
                     [src]="this.searchResultMessageService.detailCard.eventdetail.data.imgurl">
 
                 </div>
@@ -116,9 +116,9 @@
           </div>
         </mat-tab>
         <mat-tab label="Artist/Teams" class="my-mat-tab">
-          <div style="min-height: 500px;">
+          <div style="min-height: 200px;">
             <div *ngIf="this.searchResultMessageService.detailCard.artistsdetail">
-              <div id="carouselExample" class="carousel slide"
+              <div id="carouselExample" class="carousel slide" style="min-height:400px;"
                 *ngIf="this.searchResultMessageService.detailCard.artistsdetail.isContainData">
                 <div id="carousel-inner" class="carousel-inner col-12 full-height">
                   <div
@@ -251,9 +251,9 @@
                 </button>
               </div>
               <div id="carouselExample2" class="carousel slide d-flex justify-content-center align-items-center"
-                style="min-height: 400px;"
-                *ngIf="!this.searchResultMessageService.detailCard.artistsdetail.isContainData">
-                <div class="rounded mt-6 col-10" style="background-color: white;color:red; text-align: center;"><b>No
+                
+                *ngIf="!this.searchResultMessageService.detailCard.artistsdetail.isContainData" style="min-height:200px;">
+                <div class="col-10" style="background-color: white;color:red; text-align: center;border-radius: 20px;"><b>No
                     music related artist details to show</b></div>
               </div>
             </div>
@@ -263,8 +263,8 @@
         <mat-tab label="Venue" class="my-mat-tab">
           <div *ngIf="this.searchResultMessageService.detailCard.venuedetail">
             <div *ngIf="this.searchResultMessageService.detailCard.venuedetail.isContainData" class="row"
-              style="min-height: 400px;margin-left: 0px;margin-right: 0px; padding-right:0px;padding-left: 0px;">
-              <div id="venueinfo" class="col-12 col-lg-5 d-inline-block" style="text-align: center;">
+              style="min-height: 300px;margin-left: 0px;margin-right: 0px; padding-right:0px;padding-left: 0px;">
+              <div id="venueinfo" class="col-12 col-lg-6 d-inline-block" style="text-align: center;">
                 <div *ngIf="this.searchResultMessageService.detailCard.venuedetail.data.name">
                   <h5 style="color:#97fff9">Name</h5>
                   <p style="display:inline;color: white;">
@@ -301,7 +301,7 @@
                     {{this.searchResultMessageService.detailCard.venuedetail.data.phonenumber }} </p>
                 </div>
               </div>
-              <div id="vanuemoreinfo" class="col-12 col-lg-7 d-inline-block"
+              <div id="vanuemoreinfo" class="col-12 col-lg-6 d-inline-block"
                 style="display: flex;align-items: center;max-width: 100%; max-height: 100%;text-align: center;" *ngIf="this.searchResultMessageService.detailCard.venuedetail.data.openhours || this.searchResultMessageService.detailCard.venuedetail.data.generalrule || this.searchResultMessageService.detailCard.venuedetail.data.childrule">
                 <div *ngIf="this.searchResultMessageService.detailCard.venuedetail.data.openhours"
                   style="margin-top: 30px;">
@@ -363,7 +363,7 @@
                   <i class="fa-solid fa-angle-up d-inline-block" style="color:white;" *ngIf="!this.isCRCollapsed"></i>
                 </div>
               </div>
-              <div id="map" class="col-12">
+              <div id="map" class="col-12" style="margin-top: 10px;margin-bottom: 10px;">
                 <button class="btn btn-danger"
                   (click)="this.openModal(this.searchResultMessageService.detailCard.venuedetail.data.latitude,this.searchResultMessageService.detailCard.venuedetail.data.longitude)">Show
                   venue on Google map</button>
@@ -374,8 +374,9 @@
 
       </mat-tab-group>
     </div>
+    
   </div>
-  <div style="height: 30px;">
+  <div style="height: 20px;">
 
   </div>
 </div>

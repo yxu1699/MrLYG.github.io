@@ -1,0 +1,14 @@
+runtime: nodejs18
+env: standard
+entrypoint: node server.js
+# runtime: python27
+# api_version: 1
+# threadsafe: true
+
+# handlers:
+# - url: /
+#   static_files: dist/event_search/index.html
+#   upload: dist/event_search/index.html
+
+# - url: /
+#   static_dir: dist/event_search

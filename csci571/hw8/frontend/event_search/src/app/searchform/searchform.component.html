@@ -5,30 +5,39 @@
 </div> -->
 
 
+<nav>
+  <div class="container-fluid mt-3" style="text-align: right;">
+    <button class="btn btn-outline-white " routerLink="/search">Search</button>
+    <button class="btn btn-outline-white-2 " routerLink="/favorites">Favorites</button>
+  </div>
+</nav>
 
-
-<div class="container-fluid">
-  <div id="search" class="row mx-auto col-12 col-md-10 col-lg-4 ml-2 mr-2">
+<div class="container-fluid mt-5">
+  <div id="search" class="row mx-auto col-12 col-md-10 col-lg-5 ml-2 mr-2">
     <div id="search-header" class="mt-3">
-      <p>Events Search</p>
+      <span>Events Search</span>
     </div>
 
     <!-- Form -->
     <form #myForm="ngForm" ngNativeValidate (ngSubmit)="submitForm()">
       <div id="search-form">
         <hr>
-
-
-
         <div id="search-form-keyword" class="form-group col-12 mt-3 required">
           <label for="keyword" class="form-label search-form-label">Keyword</label><span style="color:red;">*</span>
           <br />
-
+          <!-- <mat-progress-spinner class="custom-spinner2" color="accent" mode="indeterminate"
+                style="background-color: transparent;" >
+              </mat-progress-spinner> -->
           <input matInput type="text" id="keyword" name="keyword" [(ngModel)]="keyword"
             class="form-control  mx-auto mt-1" [(ngModel)]="keyword" [matAutocomplete]="auto"
             [formControl]="suggestCtrl" required>
           <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onSelected()" [displayWith]="displayWith">
-            <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+            <mat-option *ngIf="isLoading" class="is-loading">
+              <mat-progress-spinner class="custom-spinner2" color="accent" mode="indeterminate"
+                style="background-color: transparent;" >
+              </mat-progress-spinner>
+              <!-- <mat-spinner class="custom-spinner" style="background-color: transparent;"></mat-spinner> -->
+            </mat-option>
             <ng-container *ngIf="!isLoading">
               <mat-option *ngFor="let suggest of filteredSuggestes" [value]="suggest.name">
                 <span>{{suggest.name}}</span>
@@ -66,8 +75,7 @@
           <div class="mt-4">
             <input id="autoFindLocationCheckBox" class="form-check-input" type="checkbox" value=""
               [checked]="isAutoFindLocation" (change)="locationCheckBoxChange()">
-            <span class="d-inline-block" style="margin-left: 10px;color: #7c9ba5;">Auto-Detect
-              Location</span>
+            <span class="d-inline-block" style="margin-left: 10px;color: #7c9ba5;">Auto-detect your location</span>
           </div>
         </div>
       </div>
@@ -75,9 +83,11 @@
 
 
       <div class="mt-3 text-center ">
-        <button type="submit" id="searchButton" class="btn btn-danger d-inline-block col-4 col-sm-4 col-md-4 btn-sm"
+        <button type="submit" id="searchButton"
+          class="btn btn-danger d-inline-block col-4 col-sm-4 col-md-4 col-lg-2 btn-sm"
           style="font-size:1rem;">SUBMIT</button>
-        <button id="clearButton" type="button" class="btn btn-primary d-inline-block col-4 col-sm-4 col-md-4 btn-sm"
+        <button id="clearButton" type="button"
+          class="btn btn-primary d-inline-block col-4 col-sm-4 col-md-4 col-lg-2 btn-sm"
           style="font-size:1rem;margin-left: 20px;" (click)="clear()">CLEAR
         </button>
       </div>
@@ -95,5 +105,8 @@
   </div>
 </div>
 
-<app-search-result></app-search-result>
-<app-detail></app-detail>
+<app-search-result id="app-search-result"></app-search-result>
+<app-detail id="app-detail"></app-detail>
+<div class="mt-5 col-12">
+
+</div>

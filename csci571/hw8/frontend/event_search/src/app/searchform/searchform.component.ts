@@ -70,54 +70,8 @@ export class SearchformComponent implements OnInit {
       return at - bt
     })
 
-    // type ev = {
-    //   date: string;
-    //   time: string;
-    //   icon: string;
-    //   eventname: string;
-    //   genre: string;
-    //   venue: string;
-    // }
-    let evens :any[] = []
-    // for (let i = 0; i < events.length; i++) {
-    //   let event = events[i];
-    //   let date = null
-    //   let time = null
-    //   let icon = null
-    //   let eventname = null
-    //   let genre = null
-    //   let venue = null
-    //   if (this.checkvalue(event.dates.start.localDate)) {
-    //     date = event.dates.start.localDate
-    //   }
-    //   if (this.checkvalue(event.dates.start.localTime)) {
-    //     time = event.dates.start.localTime
-    //   }
-    //   if (this.checkvalue(event.images)) {
-    //     icon = event.images
-    //   }
-    //   if (this.checkvalue(event.name)) {
-    //     eventname = event.name
-    //   }
-    //   if (this.checkvalue(event.classifications) && this.checkvalue(event.classifications[0].segment.name)) {
-    //     genre = event.classifications[0].segment.name
-    //   }
-    //   if (this.checkvalue(event._embedded.venues) && this.checkvalue(event._embedded.venues[0].name)) {
-    //     venue = event._embedded.venues[0].name
-    //   }
+    let evens: any[] = []
 
-    //   let ele = {
-    //     'date': date,
-    //     'time': time,
-    //     'icon': icon,
-    //     'eventname': eventname,
-    //     'genre': genre,
-    //     'venue': venue
-    //   }
-    //   evens[i] 
-      
-
-    // }
     events.forEach((event: any) => {
       let date = null
       let time = null
@@ -145,7 +99,7 @@ export class SearchformComponent implements OnInit {
       }
 
       let ele = {
-        'id':event.id,
+        'id': event.id,
         'date': date,
         'time': time,
         'icon': icon,
@@ -154,15 +108,15 @@ export class SearchformComponent implements OnInit {
         'venue': venue
       }
       evens.push(ele)
-      
+
 
     });
-    console.log("serachFormEvents",evens)
+    console.log("serachFormEvents", evens)
     return {
       'iscontainData': true,
       'data': evens
     }
-    
+
   }
 
   submitForSearch(lat: string, lng: string) {
@@ -173,7 +127,7 @@ export class SearchformComponent implements OnInit {
       //把数据封装到event{}-->把数据传输给service
       this.searchResultMessageService.serachResult = this.convertDataToEvents(data)
       this.searchResultMessageService.serachResultisShow = true
-      console.log( this.searchResultMessageService.serachResult)
+      console.log(this.searchResultMessageService.serachResult)
     })
 
 
@@ -181,24 +135,27 @@ export class SearchformComponent implements OnInit {
   }
 
   submitForm() {
+    this.searchResultMessageService.detailCard = null;
+    this.searchResultMessageService.detailCardisShow = false;
     if (!this.isAutoFindLocation) {
+      console.log("location", this.location)
       this.geocodingService.getLatLng(this.location).subscribe(data => {
         console.log("input get geo")
         if (data.error !== null && typeof data.error !== "undefined") {
           console.log(data)
           console.log(data.error)
           console.log("input get geo has error")
-          this.geocodingService.getLatLngAuto().subscribe(data => {
-            let loc = data.loc
-            this.submitForSearch(loc.substring(0, loc.indexOf(',')), loc.substring(loc.indexOf(',') + 1))
-          })
+          // this.geocodingService.getLatLngAuto().subscribe(data => {
+          //   let loc = data.loc
+          //   this.submitForSearch(loc.substring(0, loc.indexOf(',')), loc.substring(loc.indexOf(',') + 1))
+          // })
+          this.submitForSearch("NULL", "NULL")
         } else {
           this.submitForSearch(data.lat, data.lng)
         }
 
       })
     } else {
-      
       this.geocodingService.getLatLngAuto().subscribe(data => {
         let loc = data.loc
         this.submitForSearch(loc.substring(0, loc.indexOf(',')), loc.substring(loc.indexOf(',') + 1))
@@ -261,6 +218,7 @@ export class SearchformComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.clear()
     this.suggestCtrl.valueChanges
       .pipe(
         filter(res => {
