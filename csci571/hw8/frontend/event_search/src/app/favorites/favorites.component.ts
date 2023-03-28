@@ -16,21 +16,32 @@ export class FavoritesComponent implements OnInit {
   favorites: any
   getFavorites() {
     let fs = []
-    for (let i = 0; i < localStorage.length; i++) {
-      let key = localStorage.key(i)
-      if (key !== null) {
-        let item = localStorage.getItem(key)
-        if (item != null) {
-          if (item.includes("Event")) {
-            fs.push({ "key": key, "data": JSON.parse(item) })
-          }
-        }
-      }
+    let favoritesArraystring = localStorage.getItem("favoritesArray") //get list of favorites
+    let favoritesArray = favoritesArraystring ? JSON.parse(favoritesArraystring) :[]
+
+    for (let i = 0; i < favoritesArray.length; i++) {
+      let item = favoritesArray[i];
+      fs.push({ "key": item.key, "data": item.data })
+      
     }
+    console.log("fs[]",fs)
     this.favorites = fs
   }
   removeEventInLocalStorage(key: string) {
-    localStorage.removeItem(key)
+    let favoritesArraystring = localStorage.getItem("favoritesArray") //get list of favorites
+		let favoritesArray = favoritesArraystring ? JSON.parse(favoritesArraystring) : []
+		let index = -1
+		for (let i = 0; i < favoritesArray.length; i++) {
+			if (favoritesArray[i].key === key) {
+				index = i
+				break
+			}
+		}
+
+		if (index !== -1) {
+			favoritesArray.splice(index, 1);
+		}
+		localStorage.setItem("favoritesArray", JSON.stringify(favoritesArray));
     alert("Removed from favorites!")
     this.ngOnInit()
   }

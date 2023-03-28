@@ -61,25 +61,52 @@ export class DetailComponent {
 
 
 	getItemFromLocalStorage(key: string): boolean {
-		return !!localStorage.getItem(key);
+		let favoritesArraystring = localStorage.getItem("favoritesArray") //get list of favorites
+		let favoritesArray = favoritesArraystring ? JSON.parse(favoritesArraystring) : []
+		for (let i = 0; i < favoritesArray.length; i++) {
+			if (favoritesArray[i].key === key) {
+				return true
+			}
+		}
+		return false
+		// return !!localStorage.getItem(key);
 	}
 	addFavorite(key: string) {
 		let date = this.searchResultMessageService.detailCard.eventdetail.data.localDate
-		// if (this.searchResultMessageService.detailCard.eventdetail.data.localTime) {
-		// 	date = date + " " + this.searchResultMessageService.detailCard.eventdetail.data.localTime
-		// }
+		let favoritesArraystring = localStorage.getItem("favoritesArray") //get list of favorites
+		let favoritesArray = favoritesArraystring ? JSON.parse(favoritesArraystring) : []
+
 		let event = {
-			"Date":date,
-			"Event":this.searchResultMessageService.detailCard.eventdetail.data.eventname,
-			"Category":this.searchResultMessageService.detailCard.eventdetail.data.genres,
-			"Venue":this.searchResultMessageService.detailCard.eventdetail.data.venue,
+			"Date": date,
+			"Event": this.searchResultMessageService.detailCard.eventdetail.data.eventname,
+			"Category": this.searchResultMessageService.detailCard.eventdetail.data.genres,
+			"Venue": this.searchResultMessageService.detailCard.eventdetail.data.venue,
 		}
-		localStorage.setItem(key,JSON.stringify(event))
+		favoritesArray.push(
+			{
+				"key": key,
+				"data": event
+			}
+		)
+		localStorage.setItem("favoritesArray", JSON.stringify(favoritesArray))
 		alert('Event Added to Favorites!')
 	}
 
-	deleteFavorite(key: string){
-		localStorage.removeItem(key)
+	deleteFavorite(key: string) {
+		let favoritesArraystring = localStorage.getItem("favoritesArray") //get list of favorites
+		let favoritesArray = favoritesArraystring ? JSON.parse(favoritesArraystring) : []
+		let index = -1
+		for (let i = 0; i < favoritesArray.length; i++) {
+			if (favoritesArray[i].key === key) {
+				index = i
+				break
+			}
+		}
+
+		if (index !== -1) {
+			favoritesArray.splice(index, 1);
+		}
+		localStorage.setItem("favoritesArray", JSON.stringify(favoritesArray));
 		alert('Event Removed from Favorites!')
 	}
 }
