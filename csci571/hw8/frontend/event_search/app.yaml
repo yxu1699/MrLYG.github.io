@@ -1,40 +1,23 @@
 runtime: nodejs18
 env: standard
-entrypoint: node server.js
-handlers:
-- url: /.*
-  script: auto
-
-
-
+# entrypoint: node server.js
+service: default
 # handlers:
-# - url: /
-#   static_files: dist/event_search/index.html
-#   upload: dist/event_search/index.html
+# - url: /(.*\.(css|png|jpg|gif|ico|json|svg))
+#   static_files: dist/event_search/\1
+#   upload: dist/event_search/(.*\.(css|png|jpg|gif|ico|json|svg))
+#   secure: always
+#   http_headers:
+#     Access-Control-Allow-Origin: "*"
+#     Content-Type: ""
 
-# - url: /
-#   static_dir: dist/event_search
+# - url: /(.*\.js)
+#   static_files: dist/event_search/\1
+#   upload: dist/event_search/(.*\.js)
+#   secure: always
+#   http_headers:
+#     Access-Control-Allow-Origin: "*"
+#     Content-Type: "application/javascript"
 
-# # runtime: python27
-# # api_version: 1
-# # threadsafe: true
-
-# # handlers:
-# # - url: /
-# #   static_files: dist/event_search/index.html
-# #   upload: dist/event_search/index.html
-
-# # - url: /
-# #   static_dir: dist/event_search
-
-# # handlers:
-# # - url: /.*
-# #   static_files: dist/event_search/index.html
-# #   upload: dist/event_search/index.html
-# # - url: /(.*\.(css|html|js|ico|jpg|png|svg|eot|ttf|woff|woff2))
-# #   static_files: dist/event_search/\1
-# #   upload: dist/event_search/(.*\.(css|html|js|ico|jpg|png|svg|eot|ttf|woff|woff2))
-# handlers:
 # - url: /.*
 #   script: auto
-#   secure: always
