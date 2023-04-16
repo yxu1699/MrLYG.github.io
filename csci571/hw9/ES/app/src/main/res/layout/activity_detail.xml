@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DetailActivity"
+    android:background="@color/grey"
+    android:orientation="vertical">
+
+
+<com.google.android.material.appbar.AppBarLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:theme="@style/Theme.ES.AppBarOverlay"
+    android:background="@color/top_bar_bg">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/detail_back"
+            android:layout_width="46dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/arrow_left_green" />
+<!--        <usc.yuangang.es.utils.ScrollingTextView-->
+<!--            android:id="@+id/title"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:gravity="center"-->
+<!--            android:minHeight="?actionBarSize"-->
+<!--            android:textStyle="bold"-->
+<!--            android:text="EventFinder"-->
+<!--            android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"-->
+<!--            android:textColor="@color/top_bar_title" />-->
+        <usc.yuangang.es.utils.ScrollingTextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:minHeight="?actionBarSize"
+            android:text="这是一个很长的文本，将在TextView中滚动播放。"
+            android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
+            android:singleLine="true"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:textSize="18sp"
+            android:textColor="@color/green"
+            android:textStyle="bold"
+            android:gravity="center_vertical"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/unfavorite_image"
+                    android:layout_width="42dp"
+                    android:layout_height="38dp"
+                    android:layout_marginEnd="-85dp"
+                    android:layout_toStartOf="@id/twitter_image"
+                    android:src="@drawable/unfavorite"
+                    android:layout_centerVertical="true"/>
+
+                <ImageView
+                    android:id="@+id/facebook_image"
+                    android:layout_width="45dp"
+                    android:layout_height="39dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="86dp"
+                    android:src="@drawable/facebookk"
+                    android:layout_centerVertical="true"/>
+
+                <ImageView
+                    android:id="@+id/twitter_image"
+                    android:layout_width="43dp"
+                    android:layout_height="39dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="-87dp"
+                    android:layout_toStartOf="@id/facebook_image"
+                    android:src="@drawable/twitter" />
+
+            </RelativeLayout>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabSearchFav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black"
+        app:tabIndicatorColor="@color/green"
+        app:tabTextColor="@color/green" />
+</com.google.android.material.appbar.AppBarLayout>
+
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/pagesSearchFav"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+</LinearLayout>

@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context=".VenueFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#e5e5e5"
+        android:padding="10dp"
+        android:orientation="vertical">
+
+        <!-- Your CardViews and other content go here -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/black"
+            android:backgroundTint="@color/black"
+            android:padding="0.9dp"
+            app:cardBackgroundColor="@color/black"
+            app:cardCornerRadius="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:padding="8dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Name"
+                        android:textColor="@color/white"
+                        android:textSize="20dp"
+                        android:textStyle="bold" />
+
+                    <usc.yuangang.es.utils.ScrollingTextView
+                        android:id="@+id/veneu_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ellipsize="marquee"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:gravity="center_vertical"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:singleLine="true"
+                        android:text="这是一个很长的文本，将在TextView中滚动播放。"
+                        android:textColor="@color/green"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:padding="8dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Address"
+                        android:textColor="@color/white"
+                        android:textSize="20dp"
+                        android:textStyle="bold" />
+
+                    <usc.yuangang.es.utils.ScrollingTextView
+                        android:id="@+id/venue_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ellipsize="marquee"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:gravity="center_vertical"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:singleLine="true"
+                        android:text="这是一个很长的文本，将在TextView中滚动播放。"
+                        android:textColor="@color/green"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:padding="8dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="City/State"
+                        android:textColor="@color/white"
+                        android:textSize="20dp"
+                        android:textStyle="bold" />
+
+                    <usc.yuangang.es.utils.ScrollingTextView
+                        android:id="@+id/detail_cs"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ellipsize="marquee"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:gravity="center_vertical"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:singleLine="true"
+                        android:text="这是一个很长的文本，将在TextView中滚动播放。"
+                        android:textColor="@color/green"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:padding="8dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Contact Info"
+                        android:textColor="@color/white"
+                        android:textSize="20dp"
+                        android:textStyle="bold" />
+
+                    <usc.yuangang.es.utils.ScrollingTextView
+                        android:id="@+id/detail_contact"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ellipsize="marquee"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:gravity="center_vertical"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:singleLine="true"
+                        android:text="这是一个很长的文本，将在TextView中滚动播放。"
+                        android:textColor="@color/green"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                </TableRow>
+
+                <!--TODO add a map -->
+                <!--            <com.google.android.gms.maps.MapView-->
+                <!--                android:layout_width="match_parent"-->
+                <!--                android:layout_height="match_parent"/>-->
+                <!--            <fragment-->
+                <!--                android:id="@+id/map"-->
+                <!--                android:name="com.google.android.gms.maps.MapFragment"-->
+                <!--                android:layout_width="match_parent"-->
+                <!--                android:layout_height="match_parent" />-->
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView
+            android:layout_marginTop="25dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFE596"
+            android:backgroundTint="#FFE596"
+            android:padding="0.9dp"
+            app:cardBackgroundColor="#FFE596"
+            app:cardCornerRadius="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Open Hours"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    android:padding="10dp"
+                    />
+
+                <TextView
+                    android:id="@+id/long_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:padding="8dp"
+                    android:textColor="@color/black"
+                    android:text="这是一个很长的文本，包含了很多详细信息。这里可以包含多行文本，用于显示文章、说明或其他长文本内容。这是一个很长的文本，包含了很多详细信息。             这里可以包含多行文本，用于显示文章、说明或其他长文本内容。这是一个很长的文本，包含了很多详细信息。这里可以包含多行文本，用于显示文章、说明或其他长文本内容。这是一个很长的文本，包含了很多详细信息。这里可以包含多行文本，用于显示文章、说明或其他长文本内容。" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="General Rules"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    android:padding="10dp"
+                    />
+                <TextView
+                    android:id="@+id/gr_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:padding="8dp"
+                    android:textColor="@color/black"
+                    android:text="这是一个很长的文本，包含了很多详细信息。这里可以包含多行文本，用于显示文章、说明或其他长文本内容。这是一个很长的文本，包含了很多详细信息。             这里可以包含多行文本，用于显示文章、说明或其他长文本内容。这是一个很长的文本，包含了很多详细信息。这里可以包含多行文本，用于显示文章、说明或其他长文本内容。这是一个很长的文本，包含了很多详细信息。这里可以包含多行文本，用于显示文章、说明或其他长文本内容。" />
+
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Child Rules"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    android:padding="10dp"
+                    />
+
+
+                <TextView
+                    android:id="@+id/cr_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:padding="8dp"
+                    android:textColor="@color/black"
+                    android:text="这是一个很长的文本，包含了很多详细信息。这里可以包含多行文本，用于显示文章、说明或其他长文本内容。这是一个很长的文本，包含了很多详细信息。             这里可以包含多行文本，用于显示文章、说明或其他长文本内容。这是一个很长的文本，包含了很多详细信息。这里可以包含多行文本，用于显示文章、说明或其他长文本内容。这是一个很长的文本，包含了很多详细信息。这里可以包含多行文本，用于显示文章、说明或其他长文本内容。" />
+
+
+
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+</ScrollView>
