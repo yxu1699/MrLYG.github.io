@@ -1,6 +1,12 @@
 package usc.yuangang.es.model;
 
 public class Artist {
+
+    // for search ablum
+    String artistID;
+
+
+
     private String artistIcon;
     private String artistName;
     private String artistFollower;
@@ -10,6 +16,20 @@ public class Artist {
     private String artistAlbums2ImgUrl;
     private String artistAlbums3ImgUrl;
 
+    @Override
+    public String toString() {
+        return "Artist{" +
+                "artistID='" + artistID + '\'' +
+                ", artistIcon='" + artistIcon + '\'' +
+                ", artistName='" + artistName + '\'' +
+                ", artistFollower='" + artistFollower + '\'' +
+                ", artistSpotifyUrl='" + artistSpotifyUrl + '\'' +
+                ", artistPopularity='" + artistPopularity + '\'' +
+                ", artistAlbums1ImgUrl='" + artistAlbums1ImgUrl + '\'' +
+                ", artistAlbums2ImgUrl='" + artistAlbums2ImgUrl + '\'' +
+                ", artistAlbums3ImgUrl='" + artistAlbums3ImgUrl + '\'' +
+                '}';
+    }
 
     public Artist(String artistIcon, String artistName, String artistFollower, String artistSpotifyUrl, String artistPopularity, String artistAlbums1ImgUrl, String artistAlbums2ImgUrl, String artistAlbums3ImgUrl) {
         this.artistIcon = artistIcon;
@@ -22,6 +42,13 @@ public class Artist {
         this.artistAlbums3ImgUrl = artistAlbums3ImgUrl;
     }
 
+    public String getArtistID() {
+        return artistID;
+    }
+
+    public void setArtistID(String artistID) {
+        this.artistID = artistID;
+    }
 
     public Artist() {
     }
@@ -89,4 +116,5 @@ public class Artist {
     public void setArtistAlbums3ImgUrl(String artistAlbums3ImgUrl) {
         this.artistAlbums3ImgUrl = artistAlbums3ImgUrl;
     }
+
 }

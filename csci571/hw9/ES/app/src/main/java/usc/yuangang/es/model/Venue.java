@@ -1,6 +1,21 @@
 package usc.yuangang.es.model;
 
 public class Venue {
+    @Override
+    public String toString() {
+        return "Venue{" +
+                "venueName='" + venueName + '\'' +
+                ", venueAddress='" + venueAddress + '\'' +
+                ", detailCs='" + detailCs + '\'' +
+                ", detailContact='" + detailContact + '\'' +
+                ", ohText='" + ohText + '\'' +
+                ", grText='" + grText + '\'' +
+                ", crText='" + crText + '\'' +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                '}';
+    }
+
     private String venueName;
     private String venueAddress;
     private String detailCs;
@@ -8,8 +23,37 @@ public class Venue {
     private String ohText;
     private String grText;
     private String crText;
-
+    double latitude;
+    double longitude;
     public Venue() {
+    }
+
+    public Venue(String venueName, String venueAddress, String detailCs, String detailContact, String ohText, String grText, String crText, double latitude, double longitude) {
+        this.venueName = venueName;
+        this.venueAddress = venueAddress;
+        this.detailCs = detailCs;
+        this.detailContact = detailContact;
+        this.ohText = ohText;
+        this.grText = grText;
+        this.crText = crText;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
     public Venue(String venueName, String venueAddress, String detailCs, String detailContact, String ohText, String grText, String crText) {

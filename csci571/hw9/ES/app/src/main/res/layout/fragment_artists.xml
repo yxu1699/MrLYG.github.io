@@ -6,7 +6,7 @@
     tools:context=".ArtistsFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/artists"
+        android:id="@+id/re_artists"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical">

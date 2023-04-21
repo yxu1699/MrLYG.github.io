@@ -1,10 +1,8 @@
 package usc.yuangang.es.viewmodel;
 
-import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import java.io.Closeable;
 import java.util.List;
 
 import usc.yuangang.es.model.Artist;
@@ -20,18 +18,14 @@ public class DetailsViewModel  extends ViewModel {
     List<Artist> artists;
 
     // venue
-    MutableLiveData<Venue> venue;
+    Venue venue;
+
+    public List<String> artistsOrder;
 
     public DetailsViewModel() {
         detail = new MutableLiveData<>(); // 初始化 MutableLiveData 对象
     }
 
-    public DetailsViewModel(MutableLiveData<Detail> detail, List<Artist> artists, MutableLiveData<Venue> venue, @NonNull Closeable... closeables) {
-        super(closeables);
-        this.detail = detail;
-        this.artists = artists;
-        this.venue = venue;
-    }
 
     public MutableLiveData<Detail> getDetail() {
         return detail;
@@ -49,11 +43,11 @@ public class DetailsViewModel  extends ViewModel {
         this.artists = artists;
     }
 
-    public MutableLiveData<Venue> getVenue() {
+    public Venue getVenue() {
         return venue;
     }
 
-    public void setVenue(MutableLiveData<Venue> venue) {
+    public void setVenue(Venue venue) {
         this.venue = venue;
     }
 }
