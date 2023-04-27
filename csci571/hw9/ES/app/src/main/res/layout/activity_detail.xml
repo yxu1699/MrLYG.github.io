@@ -70,13 +70,13 @@
                     android:layout_height="38dp"
                     android:layout_marginEnd="-85dp"
                     android:layout_toStartOf="@id/twitter_image"
-                    android:src="@drawable/unfavorite"
+                    android:src="@drawable/heart_outline"
                     android:layout_centerVertical="true"/>
 
                 <ImageView
                     android:id="@+id/facebook_image"
                     android:layout_width="45dp"
-                    android:layout_height="39dp"
+                    android:layout_height="45dp"
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="86dp"
                     android:src="@drawable/facebookk"
@@ -84,8 +84,8 @@
 
                 <ImageView
                     android:id="@+id/twitter_image"
-                    android:layout_width="43dp"
-                    android:layout_height="39dp"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="-87dp"
                     android:layout_toStartOf="@id/facebook_image"

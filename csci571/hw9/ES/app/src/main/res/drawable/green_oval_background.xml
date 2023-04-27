@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <solid android:color="#4CAF50" /> <!-- Change the color here to the green color you want -->
-    <corners android:radius="100dp" /> <!-- Adjust the radius to make the background more or less oval -->
+    <corners android:radius="200dp" /> <!-- Adjust the radius to make the background more or less oval -->
     <padding
         android:left="8dp"
         android:top="8dp"

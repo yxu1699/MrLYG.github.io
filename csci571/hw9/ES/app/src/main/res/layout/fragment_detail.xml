@@ -231,30 +231,29 @@
             android:padding="8dp">
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:textColor="@color/white"
                 android:text="Ticket Status"
                 android:textSize="20dp"
                 android:textStyle="bold" />
 
-            <usc.yuangang.es.utils.ScrollingTextView
+            <TextView
                 android:id="@+id/detail_ts"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="这是一个很长的文本，将在TextView中滚动播放。"
+                android:text="button"
+                android:layout_marginLeft="70dp"
                 android:singleLine="true"
                 android:ellipsize="marquee"
                 android:marqueeRepeatLimit="marquee_forever"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
                 android:textColor="@color/white"
-                android:textSize="18sp"
+                android:textSize="17sp"
                 android:gravity="center_horizontal"
+
                 android:background="@drawable/green_oval_background"
                 android:textStyle="bold" />
+
         </TableRow>
         <TableRow
             android:layout_width="match_parent"
@@ -286,7 +285,7 @@
                 android:textColor="@color/green"
                 android:textSize="18sp"
                 android:gravity="center_horizontal"
-                android:textStyle="bold" />
+                android:textStyle="" />
         </TableRow>
 
         <ImageView

@@ -1,12 +1,15 @@
 package usc.yuangang.es;
 
 import android.app.Activity;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -69,8 +72,23 @@ public class DetailsDetailFragment extends Fragment {
                     ScrollingTextView stvPR = mView.findViewById(R.id.detail_pricerange);
                     stvPR.setText(detail.getPriceRange());
 
-                    ScrollingTextView stvTS = mView.findViewById(R.id.detail_ts);
+                    TextView stvTS = mView.findViewById(R.id.detail_ts);
                     stvTS.setText(detail.getTicketStatus());
+
+                    String ts = detail.getTicketStatus();
+                    GradientDrawable backgroundDrawable = (GradientDrawable) stvTS.getBackground();
+
+                    if (ts.contains("onsale")) {
+                        backgroundDrawable.setColor(Color.parseColor("#4CAF50")); // Green
+                    } else if (ts.contains("offsale")) {
+                        backgroundDrawable.setColor(Color.parseColor("#FF0000")); // Red
+                    } else if (ts.contains("cancel")) {
+                        backgroundDrawable.setColor(Color.parseColor("#000000")); // Black
+                    } else if (ts.contains("postpone")) {
+                        backgroundDrawable.setColor(Color.parseColor("#FFA500")); // Orange
+                    } else if (ts.contains("reschedul")) {
+                        backgroundDrawable.setColor(Color.parseColor("#FFA500")); // Orange
+                    }
 
                     ScrollingTextView stvBTA = mView.findViewById(R.id.detail_bta);
                     stvBTA.setText(detail.getBuyTicketAt());
@@ -107,8 +125,6 @@ public class DetailsDetailFragment extends Fragment {
         ScrollingTextView stvPR = mView.findViewById(R.id.detail_pricerange);
         stvPR.setFocus(true);
 
-        ScrollingTextView stvTS = mView.findViewById(R.id.detail_ts);
-        stvTS.setFocus(true);
 
         ScrollingTextView stvBTA = mView.findViewById(R.id.detail_bta);
         stvBTA.setFocus(true);

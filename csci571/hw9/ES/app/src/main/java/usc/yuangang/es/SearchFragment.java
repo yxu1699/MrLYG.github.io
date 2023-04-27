@@ -1,4 +1,5 @@
 package usc.yuangang.es;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -8,13 +9,16 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -24,7 +28,15 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.snackbar.Snackbar;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +56,9 @@ public class SearchFragment extends Fragment {
     private Switch autoCheck;
 
     private SearchViewModel searchViewModel;
+
+    RequestQueue requestQueue;
+    View mView;
 
 
     private OnFragmentInteractionListener mListener;
@@ -103,7 +118,60 @@ public class SearchFragment extends Fragment {
                 }
             }
         });
-        //
+
+        // add auto complete textview
+        requestQueue = Volley.newRequestQueue(getContext());
+
+        ArrayAdapter<String> adapterAutoCom = new ArrayAdapter<>(
+                getContext(),
+                R.layout.dropdown_item
+        );
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        AutoCompleteTextView autoCompleteTextView = mView.findViewById(R.id.keyword_input);
+        autoCompleteTextView.setAdapter(adapterAutoCom);
+        autoCompleteTextView.setThreshold(1);
+        autoCompleteTextView.setDropDownBackgroundResource(android.R.color.black);
+
+        autoCompleteTextView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                Log.d("AutoCompleteSearch", s.toString());
+                String url = "https://nodejs-379321.uw.r.appspot.com/suggest?keyword=" + Uri.encode(s.toString());
+
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                        Request.Method.GET, url, null,
+                        response -> {
+                            List<String> suggestions = new ArrayList<>();
+                            try {
+                                JSONArray suggestArray = response.getJSONArray("suggest");
+                                for (int i = 0; i < suggestArray.length(); i++) {
+                                    JSONObject suggestObject = suggestArray.getJSONObject(i);
+                                    suggestions.add(suggestObject.getString("name"));
+                                }
+                                adapterAutoCom.clear();
+                                adapterAutoCom.addAll(suggestions);
+                                adapterAutoCom.notifyDataSetChanged();
+                                Log.d("AutoCompleteSearch", suggestions.toString());
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        },
+                        error -> {
+                            // Handle the error
+                        });
+
+                requestQueue.add(jsonObjectRequest);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
 
 
         Button clearBtn = view.findViewById(R.id.btn_clear);
@@ -174,7 +242,8 @@ public class SearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_search, container, false);
+        mView =  inflater.inflate(R.layout.fragment_search, container, false);
+        return mView;
     }
 
 
