@@ -4,10 +4,10 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="6dp"
+    android:layout_marginTop="8dp"
     android:layout_marginLeft="6dp"
     android:layout_marginRight="7dp"
-    android:layout_marginBottom="7dp"
+    android:layout_marginBottom="8dp"
     >
 
     <androidx.cardview.widget.CardView
@@ -37,7 +37,7 @@
                 android:orientation="horizontal"
                 >
 
-                <ImageView
+                <usc.yuangang.es.utils.RoundImageView
                     android:id="@+id/artist_icon"
                     app:cardCornerRadius="10dp"
                     android:layout_width="100dp"
@@ -46,11 +46,11 @@
                     android:layout_margin="8dp"/>
                 <!--            </androidx.cardview.widget.CardView>-->
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="177dp"
                     android:layout_height="match_parent"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
-                    android:layout_weight="2"
+                    android:layout_weight="0.5"
                     android:orientation="vertical">
 
                     <usc.yuangang.es.utils.ScrollingTextView
@@ -97,7 +97,8 @@
                         android:singleLine="true"
                         android:text="Check out on Spotify"
                         android:textColor="@color/green"
-                        android:textSize="17sp" />
+                        android:textSize="15sp"
+                        android:clickable="true"/>
 
                 </LinearLayout>
                 <LinearLayout
@@ -122,14 +123,16 @@
                         android:ellipsize="none"/>
 
 
-                    <ImageView
+                    <usc.yuangang.es.utils.MyCircleProgress
                         android:id="@+id/artist_popularity_img"
-                        android:layout_width="69dp"
-                        android:layout_height="32dp"
+                        android:layout_width="70dp"
+                        android:layout_height="40dp"
                         android:layout_gravity="right"
+                        android:layout_marginTop="5dp"
                         android:layout_marginRight="15dp"
                         android:layout_weight="1"
-                        android:src="@drawable/heart_outline" />
+                        ></usc.yuangang.es.utils.MyCircleProgress>
+
                 </LinearLayout>
 
             </LinearLayout>

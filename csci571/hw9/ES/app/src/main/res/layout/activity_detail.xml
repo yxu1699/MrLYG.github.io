@@ -71,7 +71,8 @@
                     android:layout_marginEnd="-85dp"
                     android:layout_toStartOf="@id/twitter_image"
                     android:src="@drawable/heart_outline"
-                    android:layout_centerVertical="true"/>
+                    android:layout_centerVertical="true"
+                    android:clickable="true"/>
 
                 <ImageView
                     android:id="@+id/facebook_image"
@@ -80,7 +81,8 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="86dp"
                     android:src="@drawable/facebookk"
-                    android:layout_centerVertical="true"/>
+                    android:layout_centerVertical="true"
+                    android:clickable="true"/>
 
                 <ImageView
                     android:id="@+id/twitter_image"
@@ -89,7 +91,8 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="-87dp"
                     android:layout_toStartOf="@id/facebook_image"
-                    android:src="@drawable/twitter" />
+                    android:src="@drawable/twitter"
+                    android:clickable="true"/>
 
             </RelativeLayout>
         </LinearLayout>

@@ -17,6 +17,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,6 +29,7 @@ import java.util.List;
 import usc.yuangang.es.R;
 
 import usc.yuangang.es.model.Artist;
+import usc.yuangang.es.utils.MyCircleProgress;
 import usc.yuangang.es.utils.ScrollingTextView;
 
 public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ArtistViewHolder> {
@@ -65,6 +68,18 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ArtistView
     public void onBindViewHolder(@NonNull ArtistViewHolder holder, int position) {
         Artist artist = artists.get(position);
 
+        holder.artistName.setText(artist.getArtistName());
+        holder.artistName.setFocus(true);
+        String fs =formatNumber(Integer.parseInt(artist.getArtistFollower().replace(",", "")));
+        holder.artistFollower.setText(fs+" Followers");
+        holder.artistFollower.setFocus(true);
+//                        holder.artistSpotifyUrl.setText(artist.getArtistSpotifyUrl());
+        holder.artistPopularity.setCurrent(Integer.parseInt(artist.getArtistPopularity()));
+        holder.artistPopularity.setMax(100);
+        Glide.with(context).load(artist.getArtistIcon()).apply(RequestOptions.bitmapTransform((new RoundedCorners(30)))).into(holder.artistIcon);
+
+
+
         requestQueue = Volley.newRequestQueue(context.getApplicationContext());
         Volley.newRequestQueue(context.getApplicationContext());
         String url = "https://nodejs-379321.uw.r.appspot.com/artistalbum?artistid=" + artist.getArtistID();
@@ -75,21 +90,12 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ArtistView
 
                     @Override
                     public void onResponse(JSONObject response) {
-                        holder.artistName.setText(artist.getArtistName());
-                        String fs =formatNumber(Integer.parseInt(artist.getArtistFollower().replace(",", "")));
-                        holder.artistFollower.setText(fs+" Followers");
-//                        holder.artistSpotifyUrl.setText(artist.getArtistSpotifyUrl());
-
-
-                        Glide.with(context).load(artist.getArtistIcon()).into(holder.artistIcon);
-
                         List<String> imagesUrl = new ArrayList<>();
                         try {
                             JSONArray items = response.optJSONArray("items");
                             for (int i = 0; i < items.length(); i++) {
                                 JSONObject item = items.getJSONObject(i);
                                 JSONArray images = item.getJSONArray("images");
-
                                 if (images.length() > 0) {
                                     JSONObject image = images.getJSONObject(0);
                                     String imageUrl = image.getString("url");
@@ -97,16 +103,16 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ArtistView
                                 }
                             }
                             if (imagesUrl.size() >= 3) {
-                                Glide.with(context).load(imagesUrl.get(0)).into(holder.artistAlbums1Img);
-                                Glide.with(context).load(imagesUrl.get(1)).into(holder.artistAlbums2Img);
-                                Glide.with(context).load(imagesUrl.get(2)).into(holder.artistAlbums3Img);
+                                Glide.with(context).load(imagesUrl.get(0)).apply(RequestOptions.bitmapTransform((new RoundedCorners(30)))).into(holder.artistAlbums1Img);
+                                Glide.with(context).load(imagesUrl.get(1)).apply(RequestOptions.bitmapTransform((new RoundedCorners(30)))).into(holder.artistAlbums2Img);
+                                Glide.with(context).load(imagesUrl.get(2)).apply(RequestOptions.bitmapTransform((new RoundedCorners(30)))).into(holder.artistAlbums3Img);
                             }
                             if (imagesUrl.size() >= 2) {
-                                Glide.with(context).load(imagesUrl.get(0)).into(holder.artistAlbums1Img);
-                                Glide.with(context).load(imagesUrl.get(1)).into(holder.artistAlbums2Img);
+                                Glide.with(context).load(imagesUrl.get(0)).apply(RequestOptions.bitmapTransform((new RoundedCorners(30)))).into(holder.artistAlbums1Img);
+                                Glide.with(context).load(imagesUrl.get(1)).apply(RequestOptions.bitmapTransform((new RoundedCorners(30)))).into(holder.artistAlbums2Img);
                             }
                             if (imagesUrl.size() >= 1) {
-                                Glide.with(context).load(imagesUrl.get(0)).into(holder.artistAlbums1Img);
+                                Glide.with(context).load(imagesUrl.get(0)).apply(RequestOptions.bitmapTransform((new RoundedCorners(30)))).into(holder.artistAlbums1Img);
                             }
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
@@ -133,8 +139,9 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ArtistView
 
     public class ArtistViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView artistIcon, artistAlbums1Img, artistAlbums2Img, artistAlbums3Img,artistPopularity;
+        ImageView artistIcon, artistAlbums1Img, artistAlbums2Img, artistAlbums3Img;
         ScrollingTextView artistName,artistFollower, artistSpotifyUrl;
+        MyCircleProgress artistPopularity;
         public ArtistViewHolder(@NonNull View itemView) {
             super(itemView);
 

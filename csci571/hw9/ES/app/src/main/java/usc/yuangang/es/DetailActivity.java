@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -274,16 +275,31 @@ public class DetailActivity extends AppCompatActivity {
 
                     ImageView facebook = findViewById(R.id.facebook_image);
                     String finalFacebookurl = facebookurl;
+//                    facebook.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View view) {
+//                            Log.d("facebook_image", "facebook_image onClick:");
+////                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(finalFacebookurl));
+//                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com"));
+//                            System.out.println(intent.resolveActivity(getPackageManager()));
+//                            if (intent.resolveActivity(getPackageManager()) != null) {
+//                                Log.d("facebook_image", Uri.parse(finalFacebookurl).toString());
+//                                startActivity(intent);
+//                            }
+//                        }
+//                    });
                     facebook.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             Log.d("facebook_image", "facebook_image onClick:");
-//                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(finalFacebookurl));
-                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com"));
-                            System.out.println(intent.resolveActivity(getPackageManager()));
-                            if (intent.resolveActivity(getPackageManager()) != null) {
-                                Log.d("facebook_image", Uri.parse(finalFacebookurl).toString());
+                            String url = "https://www.google.com";
+                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                            PackageManager packageManager = getPackageManager();
+                            if (intent.resolveActivity(packageManager) != null) {
+                                Log.d("facebook_image", Uri.parse(url).toString());
                                 startActivity(intent);
+                            } else {
+                                Log.d("facebook_image", "No suitable app found to handle the URL");
                             }
                         }
                     });

@@ -29,6 +29,7 @@ import java.util.List;
 import usc.yuangang.es.R;
 import usc.yuangang.es.intf.OnItemClickListener;
 import usc.yuangang.es.model.Event;
+import usc.yuangang.es.utils.GlideUtil;
 import usc.yuangang.es.utils.ScrollingTextView;
 
 
@@ -69,9 +70,8 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
 //        holder.heart.setText("♥"); // Or use a heart icon instead of the text
 
 
-        RequestOptions requestOptions = new RequestOptions().transform(new RoundedCorners(20));
-        Glide.with(context).load(event.getIconUrl()).apply(requestOptions).into(holder.icon);
-
+//        Glide.with(context).load(event.getIconUrl()).into(holder.icon);
+        Glide.with(context).load(event.getIconUrl()).apply(GlideUtil.getRoundRe(context.getApplicationContext(), 10)).into(holder.icon);
 
         //SET CLICK
 

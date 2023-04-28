@@ -29,7 +29,7 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="AppTheme.Launcher" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme.Launcher" parent="Theme.ES.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_screen</item>
     </style>
 <!--    <style name="SpinnerDropdownItemStyle" parent="Widget.AppCompat.DropDownItem.Spinner">-->
