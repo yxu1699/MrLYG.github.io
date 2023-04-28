@@ -25,6 +25,13 @@
 
     <style name="Theme.ES.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+    </style>
+
+    <style name="AppTheme.Launcher" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_screen</item>
+    </style>
 <!--    <style name="SpinnerDropdownItemStyle" parent="Widget.AppCompat.DropDownItem.Spinner">-->
 <!--        <item name="android:popupBackground">@color/black</item>-->
 

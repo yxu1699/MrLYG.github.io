@@ -23,6 +23,7 @@ import com.google.android.gms.common.GoogleApiAvailability;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -227,7 +228,9 @@ public class SearchEventsFragment extends Fragment  implements OnItemClickListen
                         Log.d("TotalElements", "Total Elements: " + totalElements);
 
                         if (totalElements <= 0) {
-                            // TODO
+                            // TODO.
+                            progressBar.setVisibility(View.GONE);
+                            eventNotFound.setVisibility(View.VISIBLE);
                         } else {
                             // events array
                             JSONObject embeddedObject = response.getJSONObject("_embedded");
@@ -305,6 +308,7 @@ public class SearchEventsFragment extends Fragment  implements OnItemClickListen
                             progressBar.setVisibility(View.GONE);
                             recyclerView.setVisibility(View.VISIBLE);
 
+
                         }
 
                     } catch (JSONException e) {
@@ -323,6 +327,7 @@ public class SearchEventsFragment extends Fragment  implements OnItemClickListen
 
         progressBar.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.GONE);
+        eventNotFound.setVisibility(View.GONE);
         final String[] lat = {"34.0294"};
         final String[] lng = {"-118.2871"};
         // auto location ?
@@ -364,6 +369,8 @@ public class SearchEventsFragment extends Fragment  implements OnItemClickListen
 
     ProgressBar progressBar;
     RecyclerView recyclerView;
+
+    CardView eventNotFound;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -372,7 +379,7 @@ public class SearchEventsFragment extends Fragment  implements OnItemClickListen
         TextView searchEventBack = view.findViewById(R.id.search_event_back);
         progressBar = mView.findViewById(R.id.progress_bar);
         recyclerView = mView.findViewById(R.id.re_events);
-
+        eventNotFound = mView.findViewById(R.id.event_no_found);
 
         searchEventBack.setOnClickListener(new View.OnClickListener() {
             @Override

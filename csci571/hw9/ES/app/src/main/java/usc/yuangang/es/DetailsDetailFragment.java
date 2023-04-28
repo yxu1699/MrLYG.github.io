@@ -9,13 +9,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
@@ -38,12 +41,20 @@ public class DetailsDetailFragment extends Fragment {
         Log.d("zhixing", "DetailsDetailFragment");
     }
 
+
+    ProgressBar detailProgressBar;
+    CardView detailCardView;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mView =  inflater.inflate(R.layout.fragment_detail, container, false);
 
+        detailProgressBar = mView.findViewById(R.id.detail_progress_bar);
+        detailCardView = mView.findViewById(R.id.detail_card_view);
+
+        detailProgressBar.setVisibility(View.VISIBLE);
+        detailCardView.setVisibility(View.GONE);
         setAllViewScroll();
         detailsViewModel = new ViewModelProvider(requireActivity()).get(DetailsViewModel.class);
         Log.d("DetailsDetailFragmentCheck", "start to observe");
@@ -100,6 +111,14 @@ public class DetailsDetailFragment extends Fragment {
                 }
             }
         });
+
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        detailProgressBar.setVisibility(View.GONE);
+        detailCardView.setVisibility(View.VISIBLE);
         return mView;
     }
 

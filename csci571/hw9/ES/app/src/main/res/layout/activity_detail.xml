@@ -104,7 +104,7 @@
         android:layout_height="wrap_content"
         android:background="@color/black"
         app:tabIndicatorColor="@color/green"
-        app:tabTextColor="@color/green" />
+        app:tabTextColor="@color/tab_text_colors" />
 </com.google.android.material.appbar.AppBarLayout>
 
 

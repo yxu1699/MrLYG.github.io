@@ -349,20 +349,23 @@ public class DetailActivity extends AppCompatActivity {
 //        detailsViewModel.setVenue();
 
         Venue venueObejct = new Venue();
-        venueObejct.setVenueName(venueData.has("name") ? venueData.getString("name") : "");
-        venueObejct.setVenueAddress(venueData.has("address") ? venueData.getString("address") : "");
-        venueObejct.setDetailCs(venueData.has("city") ? venueData.getString("city") : "");
-        venueObejct.setDetailContact(venueData.has("phonenumber") ? venueData.getString("phonenumber") : "");
-        venueObejct.setOhText(venueData.has("openhours") ? venueData.getString("openhours") : "");
-        venueObejct.setGrText(venueData.has("generalrule") ? venueData.getString("generalrule") : "");
-        venueObejct.setCrText(venueData.has("childrule") ? venueData.getString("childrule") : "");
+        if (venueData!=null){
+            venueObejct.setVenueName(venueData.has("name") ? venueData.getString("name") : "");
+            venueObejct.setVenueAddress(venueData.has("address") ? venueData.getString("address") : "");
+            venueObejct.setDetailCs(venueData.has("city") ? venueData.getString("city") : "");
+            venueObejct.setDetailContact(venueData.has("phonenumber") ? venueData.getString("phonenumber") : "");
+            venueObejct.setOhText(venueData.has("openhours") ? venueData.getString("openhours") : "");
+            venueObejct.setGrText(venueData.has("generalrule") ? venueData.getString("generalrule") : "");
+            venueObejct.setCrText(venueData.has("childrule") ? venueData.getString("childrule") : "");
 
-        if (venueData.has("latitude") && venueData.has("longitude")) {
-            double latitude = venueData.getDouble("latitude");
-            double longitude = venueData.getDouble("longitude");
-            // 如果需要，你可以将纬度和经度添加到 Venue 类，并使用相应的 getter 和 setter 方法
-            venueObejct.setLatitude(latitude);
-            venueObejct.setLongitude(longitude);
+            if (venueData.has("latitude") && venueData.has("longitude")) {
+                double latitude = venueData.getDouble("latitude");
+                double longitude = venueData.getDouble("longitude");
+                // 如果需要，你可以将纬度和经度添加到 Venue 类，并使用相应的 getter 和 setter 方法
+                venueObejct.setLatitude(latitude);
+                venueObejct.setLongitude(longitude);
+            }
+            Log.d("venueData", venueData.toString());
         }
         detailsViewModel.setVenue(venueObejct);
 
@@ -392,7 +395,7 @@ public class DetailActivity extends AppCompatActivity {
             "longitude": -118.287865
         }*/
         // searchResultMessageService.detailCard = details;
-        Log.d("venueData", venueData.toString());
+
     }
 
     public JSONObject venueAbstract(JSONObject venue) throws JSONException {
