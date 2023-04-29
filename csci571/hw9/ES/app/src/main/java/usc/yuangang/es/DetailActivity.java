@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.app.Application;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -20,7 +21,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.RequestFuture;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.tabs.TabLayout;
 
@@ -37,11 +37,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 import usc.yuangang.es.adapter.DetailsVP2Adapter;
 import usc.yuangang.es.model.Artist;
@@ -49,11 +44,14 @@ import usc.yuangang.es.model.Detail;
 import usc.yuangang.es.model.Venue;
 import usc.yuangang.es.utils.ScrollingTextView;
 import usc.yuangang.es.viewmodel.DetailsViewModel;
+import usc.yuangang.es.viewmodel.FavoriteViewModel;
 
 public class DetailActivity extends AppCompatActivity {
     ViewPager2 dvp;
     private RequestQueue requestQueue;
     DetailsViewModel detailsViewModel;
+
+    FavoriteViewModel favoriteViewModel;
     private  void setAllViewScroll(){
         ScrollingTextView stv = findViewById(R.id.title);
         stv.setFocus(true);
@@ -70,6 +68,43 @@ public class DetailActivity extends AppCompatActivity {
             eventId = intent.getStringExtra("eventId");
         }
         Toast.makeText(this, eventId, Toast.LENGTH_SHORT).show();
+
+        ImageView hrt = findViewById(R.id.favorite_image);
+        Log.d("favoriteViewModel", favoriteViewModel.toString());
+        System.out.println(favoriteViewModel.toString());
+        List<String> favs = favoriteViewModel.eventids;
+        System.out.println(favs);
+        if (favs.contains(eventId)){
+            hrt.setImageResource(R.drawable.heart_filled);
+        }
+        String finalEventId = eventId;
+        hrt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (favs.contains(finalEventId)){
+                    //remove
+                    favoriteViewModel.eventids.removeIf(str -> str.equals(finalEventId));
+//                    favoriteViewModel.events.removeIf(obj -> obj.getEventId() == finalEventId);
+                    System.out.println(favoriteViewModel.eventids);
+                    // outline heart
+                    hrt.setImageResource(R.drawable.heart_outline);
+                }else {
+                    // add to application model
+                    favoriteViewModel.eventids.add(finalEventId);
+                    System.out.println(favoriteViewModel.eventids);
+                    hrt.setImageResource(R.drawable.heart_filled);
+                }
+            }
+        });
+//        if (favs.contains(eventId)){
+//            hrt.setImageResource(R.drawable.heart_filled);
+//            // remove from favs
+//            onItemClickListener.removeFav(position);
+//        }else {
+//            if (onItemClickListener != null) {
+//                onItemClickListener.onFavClick(position);
+//            }
+//        }
 
         fetchData(eventId);
     }
@@ -541,7 +576,10 @@ public class DetailActivity extends AppCompatActivity {
         setAllViewScroll();
         setDetailViewPager();
         detailsViewModel = new ViewModelProvider(this).get(DetailsViewModel.class);
+        MyApp myApp = (MyApp) getApplication();
+        favoriteViewModel = myApp.getMyApplicationModel();
         ImageView backButton = findViewById(R.id.detail_back);
+
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -634,6 +672,7 @@ public class DetailActivity extends AppCompatActivity {
                 });
         requestQueue.add(jsonObjectRequest);
     }
+
 
 
 

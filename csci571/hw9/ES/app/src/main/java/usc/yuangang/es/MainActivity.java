@@ -9,8 +9,9 @@ import android.os.Bundle;
 import com.google.android.material.tabs.TabLayout;
 
 import usc.yuangang.es.adapter.SearchFavViewAdapter;
+import usc.yuangang.es.intf.ViewModelInteractor;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  implements ViewModelInteractor {
     ViewPager2 vp;
     ViewPager2 vp2;
 
@@ -60,5 +61,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onItemClicked(int position) {
 
+    }
 }

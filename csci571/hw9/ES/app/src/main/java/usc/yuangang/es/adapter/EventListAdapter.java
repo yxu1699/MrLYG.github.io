@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -31,6 +33,9 @@ import usc.yuangang.es.intf.OnItemClickListener;
 import usc.yuangang.es.model.Event;
 import usc.yuangang.es.utils.GlideUtil;
 import usc.yuangang.es.utils.ScrollingTextView;
+import usc.yuangang.es.viewmodel.DetailsViewModel;
+import usc.yuangang.es.viewmodel.FavoriteViewModel;
+import usc.yuangang.es.viewmodel.SearchViewModel;
 
 
 public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.EventViewHolder> {
@@ -54,6 +59,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
 
 
 
+
     @Override
     public void onBindViewHolder(@NonNull EventViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
@@ -67,8 +73,32 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
         holder.venue.setFocus(true);
         holder.genre.setText(event.getGenre());
         holder.genre.setFocus(true);
-//        holder.heart.setText("♥"); // Or use a heart icon instead of the text
+        holder.heart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                holder.heart.setImageResource(R.drawable.heart_filled);
+                System.out.println("reset eventList");
+                // check if fav ed?
+                List<String> favs = onItemClickListener.getAllFavStr();
+                if (favs.contains(event.getEventId())){
+                    holder.heart.setImageResource(R.drawable.heart_outline);
+                    // remove from favs
+                    if (onItemClickListener != null) {
+                        onItemClickListener.removeFav(position);
+                    }
+                }else {
+                    if (onItemClickListener != null) {
+                        onItemClickListener.onFavClick(position);
+                    }
+                }
+                notifyDataSetChanged();
+            }
+        });
+        List<String> favs = onItemClickListener.getAllFavStr();
 
+        if (favs.contains(event.getEventId())){
+            holder.heart.setImageResource(R.drawable.heart_filled);
+        }
 
 //        Glide.with(context).load(event.getIconUrl()).into(holder.icon);
         Glide.with(context).load(event.getIconUrl()).apply(GlideUtil.getRoundRe(context.getApplicationContext(), 10)).into(holder.icon);

@@ -1,5 +1,7 @@
 package usc.yuangang.es.model;
 
+import java.util.Iterator;
+
 public class Event {
 
     String EventId;
@@ -9,6 +11,8 @@ public class Event {
     String iconUrl;
     String venue;
     String genre;
+
+    boolean isFav = false;
 
     public Event() {
     }
@@ -21,6 +25,14 @@ public class Event {
         this.iconUrl = iconUrl;
         this.venue = venue;
         this.genre = genre;
+    }
+
+    public boolean isFav() {
+        return isFav;
+    }
+
+    public void setFav(boolean fav) {
+        isFav = fav;
     }
 
     public String getEventId() {
@@ -77,5 +89,19 @@ public class Event {
 
     public void setGenre(String genre) {
         this.genre = genre;
+    }
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "EventId='" + EventId + '\'' +
+                ", EventName='" + EventName + '\'' +
+                ", Date='" + Date + '\'' +
+                ", Time='" + Time + '\'' +
+                ", iconUrl='" + iconUrl + '\'' +
+                ", venue='" + venue + '\'' +
+                ", genre='" + genre + '\'' +
+                ", isFav=" + isFav +
+                '}';
     }
 }

@@ -1,12 +1,12 @@
 package usc.yuangang.es;
 
 import android.Manifest;
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +16,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.location.LocationManager;
 
-import com.android.volley.Header;
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -33,6 +32,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import usc.yuangang.es.adapter.EventListAdapter;
 import usc.yuangang.es.intf.OnItemClickListener;
 import usc.yuangang.es.model.Event;
+import usc.yuangang.es.viewmodel.FavoriteViewModel;
 import usc.yuangang.es.viewmodel.SearchViewModel;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -43,16 +43,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
-import com.android.volley.toolbox.RequestFuture;
-import com.google.android.gms.tasks.OnSuccessListener;
-
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -70,6 +63,8 @@ public class SearchEventsFragment extends Fragment  implements OnItemClickListen
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
 
     private List<Event> events;
+
+    private FavoriteViewModel favoriteViewModel;
 
     private void requestLocationPermissions() {
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
@@ -371,6 +366,8 @@ public class SearchEventsFragment extends Fragment  implements OnItemClickListen
     RecyclerView recyclerView;
 
     CardView eventNotFound;
+
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -391,7 +388,14 @@ public class SearchEventsFragment extends Fragment  implements OnItemClickListen
         });
 
 
+
         searchViewModel = new ViewModelProvider(requireActivity()).get(SearchViewModel.class);
+
+        MyApp myApp = (MyApp) requireActivity().getApplication();
+        favoriteViewModel = myApp.getMyApplicationModel();
+
+
+
 //        Toast.makeText(getActivity(), "searchViewModel"+searchViewModel.toString(),
 //                Toast.LENGTH_SHORT).show();
 
@@ -409,5 +413,30 @@ public class SearchEventsFragment extends Fragment  implements OnItemClickListen
         intent.putExtra("eventId", event.getEventId());
         startActivity(intent);
 
+    }
+
+    @Override
+    public void onFavClick(int position) {
+        favoriteViewModel.eventids.add(events.get(position).getEventId());
+        favoriteViewModel.addEvent(events.get(position));
+        System.out.println(favoriteViewModel.eventids);
+    }
+
+    @Override
+    public List<Event> getAllFav() {
+        return favoriteViewModel.events;
+    }
+
+    @Override
+    public List<String> getAllFavStr() {
+        return favoriteViewModel.eventids;
+    }
+
+    @Override
+    public void removeFav(int position) {
+        String eventId = events.get(position).getEventId();
+        favoriteViewModel.eventids.removeIf(str -> str.equals(eventId));
+        favoriteViewModel.events.removeIf(obj -> obj.getEventId() == eventId);
+        System.out.println(favoriteViewModel.eventids);
     }
 }
