@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,7 @@ import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -200,7 +202,7 @@ public class SearchEventsFragment extends Fragment  implements OnItemClickListen
         }
     }
 
-
+    EventListAdapter adapterS = null;
     private void fecthDataAndShowData(String lat,String lng){
         //get data from backend
         Log.d("VolleyResponse", "fetch data start ");
@@ -300,6 +302,17 @@ public class SearchEventsFragment extends Fragment  implements OnItemClickListen
                             EventListAdapter adapter = new EventListAdapter(requireContext(), events,this);
                             recyclerView.setAdapter(adapter);
                             recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+                            adapterS = adapter;
+                            Handler updateHandler = new Handler();
+                            Runnable updateRunnable = new Runnable() {
+                                @Override
+                                public void run() {
+                                    recyclerView.getAdapter().notifyDataSetChanged(); // 通知 RecyclerView 数据发生了变化
+                                    updateHandler.postDelayed(this, 5000); // 重新调度 Runnable 在 1000 毫秒（1 秒）后运行
+                                }
+                            };
+                            updateHandler.post(updateRunnable);
+                            Log.d("eventlist", "ssssss");
                             progressBar.setVisibility(View.GONE);
                             recyclerView.setVisibility(View.VISIBLE);
 
@@ -318,8 +331,13 @@ public class SearchEventsFragment extends Fragment  implements OnItemClickListen
 
     @Override
     public void onResume() {
+
         super.onResume();
 
+        if (adapterS!=null){
+            adapterS.notifyDataSetChanged();
+        }
+        Log.d("eventlist", "onResume");
         progressBar.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.GONE);
         eventNotFound.setVisibility(View.GONE);
@@ -359,6 +377,13 @@ public class SearchEventsFragment extends Fragment  implements OnItemClickListen
         }
 
 
+    }
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser && adapterS!= null) {
+            adapterS.notifyDataSetChanged();
+        }
     }
 
 
@@ -415,6 +440,9 @@ public class SearchEventsFragment extends Fragment  implements OnItemClickListen
 
     }
 
+    public void executeMethod() {
+        // 在这里执行你想要的操作
+    }
     @Override
     public void onFavClick(int position) {
         favoriteViewModel.eventids.add(events.get(position).getEventId());
@@ -437,6 +465,7 @@ public class SearchEventsFragment extends Fragment  implements OnItemClickListen
         String eventId = events.get(position).getEventId();
         favoriteViewModel.eventids.removeIf(str -> str.equals(eventId));
         favoriteViewModel.events.removeIf(obj -> obj.getEventId() == eventId);
+        Log.d("favoriteViewModel", favoriteViewModel.eventids.toString());
         System.out.println(favoriteViewModel.eventids);
     }
 }

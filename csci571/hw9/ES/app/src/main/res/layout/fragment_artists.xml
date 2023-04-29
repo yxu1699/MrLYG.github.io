@@ -26,8 +26,6 @@
             android:gravity="center"
             android:background="@color/top_bar_bg"
             android:padding="8dp"
-
-
             />
 
     </androidx.cardview.widget.CardView>

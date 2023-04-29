@@ -32,11 +32,11 @@ public class MainActivity extends AppCompatActivity  implements ViewModelInterac
         tabLayout.addTab(tabLayout.newTab().setText("FAVORITES"));
 
 
-
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 vp.setCurrentItem(tab.getPosition());
+
             }
 
             @Override
