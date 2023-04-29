@@ -2,6 +2,7 @@ package usc.yuangang.es;
 
 import android.os.Bundle;
 
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,7 +24,7 @@ import usc.yuangang.es.viewmodel.DetailsViewModel;
 
 public class ArtistsFragment extends Fragment {
     DetailsViewModel detailsViewModel;
-
+    CardView artistNotFound;
     View mView;
     public ArtistsFragment() {
         // Required empty public constructor
@@ -40,17 +41,25 @@ public class ArtistsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_artists, container, false);
+        artistNotFound = mView.findViewById(R.id.artist_no_found);
         return mView;
+
     }
+
+
 
     @Override
     public void onResume() {
         super.onResume();
+        artistNotFound.setVisibility(View.GONE);
         detailsViewModel = new ViewModelProvider(requireActivity()).get(DetailsViewModel.class);
         List<Artist> artists = detailsViewModel.getArtists();
         Log.d("ArtistsFragment", artists.toString());
         Log.d("ArtistsFragment", detailsViewModel.artistsOrder.toString());
 
+        if (artists.size() == 0){
+            artistNotFound.setVisibility(View.VISIBLE);
+        }
 
         List<Artist> orderedArtists = new ArrayList<>();
         List<String> artistsOrder = detailsViewModel.artistsOrder;
