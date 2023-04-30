@@ -13,4 +13,8 @@ public interface OnItemClickListener {
     List<String> getAllFavStr();
 
     void removeFav(int position);
+
+    void showAddFav(String name);
+
+    void showRemoveFav(String name);
 }

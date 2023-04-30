@@ -84,7 +84,7 @@
                         android:textColor="@color/grey"
                         android:textSize="18sp" />
 
-                    <usc.yuangang.es.utils.ScrollingTextView
+                    <TextView
                         android:id="@+id/artist_spotify"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
@@ -95,7 +95,7 @@
                         android:gravity="center_vertical"
                         android:marqueeRepeatLimit="marquee_forever"
                         android:singleLine="true"
-                        android:text="Check out on Spotify"
+                        android:text="@string/spotify"
                         android:textColor="@color/green"
                         android:textSize="15sp"
                         android:clickable="true"/>

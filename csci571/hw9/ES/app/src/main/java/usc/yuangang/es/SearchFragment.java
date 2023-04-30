@@ -112,7 +112,7 @@ public class SearchFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
 
-                    Toast.makeText(getActivity(), "autoCheck!", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getActivity(), "autoCheck!", Toast.LENGTH_SHORT).show();
                 } else {
 
                 }

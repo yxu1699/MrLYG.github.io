@@ -39,15 +39,18 @@ public class FavListAdapter extends RecyclerView.Adapter<EventListAdapter.EventV
 
     private Context context;
     private List<Event> eventList;
+    private OnItemClickListener onItemClickListener;
+
 
     FavoriteViewModel favoriteViewModel;
 
 
-    public FavListAdapter(Context context, List<Event> eventList, FavoriteViewModel favoriteViewModel, OnFavoriteRemovedListener onFavoriteRemovedListener) {
+    public FavListAdapter(Context context, List<Event> eventList, FavoriteViewModel favoriteViewModel, OnFavoriteRemovedListener onFavoriteRemovedListener, OnItemClickListener onItemClickListener) {
         this.context = context;
         this.eventList = eventList;
         this.favoriteViewModel = favoriteViewModel;
         this.onFavoriteRemovedListener = onFavoriteRemovedListener;
+        this.onItemClickListener = onItemClickListener;
     }
     @NonNull
     @Override
@@ -88,6 +91,7 @@ public class FavListAdapter extends RecyclerView.Adapter<EventListAdapter.EventV
                 if (onFavoriteRemovedListener != null) {
                     onFavoriteRemovedListener.onFavoriteRemoved();
                 }
+                onItemClickListener.showRemoveFav(event.getEventName());
             }
         });
 

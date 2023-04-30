@@ -11,8 +11,10 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +24,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
 import org.json.JSONArray;
@@ -56,6 +59,7 @@ public class DetailActivity extends AppCompatActivity {
         ScrollingTextView stv = findViewById(R.id.title);
         stv.setFocus(true);
     }
+    String eventName = "";
     @Override
     protected void onResume() {
         super.onResume();
@@ -77,6 +81,8 @@ public class DetailActivity extends AppCompatActivity {
         if (favs.contains(eventId)){
             hrt.setImageResource(R.drawable.heart_filled);
         }
+        fetchData(eventId);
+
         String finalEventId = eventId;
         hrt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,11 +94,20 @@ public class DetailActivity extends AppCompatActivity {
                     System.out.println(favoriteViewModel.eventids);
                     // outline heart
                     hrt.setImageResource(R.drawable.heart_outline);
+
+                    showRemoveFav(eventName);
+
+
+
                 }else {
                     // add to application model
                     favoriteViewModel.eventids.add(finalEventId);
                     System.out.println(favoriteViewModel.eventids);
                     hrt.setImageResource(R.drawable.heart_filled);
+
+                    showAddFav(eventName);
+
+
                 }
             }
         });
@@ -106,8 +121,47 @@ public class DetailActivity extends AppCompatActivity {
 //            }
 //        }
 
-        fetchData(eventId);
+
     }
+
+    public void showAddFav(String name) {
+        LinearLayout linearLayout = findViewById(R.id.detail_snackbar_layout);
+        Snackbar snackbar = Snackbar.make(linearLayout, name + " added to favorites", Snackbar.LENGTH_LONG);
+        // 获取 Snackbar 的 TextView
+        TextView snackbarTextView = snackbar.getView().findViewById(com.google.android.material.R.id.snackbar_text);
+
+        // 设置 Snackbar 文本大小
+        float textSizeInSp = 14; // 设置文本大小，单位为 sp
+        snackbarTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSizeInSp);
+        // 设置 Snackbar 文本颜色
+        int textColorB = getResources().getColor(R.color.black);
+        int colorGray = getResources().getColor(R.color.grey);
+        snackbar.setTextColor(textColorB);
+        snackbar.setBackgroundTint(colorGray);
+        snackbar.setActionTextColor(textColorB);
+        snackbar.show();
+    }
+
+    public void showRemoveFav(String name) {
+        LinearLayout linearLayout = findViewById(R.id.detail_snackbar_layout);
+        Snackbar snackbar = Snackbar.make(linearLayout, name + " removed to favorites", Snackbar.LENGTH_LONG);
+        // 获取 Snackbar 的 TextView
+        TextView snackbarTextView = snackbar.getView().findViewById(com.google.android.material.R.id.snackbar_text);
+
+        // 设置 Snackbar 文本大小
+        float textSizeInSp = 14; // 设置文本大小，单位为 sp
+        snackbarTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSizeInSp);
+        int textColorB = getResources().getColor(R.color.black);
+        int colorGray = getResources().getColor(R.color.grey);
+        snackbar.setTextColor(textColorB);
+        snackbar.setBackgroundTint(colorGray);
+        snackbar.setActionTextColor(textColorB);
+        snackbar.show();
+    }
+
+
+
+
     public static String convertDateFormat(String inDate) {
         SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
         SimpleDateFormat outputFormat = new SimpleDateFormat("MMM dd, yyyy", Locale.US);
@@ -170,6 +224,7 @@ public class DetailActivity extends AppCompatActivity {
 
                     if (checkValue(event.optString("name"))) {
                         eventname = event.optString("name");
+                        this.eventName =eventname;
                     }
 
                     JSONObject dates = event.optJSONObject("dates");
@@ -277,8 +332,8 @@ public class DetailActivity extends AppCompatActivity {
 
                     // 生成 Twitter 和 Facebook URL
                     try {
-                        twitterurl = "https://twitter.com/intent/tweet?url=" + eventurl + "&text=" + URLEncoder.encode(eventname + " on Ticketmaster.", "UTF-8");
-                        facebookurl = "https://www.facebook.com/dialog/share?app_id=your_app_id&display=popup&href=" + URLEncoder.encode(eventurl, "UTF-8") + "&redirect_uri=" + URLEncoder.encode("https://www.facebook.com", "UTF-8");
+                        twitterurl = "https://twitter.com/intent/tweet?url=" + eventurl + "&text=" + URLEncoder.encode(eventname + " on Ticketmaster.\r\n", "UTF-8");
+                        facebookurl = "https://www.facebook.com/sharer/sharer.php?u=" + URLEncoder.encode(eventurl, "UTF-8") + "&amp;src=sdkpreparse";
                     } catch (UnsupportedEncodingException e) {
                         throw new RuntimeException(e);
                     }
@@ -310,34 +365,34 @@ public class DetailActivity extends AppCompatActivity {
 
                     ImageView facebook = findViewById(R.id.facebook_image);
                     String finalFacebookurl = facebookurl;
-//                    facebook.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View view) {
-//                            Log.d("facebook_image", "facebook_image onClick:");
-////                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(finalFacebookurl));
-//                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com"));
-//                            System.out.println(intent.resolveActivity(getPackageManager()));
-//                            if (intent.resolveActivity(getPackageManager()) != null) {
-//                                Log.d("facebook_image", Uri.parse(finalFacebookurl).toString());
-//                                startActivity(intent);
-//                            }
-//                        }
-//                    });
                     facebook.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             Log.d("facebook_image", "facebook_image onClick:");
-                            String url = "https://www.google.com";
-                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                            PackageManager packageManager = getPackageManager();
-                            if (intent.resolveActivity(packageManager) != null) {
-                                Log.d("facebook_image", Uri.parse(url).toString());
+                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(finalFacebookurl));
+                            System.out.println(intent.resolveActivity(getPackageManager()));
+                            if (intent.resolveActivity(getPackageManager()) != null) {
+                                Log.d("facebook_image", Uri.parse(finalFacebookurl).toString());
                                 startActivity(intent);
-                            } else {
-                                Log.d("facebook_image", "No suitable app found to handle the URL");
                             }
                         }
                     });
+
+//                    facebook.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View view) {
+//                            Log.d("facebook_image", "facebook_image onClick:");
+//                            String url = "https://www.google.com";
+//                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+//                            PackageManager packageManager = getPackageManager();
+//                            if (intent.resolveActivity(packageManager) != null) {
+//                                Log.d("facebook_image", Uri.parse(url).toString());
+//                                startActivity(intent);
+//                            } else {
+//                                Log.d("facebook_image", "No suitable app found to handle the URL");
+//                            }
+//                        }
+//                    });
 
                     Detail detail = new Detail(artists, venue, date, time, genres, priceRanges + " " + priceUnit, ticketStatus, eventurl, imgurl);
                     Log.d("Volley", detail.toString());
@@ -353,6 +408,8 @@ public class DetailActivity extends AppCompatActivity {
                     // handle venue data
                     getVenueByName(venue);
                     Log.d("zhixing", "finish getVenueByName(venue);");
+
+
 
                 }, error -> {
                     // 在这里处理错误的响应

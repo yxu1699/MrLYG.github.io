@@ -1,9 +1,13 @@
 package usc.yuangang.es;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -102,7 +106,18 @@ public class DetailsDetailFragment extends Fragment {
                     }
 
                     ScrollingTextView stvBTA = mView.findViewById(R.id.detail_bta);
-                    stvBTA.setText(detail.getBuyTicketAt());
+                    SpannableString content = new SpannableString(detail.getBuyTicketAt());
+                    content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
+                    stvBTA.setText(content);
+                    stvBTA.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(detail.getBuyTicketAt()));
+                            if (intent.resolveActivity(requireActivity().getPackageManager()) != null) {
+                                startActivity(intent);
+                            }
+                        }
+                    });
 
                     ImageView stvMap = mView.findViewById(R.id.detail_map);
 

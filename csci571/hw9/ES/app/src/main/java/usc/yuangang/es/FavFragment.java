@@ -7,11 +7,16 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.io.CharArrayReader;
 import java.util.List;
@@ -22,11 +27,12 @@ import usc.yuangang.es.intf.OnItemClickListener;
 import usc.yuangang.es.model.Event;
 import usc.yuangang.es.viewmodel.FavoriteViewModel;
 
-public class FavFragment extends Fragment implements FavListAdapter.OnFavoriteRemovedListener {
+public class FavFragment extends Fragment implements FavListAdapter.OnFavoriteRemovedListener, OnItemClickListener {
 
     View mView;
 
     private FavoriteViewModel favoriteViewModel;
+
     public FavFragment() {
         // Required empty public constructor
     }
@@ -56,7 +62,7 @@ public class FavFragment extends Fragment implements FavListAdapter.OnFavoriteRe
 
 
             List<Event> events = favoriteViewModel.events;
-            FavListAdapter adapter = new FavListAdapter(requireContext(), events, favoriteViewModel,this);
+            FavListAdapter adapter = new FavListAdapter(requireContext(), events, favoriteViewModel,this,this);
             rv.setAdapter(adapter);
             rv.setLayoutManager(new LinearLayoutManager(requireContext()));
             rv.setVisibility(View.VISIBLE);
@@ -89,4 +95,52 @@ public class FavFragment extends Fragment implements FavListAdapter.OnFavoriteRe
         }
     }
 
+
+    @Override
+    public void onItemClick(int position) {
+
+    }
+
+    @Override
+    public void onFavClick(int position) {
+
+    }
+
+    @Override
+    public List<Event> getAllFav() {
+        return null;
+    }
+
+    @Override
+    public List<String> getAllFavStr() {
+        return null;
+    }
+
+    @Override
+    public void removeFav(int position) {
+
+    }
+
+    @Override
+    public void showAddFav(String name) {
+
+    }
+
+    @Override
+    public void showRemoveFav(String name) {
+        FrameLayout frameLayout = mView.findViewById(R.id.fav_snackbar_layout);
+        Snackbar snackbar = Snackbar.make(frameLayout, name + " removed to favorites", Snackbar.LENGTH_LONG);
+        // 获取 Snackbar 的 TextView
+        TextView snackbarTextView = snackbar.getView().findViewById(com.google.android.material.R.id.snackbar_text);
+
+        // 设置 Snackbar 文本大小
+        float textSizeInSp = 14; // 设置文本大小，单位为 sp
+        snackbarTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSizeInSp);
+        int textColorB = getResources().getColor(R.color.black);
+        int colorGray = getResources().getColor(R.color.grey);
+        snackbar.setTextColor(textColorB);
+        snackbar.setBackgroundTint(colorGray);
+        snackbar.setActionTextColor(textColorB);
+        snackbar.show();
+    }
 }

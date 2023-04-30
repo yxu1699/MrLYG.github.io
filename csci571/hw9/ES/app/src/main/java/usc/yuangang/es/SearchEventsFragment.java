@@ -1,7 +1,6 @@
 package usc.yuangang.es;
 
 import android.Manifest;
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -9,9 +8,11 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,9 +25,9 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -48,6 +49,7 @@ import java.util.List;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -468,4 +470,42 @@ public class SearchEventsFragment extends Fragment  implements OnItemClickListen
         Log.d("favoriteViewModel", favoriteViewModel.eventids.toString());
         System.out.println(favoriteViewModel.eventids);
     }
+
+    @Override
+    public void showAddFav(String name) {
+        LinearLayout linearLayout = mView.findViewById(R.id.serach_event_snackbar_layout);
+        Snackbar snackbar = Snackbar.make(linearLayout, name + " added to favorites", Snackbar.LENGTH_LONG);
+        // 获取 Snackbar 的 TextView
+        TextView snackbarTextView = snackbar.getView().findViewById(com.google.android.material.R.id.snackbar_text);
+
+        // 设置 Snackbar 文本大小
+        float textSizeInSp = 14; // 设置文本大小，单位为 sp
+        snackbarTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSizeInSp);
+        // 设置 Snackbar 文本颜色
+        int textColorB = getResources().getColor(R.color.black);
+        int colorGray = getResources().getColor(R.color.grey);
+        snackbar.setTextColor(textColorB);
+        snackbar.setBackgroundTint(colorGray);
+        snackbar.setActionTextColor(textColorB);
+        snackbar.show();
+    }
+
+    @Override
+    public void showRemoveFav(String name) {
+        LinearLayout linearLayout = mView.findViewById(R.id.serach_event_snackbar_layout);
+        Snackbar snackbar = Snackbar.make(linearLayout, name + " removed to favorites", Snackbar.LENGTH_LONG);
+        // 获取 Snackbar 的 TextView
+        TextView snackbarTextView = snackbar.getView().findViewById(com.google.android.material.R.id.snackbar_text);
+
+        // 设置 Snackbar 文本大小
+        float textSizeInSp = 14; // 设置文本大小，单位为 sp
+        snackbarTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSizeInSp);
+        int textColorB = getResources().getColor(R.color.black);
+        int colorGray = getResources().getColor(R.color.grey);
+        snackbar.setTextColor(textColorB);
+        snackbar.setBackgroundTint(colorGray);
+        snackbar.setActionTextColor(textColorB);
+        snackbar.show();
+    }
+
 }

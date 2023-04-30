@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".DetailActivity"
+    android:id="@+id/detail_snackbar_layout"
     android:background="@color/grey"
     android:orientation="vertical">
 

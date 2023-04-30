@@ -85,11 +85,15 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
                     // remove from favs
                     if (onItemClickListener != null) {
                         onItemClickListener.removeFav(position);
+                        onItemClickListener.showRemoveFav(event.getEventName());
+
                     }
                     holder.heart.setImageResource(R.drawable.heart_outline);
+
                 }else {
                     if (onItemClickListener != null) {
                         onItemClickListener.onFavClick(position);
+                        onItemClickListener.showAddFav(event.getEventName());
                     }
                     holder.heart.setImageResource(R.drawable.heart_filled);
 

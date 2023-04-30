@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".FavFragment"
+    android:id="@+id/fav_snackbar_layout"
     android:background="@color/grey"
     android:orientation="vertical">
 

@@ -1,6 +1,8 @@
 package usc.yuangang.es.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -78,6 +80,16 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ArtistView
         holder.artistPopularity.setMax(100);
         Glide.with(context).load(artist.getArtistIcon()).apply(RequestOptions.bitmapTransform((new RoundedCorners(30)))).into(holder.artistIcon);
 
+        holder.artistSpotifyUrl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("click spotify");
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(artist.getArtistSpotifyUrl()));
+                if (intent.resolveActivity(context.getPackageManager()) != null) {
+                    context.startActivity(intent);
+                }
+            }
+        });
 
 
         requestQueue = Volley.newRequestQueue(context.getApplicationContext());
@@ -140,7 +152,8 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ArtistView
     public class ArtistViewHolder extends RecyclerView.ViewHolder {
 
         ImageView artistIcon, artistAlbums1Img, artistAlbums2Img, artistAlbums3Img;
-        ScrollingTextView artistName,artistFollower, artistSpotifyUrl;
+        ScrollingTextView artistName,artistFollower;
+        TextView artistSpotifyUrl;
         MyCircleProgress artistPopularity;
         public ArtistViewHolder(@NonNull View itemView) {
             super(itemView);
