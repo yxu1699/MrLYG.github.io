@@ -44,6 +44,7 @@ import com.google.android.gms.location.LocationServices;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -300,6 +301,7 @@ public class SearchEventsFragment extends Fragment  implements OnItemClickListen
 
                             }
                             System.out.println(events);
+                            Collections.sort(events);
                             RecyclerView recyclerView = mView.findViewById(R.id.re_events);
                             EventListAdapter adapter = new EventListAdapter(requireContext(), events,this);
                             recyclerView.setAdapter(adapter);
@@ -439,6 +441,11 @@ public class SearchEventsFragment extends Fragment  implements OnItemClickListen
         Event event = events.get(position);
         intent.putExtra("eventId", event.getEventId());
         startActivity(intent);
+
+    }
+
+    @Override
+    public void onItemClickE(Event event) {
 
     }
 

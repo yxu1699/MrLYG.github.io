@@ -99,6 +99,14 @@ public class FavListAdapter extends RecyclerView.Adapter<EventListAdapter.EventV
 //        Glide.with(context).load(event.getIconUrl()).into(holder.icon);
         Glide.with(context).load(event.getIconUrl()).apply(GlideUtil.getRoundRe(context.getApplicationContext(), 10)).into(holder.icon);
 
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onItemClickListener != null) {
+                    onItemClickListener.onItemClickE(event);
+                }
+            }
+        });
         //SET CLICK
     }
 

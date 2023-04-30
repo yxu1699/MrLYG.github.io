@@ -2,6 +2,7 @@ package usc.yuangang.es;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -11,11 +12,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 import usc.yuangang.es.model.Venue;
 import usc.yuangang.es.utils.ScrollingTextView;
 import usc.yuangang.es.viewmodel.DetailsViewModel;
 
-public class VenueFragment extends Fragment {
+public class VenueFragment extends Fragment implements OnMapReadyCallback {
 
     DetailsViewModel detailsViewModel;
 
@@ -36,6 +44,9 @@ public class VenueFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mView =  inflater.inflate(R.layout.fragment_venue, container, false);
+        // 获取 SupportMapFragment 并注册地图准备回调
+        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
         return mView;
     }
 
@@ -70,4 +81,18 @@ public class VenueFragment extends Fragment {
         grText.setText(venue.getGrText());
         crText.setText(venue.getCrText());
     }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        // 添加一个标记在场地位置并移动相机
+        detailsViewModel = new ViewModelProvider(requireActivity()).get(DetailsViewModel.class);
+        Venue venue = detailsViewModel.getVenue();
+        if (venue != null){
+            LatLng venueLocation = new LatLng(venue.getLatitude(), venue.getLongitude());
+            googleMap.addMarker(new MarkerOptions().position(venueLocation).title(detailsViewModel.getVenue().getVenueName()));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(venueLocation, 15));
+        }
+
+    }
+
 }

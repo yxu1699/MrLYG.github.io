@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/green"
-            android:text="No events found"
+            android:text="Artist/Music data unavailable"
             android:textSize="20sp"
             android:textStyle="bold"
             android:gravity="center"

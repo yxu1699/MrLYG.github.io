@@ -23,9 +23,7 @@
             <action android:name="android.intent.action.GET_CONTENT" />
         </intent>
     </queries>
-    <meta-data
-        android:name="com.google.android.geo.API_KEY"
-        android:value="AIzaSyDG0whBGCp_yx4zRwaIYyOFoVUHdhy9K-k"/>
+
     <application
         android:name=".MyApp"
         android:usesCleartextTraffic="true"
@@ -38,6 +36,9 @@
         android:theme="@style/Theme.ES"
         tools:targetApi="31">
 
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCBz9Olgo1aRpB6X_GwEiLSpCynEHl8zmI"/>
         <activity
             android:name=".DetailActivity"
             android:exported="false"

@@ -74,7 +74,9 @@ public class ArtistsFragment extends Fragment {
 
         RecyclerView recyclerView = mView.findViewById(R.id.re_artists);
         ArtistAdapter adapter = new ArtistAdapter(requireContext(), orderedArtists);
+
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        adapter.notifyDataSetChanged();
     }
 }

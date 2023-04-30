@@ -1,5 +1,6 @@
 package usc.yuangang.es;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.cardview.widget.CardView;
@@ -99,6 +100,12 @@ public class FavFragment extends Fragment implements FavListAdapter.OnFavoriteRe
     @Override
     public void onItemClick(int position) {
 
+    }
+    @Override
+    public void onItemClickE(Event event) {
+        Intent intent = new Intent(getActivity(), DetailActivity.class);
+        intent.putExtra("eventId", event.getEventId());
+        startActivity(intent);
     }
 
     @Override

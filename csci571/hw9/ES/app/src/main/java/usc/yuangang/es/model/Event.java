@@ -2,7 +2,7 @@ package usc.yuangang.es.model;
 
 import java.util.Iterator;
 
-public class Event {
+public class Event implements Comparable<Event> {
 
     String EventId;
     String EventName;
@@ -103,5 +103,10 @@ public class Event {
                 ", genre='" + genre + '\'' +
                 ", isFav=" + isFav +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Event event) {
+        return this.Date.compareTo(event.Date);
     }
 }
