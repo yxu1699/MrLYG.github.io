@@ -2,12 +2,14 @@ package usc.yuangang.es;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -692,6 +694,24 @@ public class DetailActivity extends AppCompatActivity {
                 if(tab.getPosition() == 0){
                     imageView.setImageResource(R.drawable.info_icon);
                 }
+                if(tab.getPosition() == 1){
+
+                    // 获取 Drawable 对象
+                    Drawable drawable = ContextCompat.getDrawable(DetailActivity.this, R.drawable.artist_icon);
+
+                    // 使用 DrawableCompat 包装 Drawable 对象
+                    drawable = DrawableCompat.wrap(drawable);
+
+                    // 设置新的颜色
+                    int newColor = ContextCompat.getColor(DetailActivity.this, R.color.green);
+                    DrawableCompat.setTint(drawable, newColor);
+
+                    // 将新颜色应用到 ImageView 或其他视图
+                    imageView.setImageDrawable(drawable);
+                }
+                if(tab.getPosition() == 2){
+                    imageView.setImageResource(R.drawable.venue_icon);
+                }
             }
 
             @Override
@@ -706,6 +726,24 @@ public class DetailActivity extends AppCompatActivity {
                 ImageView imageView = tab.getCustomView().findViewById(R.id.tabicon);
                 if(tab.getPosition() == 0){
                     imageView.setImageResource(R.drawable.info_w_icon);
+                }
+                if(tab.getPosition() == 2){
+                    imageView.setImageResource(R.drawable.venue_w_icon);
+                }
+                if(tab.getPosition() == 1){
+
+                    // 获取 Drawable 对象
+                    Drawable drawable = ContextCompat.getDrawable(DetailActivity.this, R.drawable.artist_icon);
+
+                    // 使用 DrawableCompat 包装 Drawable 对象
+                    drawable = DrawableCompat.wrap(drawable);
+
+                    // 设置新的颜色
+                    int newColor = ContextCompat.getColor(DetailActivity.this, R.color.white);
+                    DrawableCompat.setTint(drawable, newColor);
+
+                    // 将新颜色应用到 ImageView 或其他视图
+                    imageView.setImageDrawable(drawable);
                 }
             }
 
@@ -750,8 +788,25 @@ public class DetailActivity extends AppCompatActivity {
         }else {
             tv.setTextColor(ContextCompat.getColor(DetailActivity.this, R.color.white));
         }
-        ImageView im = (ImageView)newtab.findViewById(R.id.tabicon);
-        im.setImageResource(iconID);
+        if(type == 1){
+            ImageView im = (ImageView)newtab.findViewById(R.id.tabicon);
+            // 获取 Drawable 对象
+            Drawable drawable = ContextCompat.getDrawable(DetailActivity.this, R.drawable.artist_icon);
+
+            // 使用 DrawableCompat 包装 Drawable 对象
+            drawable = DrawableCompat.wrap(drawable);
+
+            // 设置新的颜色
+            int newColor = ContextCompat.getColor(DetailActivity.this, R.color.white);
+            DrawableCompat.setTint(drawable, newColor);
+
+            // 将新颜色应用到 ImageView 或其他视图
+            im.setImageDrawable(drawable);
+        }else {
+            ImageView im = (ImageView)newtab.findViewById(R.id.tabicon);
+            im.setImageResource(iconID);
+        }
+
         return newtab;
     }
 

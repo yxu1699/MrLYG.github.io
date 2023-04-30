@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.text.SpannableStringBuilder;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.widget.AppCompatTextView;
@@ -18,8 +19,8 @@ public class ExpandableTextView extends AppCompatTextView {
 
     public ExpandableTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
-       /* TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ExpandableTextView);
-        collapsedLines = typedArray.getInt(R.styleable.ExpandableTextView_collapsedLines, DEFAULT_COLLAPSED_LINES);
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ExpandableTextView);
+        collapsedLines = typedArray.getInt(R.styleable.ExpandableTextViewo_collapsedLines, DEFAULT_COLLAPSED_LINES);
         typedArray.recycle();
 
         setOnClickListener(new OnClickListener() {
@@ -28,7 +29,7 @@ public class ExpandableTextView extends AppCompatTextView {
                 isCollapsed = !isCollapsed;
                 updateText();
             }
-        });*/
+        });
     }
 
 //    @Override
@@ -39,18 +40,27 @@ public class ExpandableTextView extends AppCompatTextView {
     @Override
     public void setText(CharSequence text, BufferType type) {
         fullText = text;
-        post(new Runnable() {
-            @Override
-            public void run() {
-                updateText();
-            }
-        });
+        updateText();
     }
     private void updateText() {
-
+        Log.d("expand", String.valueOf(isCollapsed));
         if (isCollapsed) {
             setMaxLines(collapsedLines);
-            super.setText(getTrimmedText(fullText.toString()), BufferType.SPANNABLE);
+            CharSequence cs = getTrimmedText(fullText.toString());
+            if (cs.length() > 130){
+                cs = cs.subSequence(0, 130);
+            }
+            String s = cs.toString();
+            Log.d("expand", s);
+            if (!s.contains("...")){
+                Log.d("expand", "cna't have  .... ");
+                cs =  cs + "...";
+                Log.d("expand", cs.toString());
+            }
+
+
+
+            super.setText(cs, BufferType.SPANNABLE);
         } else {
             setMaxLines(Integer.MAX_VALUE);
             super.setText(fullText, BufferType.SPANNABLE);
