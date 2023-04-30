@@ -79,7 +79,6 @@ public class RoundImageView extends androidx.appcompat.widget.AppCompatImageView
             BitmapDrawable bd = (BitmapDrawable) drawable;
             return bd.getBitmap();
         }
-        // 当设置不为图片，为颜色时，获取的drawable宽高会有问题，所有当为颜色时候获取控件的宽高
         int w = drawable.getIntrinsicWidth() <= 0 ? getWidth() : drawable.getIntrinsicWidth();
         int h = drawable.getIntrinsicHeight() <= 0 ? getHeight() : drawable.getIntrinsicHeight();
         Bitmap bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);

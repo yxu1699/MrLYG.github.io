@@ -27,16 +27,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
             android:src="@drawable/arrow_left_green" />
-<!--        <usc.yuangang.es.utils.ScrollingTextView-->
-<!--            android:id="@+id/title"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:gravity="center"-->
-<!--            android:minHeight="?actionBarSize"-->
-<!--            android:textStyle="bold"-->
-<!--            android:text="EventFinder"-->
-<!--            android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"-->
-<!--            android:textColor="@color/top_bar_title" />-->
+
         <usc.yuangang.es.utils.ScrollingTextView
             android:id="@+id/title"
             android:layout_width="match_parent"
@@ -54,6 +45,7 @@
             android:textColor="@color/green"
             android:textStyle="bold"
             android:gravity="center_vertical"
+            android:background="@color/top_bar_bg"
             />
         <LinearLayout
             android:layout_width="match_parent"
@@ -103,12 +95,14 @@
 
 
     <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabSearchFav"
+        android:id="@+id/tabSearchdetail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/black"
         app:tabIndicatorColor="@color/green"
-        app:tabTextColor="@color/tab_text_colors" />
+        app:tabTextColor="@color/tab_text_colors"
+        app:tabTextAppearance="@style/MyCustomTabTextAppearance"
+        />
 </com.google.android.material.appbar.AppBarLayout>
 
 

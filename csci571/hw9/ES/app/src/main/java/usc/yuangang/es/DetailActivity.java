@@ -1,22 +1,22 @@
 package usc.yuangang.es;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.app.Application;
+import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -40,6 +40,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Logger;
 
 import usc.yuangang.es.adapter.DetailsVP2Adapter;
 import usc.yuangang.es.model.Artist;
@@ -71,7 +72,7 @@ public class DetailActivity extends AppCompatActivity {
             // Extract the eventId from the Intent
             eventId = intent.getStringExtra("eventId");
         }
-        Toast.makeText(this, eventId, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, eventId, Toast.LENGTH_SHORT).show();
 
         ImageView hrt = findViewById(R.id.favorite_image);
         Log.d("favoriteViewModel", favoriteViewModel.toString());
@@ -652,25 +653,64 @@ public class DetailActivity extends AppCompatActivity {
         dvp = findViewById(R.id.pagesSearchFav);
         dvp.setAdapter(detailsVP2Adapter);
 
-        TabLayout tabLayout = findViewById(R.id.tabSearchFav);
-        tabLayout.addTab(tabLayout.newTab().setText("DETAILS"));
-        tabLayout.addTab(tabLayout.newTab().setText("ARTIST(S)"));
-        tabLayout.addTab(tabLayout.newTab().setText("VENUE"));
+        detailsVP2Adapter.notifyDataSetChanged();
+
+        /*// 创建并设置 DETAILS 标签
+        TabLayout.Tab detailsTab = tabLayout.newTab();
+        //这样没效果吗 没有
+        detailsTab.setText("DETAILS");
+        detailsTab.setIcon(R.drawable.info_icon);
+        tabLayout.addTab(detailsTab);
+
+        TabLayout.Tab artistsTab = tabLayout.newTab();
+        artistsTab.setText("ARTIST(S)");
+        artistsTab.setIcon(R.drawable.heart_filled);
+        tabLayout.addTab(artistsTab);
+
+        TabLayout.Tab venueTab = tabLayout.newTab();
+        venueTab.setText("VENUE");
+        venueTab.setIcon(R.drawable.info_icon);
+        tabLayout.addTab(venueTab);*/
+        TabLayout tabLayout = findViewById(R.id.tabSearchdetail);
+        tabLayout.addTab(tabLayout.newTab().setCustomView(tab_icon("DETAILS",R.drawable.info_icon,0)));
+        tabLayout.addTab(tabLayout.newTab().setCustomView(tab_icon("ARTIST(S)",R.drawable.artist_icon,1)));
+        tabLayout.addTab(tabLayout.newTab().setCustomView(tab_icon("VENUE",R.drawable.venue_w_icon,2)));
+
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 dvp.setCurrentItem(tab.getPosition());
+                Logger.getLogger("选择"+tab.getPosition()+"");
+                View view = tab.getCustomView();
+                if (null == view) {
+                    tab.setCustomView(R.layout.icon_view);
+                }
+                TextView textView = tab.getCustomView().findViewById(R.id.tabtext);
+                textView.setTextColor(ContextCompat.getColor(DetailActivity.this, R.color.green));
+                ImageView imageView = tab.getCustomView().findViewById(R.id.tabicon);
+                if(tab.getPosition() == 0){
+                    imageView.setImageResource(R.drawable.info_icon);
+                }
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
+                View view = tab.getCustomView();
+                if (null == view) {
+                    tab.setCustomView(R.layout.icon_view);
+                }
+                TextView textView = tab.getCustomView().findViewById(R.id.tabtext);
+                textView.setTextColor(ContextCompat.getColor(DetailActivity.this, R.color.white));
+                //changeTabTextView(tab, tab.getPosition());
+                ImageView imageView = tab.getCustomView().findViewById(R.id.tabicon);
+                if(tab.getPosition() == 0){
+                    imageView.setImageResource(R.drawable.info_w_icon);
+                }
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
             }
         });
         dvp.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
@@ -685,6 +725,36 @@ public class DetailActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
     }
+
+
+    /**
+     * 字体加粗变颜色
+     *
+     * @param tab
+     * @param type
+     */
+    @SuppressLint("ResourceAsColor")
+    public void changeTabTextView(TabLayout.Tab tab, int type) {
+        View view = tab.getCustomView();
+        if (null == view) {
+            tab.setCustomView(R.layout.icon_view);
+        }
+        TextView textView = tab.getCustomView().findViewById(R.id.tabtext);
+    }
+    private View tab_icon(String name,int iconID,int type){
+        View newtab =  LayoutInflater.from(DetailActivity.this).inflate(R.layout.icon_view,null);
+        TextView tv = (TextView) newtab.findViewById(R.id.tabtext);
+        tv.setText(name);
+        if (type == 0){
+            tv.setTextColor(ContextCompat.getColor(DetailActivity.this, R.color.green));
+        }else {
+            tv.setTextColor(ContextCompat.getColor(DetailActivity.this, R.color.white));
+        }
+        ImageView im = (ImageView)newtab.findViewById(R.id.tabicon);
+        im.setImageResource(iconID);
+        return newtab;
+    }
+
 
 
     public void getArtistInfo(String artistName) {

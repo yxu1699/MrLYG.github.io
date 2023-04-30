@@ -23,6 +23,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -112,13 +113,16 @@ public class SearchFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
 
+                    location.setVisibility(View.GONE);
 //                    Toast.makeText(getActivity(), "autoCheck!", Toast.LENGTH_SHORT).show();
                 } else {
-
+                    location.setVisibility(View.VISIBLE);
                 }
             }
         });
 
+
+        ProgressBar auPB = mView.findViewById(R.id.auto_process_bar);
         // add auto complete textview
         requestQueue = Volley.newRequestQueue(getContext());
 
@@ -131,42 +135,44 @@ public class SearchFragment extends Fragment {
         autoCompleteTextView.setAdapter(adapterAutoCom);
         autoCompleteTextView.setThreshold(1);
         autoCompleteTextView.setDropDownBackgroundResource(android.R.color.black);
-
         autoCompleteTextView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 Log.d("AutoCompleteSearch", s.toString());
                 String url = "https://nodejs-379321.uw.r.appspot.com/suggest?keyword=" + Uri.encode(s.toString());
 
-                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-                        Request.Method.GET, url, null,
-                        response -> {
-                            List<String> suggestions = new ArrayList<>();
-                            try {
-                                JSONArray suggestArray = response.getJSONArray("suggest");
-                                for (int i = 0; i < suggestArray.length(); i++) {
-                                    JSONObject suggestObject = suggestArray.getJSONObject(i);
-                                    suggestions.add(suggestObject.getString("name"));
+
+                if (s.length() >= 1) {
+                    auPB.setVisibility(View.VISIBLE);
+                    JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                            Request.Method.GET, url, null,
+                            response -> {
+                                List<String> suggestions = new ArrayList<>();
+                                try {
+                                    JSONArray suggestArray = response.getJSONArray("suggest");
+                                    for (int i = 0; i < suggestArray.length(); i++) {
+                                        JSONObject suggestObject = suggestArray.getJSONObject(i);
+                                        suggestions.add(suggestObject.getString("name"));
+                                    }
+                                    adapterAutoCom.clear();
+                                    adapterAutoCom.addAll(suggestions);
+                                    adapterAutoCom.notifyDataSetChanged();
+                                    Log.d("AutoCompleteSearch", suggestions.toString());
+                                    auPB.setVisibility(View.GONE);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
                                 }
-                                adapterAutoCom.clear();
-                                adapterAutoCom.addAll(suggestions);
-                                adapterAutoCom.notifyDataSetChanged();
-                                Log.d("AutoCompleteSearch", suggestions.toString());
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        },
-                        error -> {
-                            // Handle the error
-                        });
+                            },
+                            error -> {
+                                // Handle the error
+                            });
+                    requestQueue.add(jsonObjectRequest);
+                }
 
-                requestQueue.add(jsonObjectRequest);
             }
-
             @Override
             public void afterTextChanged(Editable s) {
             }
@@ -203,8 +209,8 @@ public class SearchFragment extends Fragment {
                 searchViewModel.setLocation(locationTxt);
                 searchViewModel.setAutoCheck(autoCheck.isChecked());
 
-                Toast.makeText(getActivity(), "All info !"+
-                        keywordTxt+ distanceTxt+categoryTxt+locationTxt, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(), "All info !"+
+//                        keywordTxt+ distanceTxt+categoryTxt+locationTxt, Toast.LENGTH_SHORT).show();
 
                 // check item not null
                 List<String> waitCheckFields = new ArrayList<String>();

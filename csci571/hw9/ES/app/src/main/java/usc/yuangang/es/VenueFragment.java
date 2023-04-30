@@ -20,6 +20,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import usc.yuangang.es.model.Venue;
+import usc.yuangang.es.utils.ExpandableTextView;
+import usc.yuangang.es.utils.NewExpandableTextView;
+import usc.yuangang.es.utils.NewExpandableTextView;
 import usc.yuangang.es.utils.ScrollingTextView;
 import usc.yuangang.es.viewmodel.DetailsViewModel;
 
@@ -36,7 +39,6 @@ public class VenueFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -47,13 +49,8 @@ public class VenueFragment extends Fragment implements OnMapReadyCallback {
         // 获取 SupportMapFragment 并注册地图准备回调
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        return mView;
-    }
 
 
-    @Override
-    public void onResume() {
-        super.onResume();
         detailsViewModel = new ViewModelProvider(requireActivity()).get(DetailsViewModel.class);
 
         Venue venue = detailsViewModel.getVenue();
@@ -69,9 +66,9 @@ public class VenueFragment extends Fragment implements OnMapReadyCallback {
         ScrollingTextView detailContact = mView.findViewById(R.id.detail_contact);
         detailContact.setFocus(true);
 
-        TextView ohText = mView.findViewById(R.id.long_text_view);
-        TextView grText = mView.findViewById(R.id.gr_text);
-        TextView crText = mView.findViewById(R.id.cr_text);
+        NewExpandableTextView ohText = mView.findViewById(R.id.long_text_view);
+        NewExpandableTextView grText = mView.findViewById(R.id.gr_text);
+        NewExpandableTextView crText = mView.findViewById(R.id.cr_text);
 
         venueName.setText(venue.getVenueName());
         venueAddress.setText(venue.getVenueAddress());
@@ -80,6 +77,14 @@ public class VenueFragment extends Fragment implements OnMapReadyCallback {
         ohText.setText(venue.getOhText());
         grText.setText(venue.getGrText());
         crText.setText(venue.getCrText());
+        return mView;
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
     }
 
     @Override
