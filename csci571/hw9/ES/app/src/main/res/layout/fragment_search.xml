@@ -53,7 +53,8 @@
                     android:hint="Enter the Keyword"
                     android:textColor="@color/white"
                     android:inputType="text"
-                    android:textColorHint="@color/grey" />
+                    android:textColorHint="@color/grey"
+                    android:completionThreshold="1" />
 
                 <ProgressBar
                     android:id="@+id/auto_process_bar"

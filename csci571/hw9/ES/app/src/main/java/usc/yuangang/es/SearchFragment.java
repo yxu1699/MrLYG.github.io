@@ -147,6 +147,7 @@ public class SearchFragment extends Fragment {
 
                 if (s.length() >= 1) {
                     auPB.setVisibility(View.VISIBLE);
+                    requestQueue.cancelAll("autocomplete_request");
                     JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                             Request.Method.GET, url, null,
                             response -> {
@@ -157,11 +158,22 @@ public class SearchFragment extends Fragment {
                                         JSONObject suggestObject = suggestArray.getJSONObject(i);
                                         suggestions.add(suggestObject.getString("name"));
                                     }
-                                    adapterAutoCom.clear();
-                                    adapterAutoCom.addAll(suggestions);
-                                    adapterAutoCom.notifyDataSetChanged();
-                                    Log.d("AutoCompleteSearch", suggestions.toString());
-                                    auPB.setVisibility(View.GONE);
+//                                    adapterAutoCom.clear();
+//                                    adapterAutoCom.addAll(suggestions);
+//                                    adapterAutoCom.notifyDataSetChanged();
+//                                    if (!autoCompleteTextView.isPopupShowing()) {
+//                                        autoCompleteTextView.showDropDown();
+//                                    }
+//                                    Log.d("AutoCompleteSearch", suggestions.toString());
+//                                    auPB.setVisibility(View.GONE);
+                                    getActivity().runOnUiThread(() -> {
+                                        adapterAutoCom.clear();
+                                        adapterAutoCom.addAll(suggestions);
+                                        adapterAutoCom.notifyDataSetChanged();
+                                        Log.d("AutoCompleteSearch", suggestions.toString());
+                                        auPB.setVisibility(View.GONE);
+                                    });
+
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -169,6 +181,7 @@ public class SearchFragment extends Fragment {
                             error -> {
                                 // Handle the error
                             });
+                    jsonObjectRequest.setTag("autocomplete_request");
                     requestQueue.add(jsonObjectRequest);
                 }
 
@@ -226,6 +239,7 @@ public class SearchFragment extends Fragment {
                     }
                 }else {
                     Log.d("FieldCheck", "Please fill all fields");
+
                     ConstraintLayout constraintLayout = view.findViewById(R.id.snackbar_layout);
                     Snackbar snackbar = Snackbar.make(constraintLayout, "Please fill all fields", Snackbar.LENGTH_LONG);
                     snackbar.show();

@@ -351,7 +351,7 @@ public class SearchEventsFragment extends Fragment  implements OnItemClickListen
         if (searchViewModel.isAutoCheck()) {
             //get user address
             //TODO get current location
-//            requestLocationPermissions();
+            requestLocationPermissions();
             this.fecthDataAndShowData(lat[0],lng[0]);
         } else {
             // TODO use api get lat and lng
